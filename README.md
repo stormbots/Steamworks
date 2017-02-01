@@ -40,6 +40,29 @@ public double InchesToMetric(inches){
 }
 ```
 
+### Connstructors and declerations
+We should really avoid using this type of decleration 
+
+```java
+class Robot(){
+	public static final Compressor compressor = new Compressor();
+}
+```
+
+and instead prefer this style 
+
+```java
+class Robot(){
+	public Compressor compressor;
+	
+	Robot(){
+		compressor = new Compressor();
+	}
+}
+```
+This is largely for consistency. Very few things care about which style we go with, but having both makes the code more difficult to quickly sort through. 
+
+
 ### Changes from last year
 #### Command Groups vs Commands
 We should create a new folder for `ComandGroups`, seperate from Commands. Last year was getting to be a mess, and this would help organize.

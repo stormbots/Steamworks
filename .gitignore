@@ -1,0 +1,4 @@
+/bin/
+Steamworks/build/
+Steamworks/dist/
+*.class

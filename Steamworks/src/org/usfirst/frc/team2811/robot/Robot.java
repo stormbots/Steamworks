@@ -1,5 +1,6 @@
-
 package org.usfirst.frc.team2811.robot;
+
+import org.usfirst.frc.team2811.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,7 +20,7 @@ public class Robot extends IterativeRobot {
 
 	
 	public static OI oi;
-
+	public static Shooter shooter;
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -93,6 +94,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		
 	}
 
 	/**
@@ -101,6 +103,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		// Update the line graph on SmartDashboard *Still don't know how it updates
+		SmartDashboard.putNumber("Error", Robot.shooter.getPIDError());
 	}
 
 	/**

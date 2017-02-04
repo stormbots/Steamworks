@@ -1,0 +1,12 @@
+/bin
+/build
+
+#needed? Uncomment if causing conflicts
+/dist
+/dist/*
+*.jar
+*.class
+
+dist/FRCUserProgram.jar
+sysProps.xml
+

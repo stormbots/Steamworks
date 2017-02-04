@@ -56,7 +56,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	  * @param moveValue     The value to use for forwards/backwards
 	  * @param rotateValue   The value to use for the rotate right/left
 	  */
-	public void arcadeDrive(double moveValue, double rotateValue) {
+	public void newArcadeDrive(double moveValue, double rotateValue) {
 	    // local variables to hold the computed PWM values for the motors
 	    if (!kArcadeStandard_Reported) {
 	      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),

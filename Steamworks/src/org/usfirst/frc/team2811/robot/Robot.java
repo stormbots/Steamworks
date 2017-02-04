@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	
 	//Declare subsystems
-	public Gear gear;
+	public static Gear gear;
 	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();

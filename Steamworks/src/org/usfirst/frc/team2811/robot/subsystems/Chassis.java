@@ -22,7 +22,7 @@ public class Chassis extends Subsystem {
     private ArcadeDrivePID robotDrive;
     private MiniPID headingPID;
     
-    public AHRS navxGyro;
+    private AHRS navxGyro;
     
     private double offset;
 	
@@ -45,6 +45,7 @@ public class Chassis extends Subsystem {
     	headingPID.setSetpointRange(30);
     	headingPID.setMaxIOutput(.1);
     	headingPID.setPID(.9/30, 0, 0);
+    	//TODO Tune PID things
     	
     	frontLeft.reset();
     	frontLeft.enable();

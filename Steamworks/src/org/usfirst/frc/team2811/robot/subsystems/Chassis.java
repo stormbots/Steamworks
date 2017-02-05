@@ -20,10 +20,12 @@ public class Chassis extends Subsystem {
     private CANTalon backRight;
 
     private ArcadeDrivePID robotDrive;
+    private MiniPID headingPID;
     
-    public AHRS navxGyro;  
+    public AHRS navxGyro;
     
-    
+    private double offset;
+	
     public Chassis(){
     	frontLeft = new CANTalon(0);
     	topLeft = new CANTalon(2);
@@ -33,17 +35,17 @@ public class Chassis extends Subsystem {
     	topRight = new CANTalon(3);
     	backRight = new CANTalon(5);
     	
-    	initTalons();
-    	
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
+
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     }
     
-    public void chassisDrive(double move, double rotate){
-    	robotDrive.newArcadeDrive(move, rotate);
-    }
-    
-    public void initTalons(){
+    public void initDefaultCommand() {
+    	headingPID.setOutputLimits(-1,1);
+    	headingPID.setSetpointRange(30);
+    	headingPID.setMaxIOutput(.1);
+    	headingPID.setPID(.9/30, 0, 0);
+    	
     	frontLeft.reset();
     	frontLeft.enable();
     	frontLeft.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -81,9 +83,35 @@ public class Chassis extends Subsystem {
     	backRight.clearStickyFaults();
     	backRight.set(1);
     }
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+
+    public void chassisDrive(double move, double rotate){
+    	robotDrive.newArcadeDrive(move, rotate);
+    }
+    
+    public double getHeading(){
+    	return navxGyro.getCompassHeading();
+    }
+    
+    public double turnToHeading(double targetHeading){
+    	double workingHeading = navxGyro.getCompassHeading();
+    	
+    	navxGyro.reset();
+   
+    	if(targetHeading-navxGyro.getCompassHeading()>180){
+    		workingHeading+=360;
+    	}
+    	
+    	offset = targetHeading-workingHeading;
+    	
+    	return headingPID.getOutput(navxGyro.getYaw(),offset);	
+    }
+    
+    public boolean isOnTarget(){
+    	if(Math.abs(navxGyro.getYaw()-offset)<2){
+    		headingPID.reset();
+    		return true;
+    	}
+    	return false;
     }
 }
 

@@ -38,15 +38,15 @@ public class Chassis extends Subsystem {
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
+    	headingPID = new MiniPID(.9/30, 0, 0);
+    	//TODO Tune PID things
     }
     
     public void initDefaultCommand() {
     	headingPID.setOutputLimits(-1,1);
     	headingPID.setSetpointRange(30);
     	headingPID.setMaxIOutput(.1);
-    	headingPID.setPID(.9/30, 0, 0);
-    	//TODO Tune PID things
-    	
+    	    	
     	frontLeft.reset();
     	frontLeft.enable();
     	frontLeft.changeControlMode(CANTalon.TalonControlMode.PercentVbus);

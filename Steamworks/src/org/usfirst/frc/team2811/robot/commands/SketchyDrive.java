@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SketchyDrive extends Command {
 
-	private double setPower, setTimeout;
-	
+	private double setPower;	
     public SketchyDrive(double power, double timeout) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);

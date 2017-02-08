@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2811.robot.commands;
 
+import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.subsystems.Gear;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,6 +13,7 @@ public class GearDoorClose extends Command {
     public GearDoorClose() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.gear);
     }
 
     // Called just before this Command runs the first time
@@ -18,11 +22,12 @@ public class GearDoorClose extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.gear.close();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.gear.isClosed();
     }
 
     // Called once after isFinished returns true

@@ -10,27 +10,23 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GearDoorToggle extends Command {
 
 	
-    public GearDoorToggle() {
-       
+
+	public GearDoorToggle() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    
+    	requires(Robot.gear);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.gear.isOpen()){
-    		Robot.gear.close();
-    	}else{
-    		Robot.gear.open();
-    	}
+		Robot.gear.toggle();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.gear.isClosed() || Robot.gear.isOpen();
     }
 
     // Called once after isFinished returns true

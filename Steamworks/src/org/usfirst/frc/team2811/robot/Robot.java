@@ -4,6 +4,7 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -19,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	
 	public static OI oi;
 	
 	//Declare subsystems
@@ -38,7 +38,6 @@ public class Robot extends IterativeRobot {
 		
 		//Initialize Subsystems
 		gear = new Gear ();
-		
 		
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -59,7 +58,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
+	
+	
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
@@ -113,11 +113,20 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
+	
+	public void testInit() {
+		LiveWindow.run();
+	}
+	
 	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+
+		//System.out.println("left : "+gear.distanceLeftSide());
+		//System.out.println("Right: "+gear.distanceRightSide());
 	}
 }
+

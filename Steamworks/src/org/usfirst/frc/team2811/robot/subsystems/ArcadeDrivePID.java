@@ -91,6 +91,12 @@ public class ArcadeDrivePID extends RobotDrive {
 	    newLeftRightDrive(leftMotorSpeed,rightMotorSpeed);
 	}
 	
+	/**
+	 * Directly writes values to the PID. Can be used for a tank drive setup, or for more advanced functions.
+	 * @param leftMotorSpeed
+	 * @param rightMotorSpeed
+	 */
+	
 	public void newLeftRightDrive(double leftMotorSpeed, double rightMotorSpeed){
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);

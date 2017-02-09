@@ -1,6 +1,10 @@
 
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commands.TwoWayHoming;
+import org.usfirst.frc.team2811.robot.subsystems.Turret;
+import org.usfirst.frc.team2811.robot.subsystems.TurretControlPID;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -19,8 +23,10 @@ public class Robot extends IterativeRobot {
 
 	
 	public static OI oi;
-
+	public static Turret turret;
+	public static TurretControlPID turretControlPID;
 	Command autonomousCommand;
+	Command homing;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -30,6 +36,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
+		turret = new Turret();
+		homing = new TwoWayHoming();
+		turretControlPID = new TurretControlPID();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -93,6 +102,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		//homing.start();
+		
 	}
 
 	/**

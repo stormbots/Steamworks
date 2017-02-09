@@ -58,12 +58,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	  */
 	public void newArcadeDrive(double moveValue, double rotateValue) {
 	    // local variables to hold the computed PWM values for the motors
-	    if (!kArcadeStandard_Reported) {
-	      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
-	          tInstances.kRobotDrive_ArcadeStandard);
-	      kArcadeStandard_Reported = true;
-	    }
-
 	    double leftMotorSpeed;
 	    double rightMotorSpeed;
 
@@ -98,6 +92,12 @@ public class ArcadeDrivePID extends RobotDrive {
 	 */
 	
 	public void newLeftRightDrive(double leftMotorSpeed, double rightMotorSpeed){
+		if (!kArcadeStandard_Reported) {
+		      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
+		          tInstances.kRobotDrive_ArcadeStandard);
+		      kArcadeStandard_Reported = true;
+		    }
+		
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    

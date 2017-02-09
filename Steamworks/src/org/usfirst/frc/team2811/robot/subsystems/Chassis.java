@@ -4,6 +4,7 @@ import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,9 +26,8 @@ public class Chassis extends Subsystem {
     private ArcadeDrivePID robotDrive;
     private MiniPID headingPID;
     
+    private Solenoid gearShifter;
     private AHRS navxGyro;
-    
-    private double offset;
 	
     public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -39,15 +39,15 @@ public class Chassis extends Subsystem {
     	backRight = new CANTalon(5);
     	
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
+    	
+    	gearShifter = new Solenoid(0, 0);
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     	
     	//TODO Tune PID things
     }
     
-    public void initDefaultCommand() {
-    	
-    	    	
+    public void initDefaultCommand() {    	    	
     	frontLeft.reset();
     	frontLeft.enable();
     	frontLeft.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -85,6 +85,7 @@ public class Chassis extends Subsystem {
     	backRight.clearStickyFaults();
     	backRight.set(1);    	
     	
+    	
     	navxGyro.reset();
     }
 
@@ -108,6 +109,10 @@ public class Chassis extends Subsystem {
     //MAKE SURE YOU KNOW WHAT YOU ARE DOING WHEN YOU CALL THIS
     public void resetGyro(){
     	navxGyro.reset();
+    }
+    
+    public void shiftGears(){
+    	gearShifter.set(!gearShifter.get());
     }
     
     //Runs constantly in the background.

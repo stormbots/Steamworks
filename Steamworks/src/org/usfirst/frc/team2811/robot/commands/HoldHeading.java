@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2811.robot.commands;
 
 import org.usfirst.frc.team2811.robot.Robot;
-import org.usfirst.frc.team2811.robot.subsystems.Chassis;
 import org.usfirst.frc.team2811.robot.subsystems.MiniPID;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,25 +8,24 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TurnToHeading extends Command {
+public class HoldHeading extends Command {
 
 	private double targetHeading;
 	MiniPID headingPID;
 	
-    public TurnToHeading(double heading) {
+    public HoldHeading(double heading) {
     	requires(Robot.chassis);
-        targetHeading = heading;
+        targetHeading = heading;    	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     	headingPID = new MiniPID(.9/30, 0, 0);
     	headingPID.setOutputLimits(-1,1);
     	headingPID.setSetpointRange(30);
     	headingPID.setMaxIOutput(.1);
     	
-    	Robot.chassis.resetGyro();    	
+    	Robot.chassis.resetGyro(); 
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,12 +34,13 @@ public class TurnToHeading extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished(){
-    	return Math.abs(Robot.chassis.getYaw()-targetHeading)<2;
+    protected boolean isFinished() {
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.err.println("Not really sure what happened here");
     	Robot.chassis.drive(0, 0);
     }
 

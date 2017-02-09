@@ -50,7 +50,7 @@ public class ArcadeDrivePID extends RobotDrive {
     }
 	
 	/**
-	  * Arcade drive implements single stick driving. This function lets you directly provide
+	  * Arcade drive implements two axis driving. This function lets you directly provide
 	  * joystick values from any source.
 	  *
 	  * @param moveValue     The value to use for forwards/backwards
@@ -88,7 +88,11 @@ public class ArcadeDrivePID extends RobotDrive {
 	      }
 	    }
 	    
-	    double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+	    newLeftRightDrive(leftMotorSpeed,rightMotorSpeed);
+	}
+	
+	public void newLeftRightDrive(double leftMotorSpeed, double rightMotorSpeed){
+		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
 	    leftMotor.set(Math.abs(leftPIDWrite)<.05?0:leftPIDWrite);
@@ -97,6 +101,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	    if (m_safetyHelper != null) {
 		      m_safetyHelper.feed();
 		}
-	  }
+	}
 }
 

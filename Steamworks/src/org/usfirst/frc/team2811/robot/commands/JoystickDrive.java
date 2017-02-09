@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class JoystickDrive extends Command {
 
     public JoystickDrive() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(Robot.chassis);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +19,7 @@ public class JoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.chassis.chassisDrive(Robot.oi.getMoveValue(), Robot.oi.getRotateValue());
+    	Robot.chassis.drive(Robot.oi.getMoveValue(), Robot.oi.getRotateValue());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,14 +29,14 @@ public class JoystickDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.chassis.chassisDrive(0, 0);
+    	Robot.chassis.drive(0, 0);
     	System.err.println("Something is borked. Should never happen");
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.chassis.chassisDrive(0, 0);
+    	Robot.chassis.drive(0, 0);
     	System.err.println("JoystickDrive cancelled. Restart to drive.");
     }
 }

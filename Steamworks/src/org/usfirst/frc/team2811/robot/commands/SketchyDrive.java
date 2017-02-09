@@ -9,11 +9,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SketchyDrive extends Command {
 
-	private double setPower;	
-    public SketchyDrive(double power, double timeout) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	setPower = power;
+	private double setForward,setRotation;
+	
+    public SketchyDrive(double forward, double timeout) {
+    	requires(Robot.chassis);
+    	setForward = forward;
+    	setTimeout(timeout);
+    }
+    
+    public SketchyDrive(double forward, double rotation, double timeout) {
+    	requires(Robot.chassis);
+    	setForward = forward;
     	setTimeout(timeout);
     }
 
@@ -24,7 +30,7 @@ public class SketchyDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.chassis.chassisDrive(setPower,0);
+    	Robot.chassis.drive(setForward,setRotation);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,12 +40,12 @@ public class SketchyDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.chassis.chassisDrive(0,0);
+    	Robot.chassis.drive(0,0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.chassis.chassisDrive(0,0);
+    	Robot.chassis.drive(0,0);
     }
 }

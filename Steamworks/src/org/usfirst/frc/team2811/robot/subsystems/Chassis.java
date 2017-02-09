@@ -5,9 +5,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ *  Base chassis class for interfacing with drive-related systems.<br>
+ *  Includes controls for drive PID, rotation PID and automatic impact detection.<br>
+ *  Initializes CANTalons and MiniPIDs upon instantiation.
  */
 public class Chassis extends Subsystem {
 
@@ -38,14 +41,12 @@ public class Chassis extends Subsystem {
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
-    	headingPID = new MiniPID(.9/30, 0, 0);
+    	
     	//TODO Tune PID things
     }
     
     public void initDefaultCommand() {
-    	headingPID.setOutputLimits(-1,1);
-    	headingPID.setSetpointRange(30);
-    	headingPID.setMaxIOutput(.1);
+    	
     	    	
     	frontLeft.reset();
     	frontLeft.enable();
@@ -82,37 +83,36 @@ public class Chassis extends Subsystem {
     	backRight.enable();
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
-    	backRight.set(1);
-    }
-
-    public void chassisDrive(double move, double rotate){
-    	robotDrive.newArcadeDrive(move, rotate);
-    }
-    
-    public double getHeading(){
-    	return navxGyro.getCompassHeading();
-    }
-    
-    public double turnToHeading(double targetHeading){
-    	double workingHeading = navxGyro.getCompassHeading();
+    	backRight.set(1);    	
     	
     	navxGyro.reset();
-   
-    	if(targetHeading-navxGyro.getCompassHeading()>180){
-    		workingHeading+=360;
-    	}
-    	
-    	offset = targetHeading-workingHeading;
-    	
-    	return headingPID.getOutput(navxGyro.getYaw(),offset);	
+    }
+
+    public void drive(double move, double rotate){
+    	robotDrive.newArcadeDrive(move, rotate);
+    }
+        
+    /** Must be in range of -179 to 179
+     * 
+     * @param targetHeading Target angle relative to the robot's orientation  
+     * @return PID turn rate for ArcadeDrive
+     */
+    public double turnToHeading(double targetHeading){    	
+    	return headingPID.getOutput(navxGyro.getYaw(),targetHeading);	
     }
     
-    public boolean isOnTarget(){
-    	if(Math.abs(navxGyro.getYaw()-offset)<2){
-    		headingPID.reset();
-    		return true;
-    	}
-    	return false;
+    public double getYaw(){
+    	return navxGyro.getYaw();
+    }
+    
+    //MAKE SURE YOU KNOW WHAT YOU ARE DOING WHEN YOU CALL THIS
+    public void resetGyro(){
+    	navxGyro.reset();
+    }
+    
+    //Runs constantly in the background.
+    public void updateDashboard(){
+    	SmartDashboard.putData("navX-MXP", navxGyro);
     }
 }
 

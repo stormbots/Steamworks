@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
+import org.usfirst.frc.team2811.robot.commands.TurnToHeading;
 import org.usfirst.frc.team2811.robot.subsystems.Chassis;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -23,6 +25,8 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Chassis chassis;
 
+	Command joystickDrive;
+	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -34,6 +38,9 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chassis = new Chassis();
+		
+		joystickDrive = new JoystickDrive();
+		
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -67,7 +74,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = new TurnToHeading(90);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -105,6 +112,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		chassis.updateDashboard();
 	}
 
 	/**

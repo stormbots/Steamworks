@@ -1,7 +1,8 @@
 
 package org.usfirst.frc.team2811.robot;
 
-import org.usfirst.frc.team2811.robot.commands.TwoWayHoming;
+import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
+import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
 import org.usfirst.frc.team2811.robot.subsystems.TurretControlPID;
 
@@ -24,10 +25,9 @@ public class Robot extends IterativeRobot {
 	
 	public static OI oi;
 	public static Turret turret;
-	public static TurretControlPID turretControlPID;
 	Command autonomousCommand;
-	Command homing;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<Command> chooser;
+	private Command turretHomeBothWays;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,11 +37,13 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		turret = new Turret();
-		homing = new TwoWayHoming();
-		turretControlPID = new TurretControlPID();
+		chooser = new SendableChooser<Command>();
+		//homing = new TurretTwoWayHoming();
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
+		chooser.addObject("Turret Calibration", new TurretTwoWayHoming());
 		SmartDashboard.putData("Auto mode", chooser);
+		turretHomeBothWays=new TurretTwoWayHoming();
 	}
 
 	/**
@@ -74,16 +76,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		turretHomeBothWays.start();
 	}
 
 	/**
@@ -102,7 +97,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		//homing.start();
+		
 		
 	}
 

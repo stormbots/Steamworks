@@ -1,17 +1,12 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
-import org.usfirst.frc.team2811.robot.Robot;
-import org.usfirst.frc.team2811.robot.commands.ManualDrive;
+import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.command.Command;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.wpilibj.hal.HAL;
 
 /**
  * Expands RobotDrive to allow for MiniPID control of each output
@@ -21,23 +16,31 @@ public class Turret extends Subsystem {
 	//Access preference on the SmartDashboard
 	Preferences prefs = Preferences.getInstance();
 	
-	//Save data into preference
-    private int upTicks = prefs.getInt("upTicks", 12421);
-	private int downTicks = prefs.getInt("downTicks", -2850);
+	private CANTalon turretMotor;
+	
+	//Save or fetch data into preference
+    private int upTicks = prefs.getInt("turretUpTicks", -45200);
+	private int downTicks = prefs.getInt("turretDownTicks", -35);
     private int upAngle = 180;
     private int downAngle = 0;
+    
+    //Only needed for joystick control
     private int downJoystick = -1;
     private int upJoystick = 1;
 
-    private double currentOutput;
-    private double stallCurrentOffset = 0.2;
-    private double homingSpeed = 0.2;
-    private CANTalon turretMotor;
-
-    private boolean encPosSet = false;
+    private double homingSpeed = 0.8;
+    private boolean homed = false;
     private boolean upTicksSet = false;
     private boolean downTicksSet = false;
        
+    private MiniPID turretPID;
+    private double currentOutput;
+    private double currentAngle;
+    private double targetAngle;
+    
+    // **************************
+    // Normal operating functions
+    // **************************
 	public Turret(){
 		turretMotor = new CANTalon(4);
         turretMotor.reset();
@@ -46,78 +49,100 @@ public class Turret extends Subsystem {
     	turretMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	turretMotor.enable();
     	turretMotor.set(0);
-	}
+    	
+    	turretPID = new MiniPID(0.05,0,0);
+        turretPID.setOutputLimits(-1, 1);
+        //Reverse is not working -> there's a "-" on CalculatePIDOutput()
+        turretPID.setDirection(true);
+      	}
 	
 	protected void initDefaultCommand() {
-		setDefaultCommand(new ManualDrive(1));
+		setDefaultCommand(new TurretSetTargetAngle());
 	}
 
-	//Homing using only one limit switch
-    public void oneWayHoming(){
-    	turretMotor.set(-homingSpeed); //Stop when run counter clockwise
-    	currentOutput = turretMotor.getOutputCurrent();
-    	if(turretMotor.getOutputCurrent() - currentOutput > stallCurrentOffset){
-    		turretMotor.setEncPosition(upTicks);
-    		encPosSet = true;
-    	}
-    }
-    
-  //Homing using two limit switch
-    public void twoWayHoming(){
-    	turretMotor.set(homingSpeed);
-    	currentOutput = turretMotor.getOutputCurrent();
-    	
-    	if(!upTicksSet){
-    		turretMotor.set(homingSpeed); //Stop when run counter clockwise
-    		if(turretMotor.getOutputCurrent() - currentOutput > stallCurrentOffset){
-    			turretMotor.set(-homingSpeed);
-    			currentOutput = turretMotor.getOutputCurrent();
-    			//turretMotor.setEncPosition(upTicks);
-    			//prefs.putInt("upTicks", upTicks);
-    			upTicks = turretMotor.getEncPosition();
-    			upTicksSet = true;
-    			System.out.println("upTicksSet " + upTicks);
-    		}
-    	}else if(!downTicksSet){
-    		turretMotor.set(-homingSpeed);
-    		if(turretMotor.getOutputCurrent() - currentOutput > stallCurrentOffset){
-    			turretMotor.set(0);
-    			//turretMotor.setEncPosition(downTicks);
-    			//prefs.putInt("downTickSet", downTicks);
-    			downTicks = turretMotor.getEncPosition();
-    			downTicksSet = true;
-    			System.out.println("downTicksSet " + downTicks);
-    		}
-    	}else if(upTicksSet&&downTicksSet){
-    		encPosSet = true;
-    	}
-    }
-/**  
-  //TODO Make (Joystick buttons for these functions like one way homing
-   * two way homing, turn clockwise manual, counterclockwise, auto turn(using vision)
-   * manual turn)
-   * 
-   * 
-    //Turn the turret manually with button 1 and 2
-    public void manualTurn(){
-    	System.out.println("encPos:" + turretMotor.getEncPosition());
-        if(Robot.oi.isTurningClockwise()){        	
-        	turretMotor.set(0.2);
-        }else if(Robot.oi.isTurningCounterClockwise()){
-        	turretMotor.set(-0.2);
-        }else{
-        	turretMotor.set(0);
-        }
-    }
-    */
-    public boolean isHomed(){
-    	return encPosSet;
-    }
-    
-    public double getCurrentAngle(){
-    	return ticksToAngle(turretMotor.getEncPosition());
-    }
 
+	//Homing checking limit switch on one side, use the ticks recorded in preference
+    public boolean homeCW(){
+    	turretMotor.set(-homingSpeed); 
+    	if(turretMotor.isRevLimitSwitchClosed()){
+    		turretMotor.setEncPosition(upTicks);
+    		homed = true;
+    		System.out.println("upTicks: "+upTicks + ", downTicks: "+downTicks);
+    	}
+    	return homed;
+    }
+    
+
+    //Homing counterClockwise and set the downTicks
+	public boolean homeCCW(){
+		//move motor
+		turretMotor.set(homingSpeed);
+		//look for switch/stall
+		if(turretMotor.isFwdLimitSwitchClosed()){
+			//set(downTicks)
+			downTicks = turretMotor.getEncPosition();
+			System.out.println(downTicks);
+
+			downTicksSet = true;
+		}
+    	return downTicksSet;
+    }
+    
+	//Homing checking limit switches on both sides and record new up/downTicks in preference
+	public boolean homeBothWays(){
+		//homeCCW until downTicks is set
+		if(!downTicksSet){
+			homeCCW();
+		}else if(!upTicksSet){
+			System.out.println("Homed one way");
+			//homeCW
+			turretMotor.set(-homingSpeed); 
+	    	if(turretMotor.isRevLimitSwitchClosed()){
+	    		upTicks = turretMotor.getEncPosition();
+				System.out.println(upTicks);
+	    		upTicksSet = true;
+	    	}
+		}
+		else if(upTicksSet&&downTicksSet){
+			System.out.println("Homed both wasy");
+    		homed = true;
+    		//put into preference
+    		prefs.putInt("turretUpTicks", upTicks);
+    		prefs.putInt("turretDownTicks", downTicks);
+    		return true;
+    	}
+    	return false;
+	}
+    
+    //******************
+    // PID stuff
+    //******************
+    public void calculateTurretPIDOutput(){
+    	currentAngle = getCurrentAngle();
+		currentOutput = - turretPID.getOutput(currentAngle, targetAngle);
+		//System.out.println("target: " +targetAngle);
+		//System.out.println("current: " +currentAngle);
+		
+		turretMotor.set(currentOutput);
+		//System.out.println("output: " +currentOutput);
+		//System.out.println("-------------------------------------");
+
+
+	}
+    
+	public void setTargetAngle(double angle){
+		targetAngle = angle;
+	}
+	
+	public double getCurrentAngle(){
+		currentAngle = ticksToAngle(turretMotor.getEncPosition());
+    	return currentAngle;
+    }
+	
+
+    //*****************
+    //Utility functions
+    //*****************
     public double ticksToAngle(int ticks){
     	return map(ticks, downTicks, upTicks, downAngle, upAngle);
     }
@@ -126,15 +151,33 @@ public class Turret extends Subsystem {
     	return map(input, downJoystick, upJoystick, downAngle, upAngle);
     }
     
-    public int angleToTicks(double angle){
+    private int angleToTicks(double angle){
     	return (int)map(angle, downAngle, upAngle, downTicks, upTicks);
     }
     
-    public double map(double x, double in_min, double in_max, double out_min, double out_max) {
+    private double map(double x, double in_min, double in_max, double out_min, double out_max) {
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+	
+    // **************************
+    // Debug / Manual functions
+    // **************************
+    
+    public double getOutput(){
+		return currentOutput;
+	}
+    
+    public double getTargetAngle(){
+		return targetAngle;
 	}
     
     public void setTurretMotor(double motorOutput){
     	turretMotor.set(motorOutput);
     }
+    
+    public boolean isHomed(){
+    	return homed;
+    }
+
+	
 }

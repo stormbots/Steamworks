@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2811.robot;
 
-import org.usfirst.frc.team2811.robot.commands.ManualDrive;
+import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -14,7 +14,6 @@ public class OI {
 	private Joystick stick;
     private Button clock;
     private Button counterClock;
-    private Button turn;
 
     public OI(){
     	stick = new Joystick(1);
@@ -31,5 +30,8 @@ public class OI {
     	return counterClock.get();
     }
     
+    public double getJoystickAngle(){
+    	return stick.getRawAxis(3);
+    }
 
 }

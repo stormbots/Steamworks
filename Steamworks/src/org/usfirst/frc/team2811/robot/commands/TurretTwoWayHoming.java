@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TwoWayHoming extends Command {
+public class TurretTwoWayHoming extends Command {
 
-    public TwoWayHoming() {
+    public TurretTwoWayHoming() {
         requires(Robot.turret);
     }
 
@@ -19,7 +19,7 @@ public class TwoWayHoming extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.turret.twoWayHoming();
+    	Robot.turret.homeBothWays();
     }
 
     // Make this return true when this Command no longer needs to run execute()

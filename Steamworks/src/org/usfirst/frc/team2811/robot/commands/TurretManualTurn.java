@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ManualDrive extends Command {
+public class TurretManualTurn extends Command {
 
 	private double input;
-    public ManualDrive(double input) {
+    public TurretManualTurn(double input) {
     	requires(Robot.turret);
         this.input = input;
     }

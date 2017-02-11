@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -19,11 +20,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+	public static Gear gear;
+	public static Climber climber;
 	public static OI oi;
 	
 	//Declare subsystems
-	public static Gear gear;
+	
 	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();

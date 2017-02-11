@@ -17,10 +17,9 @@ public class Turret extends Subsystem {
 	Preferences prefs = Preferences.getInstance();
 	
 	private CANTalon turretMotor;
-	
 	//Save or fetch data into preference
-    private int upTicks = prefs.getInt("turretUpTicks", -45200);
-	private int downTicks = prefs.getInt("turretDownTicks", -35);
+    private int upTicks;
+	private int downTicks;
     private int upAngle = 180;
     private int downAngle = 0;
     
@@ -28,12 +27,15 @@ public class Turret extends Subsystem {
     private int downJoystick = -1;
     private int upJoystick = 1;
 
-    private double homingSpeed = 0.8;
+    private double homingSpeed;
     private boolean homed = false;
     private boolean upTicksSet = false;
     private boolean downTicksSet = false;
        
     private MiniPID turretPID;
+    private double P;
+    private double I;
+    private double D;
     private double currentOutput;
     private double currentAngle;
     private double targetAngle;
@@ -50,16 +52,34 @@ public class Turret extends Subsystem {
     	turretMotor.enable();
     	turretMotor.set(0);
     	
-    	turretPID = new MiniPID(0.05,0,0);
+        updateValuesFromFlash();
+
+        turretPID = new MiniPID(P,I,D);
         turretPID.setOutputLimits(-1, 1);
         //Reverse is not working -> there's a "-" on CalculatePIDOutput()
         turretPID.setDirection(true);
+        
       	}
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TurretSetTargetAngle());
 	}
 
+	public void updateValuesFromFlash(){
+		upTicks = prefs.getInt("turretUpTicks", -45200);
+		downTicks = prefs.getInt("turretDownTicks", -35);
+		P = prefs.getDouble("turretP", 1);
+		I = prefs.getDouble("turretI", 0);
+		D = prefs.getDouble("turretD", 0);
+		homingSpeed = prefs.getDouble("turretHomingSpeed", 0.8);
+		checkKeys("turretUpTicks", upTicks);
+		checkKeys("turretDownTicks", downTicks);
+		checkKeys("turretP", P);
+		checkKeys("turretI", I);
+		checkKeys("turretD", D);
+		checkKeys("turretHomingSpeed", homingSpeed);
+
+	}
 
 	//Homing checking limit switch on one side, use the ticks recorded in preference
     public boolean homeCW(){
@@ -143,6 +163,10 @@ public class Turret extends Subsystem {
     //*****************
     //Utility functions
     //*****************
+	private void checkKeys(String key, double value){
+		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
+	}
+	
     public double ticksToAngle(int ticks){
     	return map(ticks, downTicks, upTicks, downAngle, upAngle);
     }

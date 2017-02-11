@@ -59,6 +59,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		turret.updateValuesFromFlash();
 	}
 
 	/**
@@ -97,7 +98,6 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		
 		
 	}
 

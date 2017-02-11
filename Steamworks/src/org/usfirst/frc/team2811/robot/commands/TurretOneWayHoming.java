@@ -7,11 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OneWayHoming extends Command {
+public class TurretOneWayHoming extends Command {
 
-    public OneWayHoming() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public TurretOneWayHoming() {
+        requires(Robot.turret);
     }
 
     // Called just before this Command runs the first time
@@ -20,12 +19,12 @@ public class OneWayHoming extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.turret.oneWayHoming();
+    	Robot.turret.homeCW();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return Robot.turret.isHomed();
     }
 
     // Called once after isFinished returns true

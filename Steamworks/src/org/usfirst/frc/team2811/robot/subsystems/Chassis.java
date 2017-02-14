@@ -31,12 +31,12 @@ public class Chassis extends Subsystem {
 	
     public Chassis(){
     	frontLeft = new CANTalon(0);
-    	topLeft = new CANTalon(2);
-    	backLeft = new CANTalon(4);
+    	topLeft = new CANTalon(1);
+    	backLeft = new CANTalon(2);
     	
-    	frontRight = new CANTalon(1);
-    	topRight = new CANTalon(3);
-    	backRight = new CANTalon(5);
+    	frontRight = new CANTalon(13);
+    	topRight = new CANTalon(14);
+    	backRight = new CANTalon(15);
     	
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
     	
@@ -77,13 +77,13 @@ public class Chassis extends Subsystem {
     	topRight.enable();
     	topRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	topRight.clearStickyFaults();
-    	topRight.set(1);
+    	topRight.set(13);
         
     	backRight.reset();
     	backRight.enable();
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
-    	backRight.set(1);    	
+    	backRight.set(13);    	
     	
     	
     	navxGyro.reset();

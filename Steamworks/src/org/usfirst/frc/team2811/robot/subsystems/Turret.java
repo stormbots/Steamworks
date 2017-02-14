@@ -52,12 +52,12 @@ public class Turret extends Subsystem {
     	turretMotor.enable();
     	turretMotor.set(0);
     	
-        updateValuesFromFlash();
 
         turretPID = new MiniPID(P,I,D);
         turretPID.setOutputLimits(-1, 1);
         //Reverse is not working -> there's a "-" on CalculatePIDOutput()
         turretPID.setDirection(true);
+        updateValuesFromFlash();
         
       	}
 	

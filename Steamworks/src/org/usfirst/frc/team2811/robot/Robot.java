@@ -3,10 +3,13 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
+import org.usfirst.frc.team2811.robot.commands.Climb;
+import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
+import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
+import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
-import org.usfirst.frc.team2811.robot.subsystems.TurretControlPID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -34,7 +37,6 @@ public class Robot extends IterativeRobot {
 	SendableChooser<Command> chooser;
 
 	//Debug Commands
-	private Command turretHomeBothWays;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -56,8 +58,9 @@ public class Robot extends IterativeRobot {
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		chooser.addObject("Turret Calibration", new TurretTwoWayHoming());
+		
 		SmartDashboard.putData("Auto mode", chooser);
-		turretHomeBothWays=new TurretTwoWayHoming();
+	
 	}
 
 	/**
@@ -94,7 +97,7 @@ public class Robot extends IterativeRobot {
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
-		turretHomeBothWays.start();
+		
 	}
 
 	/**

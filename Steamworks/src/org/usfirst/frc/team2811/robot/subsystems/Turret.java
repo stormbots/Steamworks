@@ -72,6 +72,9 @@ public class Turret extends Subsystem {
 		I = prefs.getDouble("turretI", 0);
 		D = prefs.getDouble("turretD", 0);
 		homingSpeed = prefs.getDouble("turretHomingSpeed", 0.8);
+		
+		turretPID.setPID(P,I,D);
+		
 		checkKeys("turretUpTicks", upTicks);
 		checkKeys("turretDownTicks", downTicks);
 		checkKeys("turretP", P);

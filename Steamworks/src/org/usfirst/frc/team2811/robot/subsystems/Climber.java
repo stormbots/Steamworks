@@ -12,17 +12,25 @@ public class Climber extends Subsystem {
 
 	private Preferences prefs = Preferences.getInstance();
 	private CANTalon climberMotor;
-	
+	private CANTalon climberMotor2;
 	private double currentLimit;
 	
 	public Climber(){
-		climberMotor = new CANTalon(6);
+		climberMotor = new CANTalon(10);
 		climberMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		climberMotor.clearStickyFaults();
 		climberMotor.enableBrakeMode(true);
 		climberMotor.reset();
 		climberMotor.enable();
 		climberMotor.set(0);
+		
+		climberMotor2 = new CANTalon(11);
+		climberMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
+		climberMotor2.clearStickyFaults();
+		climberMotor2.enableBrakeMode(true);
+		climberMotor2.reset();
+		climberMotor2.enable();
+		climberMotor2.set(climberMotor.getDeviceID());
 		
 		updateValuesFromFlash();
 	}

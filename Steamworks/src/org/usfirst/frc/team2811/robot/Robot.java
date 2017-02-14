@@ -1,9 +1,8 @@
-
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
-
+import org.usfirst.frc.team2811.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -20,13 +19,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	//Declare subsystems
 	public static Gear gear;
 	public static Climber climber;
+	public static Shooter shooter;
+	
+
 	public static OI oi;
-	
-	//Declare subsystems
-	
-	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -37,11 +36,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		
-		climber = new Climber();
 		//Initialize Subsystems
 		gear = new Gear ();
-		
+		climber = new Climber();
+		shooter = new Shooter();
+
+		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
+		
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -106,6 +108,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		
 	}
 
 	/**
@@ -114,6 +117,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		// Update the line graph on SmartDashboard *Still don't know how it updates
+		SmartDashboard.putNumber("Error", Robot.shooter.getPIDError());
 	}
 
 	

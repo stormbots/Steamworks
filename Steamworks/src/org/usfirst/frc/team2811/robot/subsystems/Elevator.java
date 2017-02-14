@@ -13,11 +13,7 @@ public class Elevator extends Subsystem {
     // here. Call these from Commands.
 
 	private CANTalon elevatorMotor;
-	private MiniPID elevatorPID;
-	
-	private double targetRate;
-	private double currentRate;
-	
+
 	public Elevator(){
 		elevatorMotor = new CANTalon(5);
 		
@@ -28,26 +24,16 @@ public class Elevator extends Subsystem {
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
-    	elevatorPID = new MiniPID(1,0,0);
-    	
+    	elevatorMotor.setPID(1, 0, 0);
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void setRPM(double rate){
-    	elevatorMotor.set(rate);
+    public void setRPM(double targetRPM){
+    	elevatorMotor.set(targetRPM);
     }
-    
-    public void calculatePIDOutput(){
-    	currentRate = elevatorMotor.getSpeed();
-    	double output = elevatorPID.getOutput(currentRate, targetRate);
-    }
-    
-    public double getCurrentRate(){
-    	currentRate = 0;
-    	return elevatorMotor.getSpeed();
-    }
+
 }
 

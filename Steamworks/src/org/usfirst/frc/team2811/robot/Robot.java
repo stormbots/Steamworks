@@ -7,6 +7,7 @@ import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
 import org.usfirst.frc.team2811.robot.subsystems.TurretControlPID;
+import org.usfirst.frc.team2811.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static Climber climber;
 	public static Shooter shooter;
 	public static Turret turret;
+	public static Elevator elevator;
 	
 	public static OI oi;
 	Command autonomousCommand;
@@ -41,13 +43,13 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
-		
+	public void robotInit() {		
 		//Initialize Subsystems
 		gear = new Gear ();
 		climber = new Climber();
 		shooter = new Shooter();
 		turret = new Turret();
+		elevator = new Elevator();
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();

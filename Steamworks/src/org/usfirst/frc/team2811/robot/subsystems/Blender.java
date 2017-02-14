@@ -13,7 +13,7 @@ public class Blender extends Subsystem {
     
     
     public Blender(){
-    	motor = new CANTalon(23);
+    	motor = new CANTalon(4);
     	motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	motor.clearStickyFaults();
 	 	motor.enable();
@@ -34,16 +34,12 @@ public class Blender extends Subsystem {
     }
     
     public void setBlenderOn(){
-    	motor.set(1);
+    	motor.set(0.5);
     }
     
     public void setBlenderOff(){
     	motor.set(0);
     }
-    
-    
-    
-    
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

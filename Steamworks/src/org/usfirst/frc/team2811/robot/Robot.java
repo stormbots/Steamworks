@@ -3,6 +3,10 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
+import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
+import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
+import org.usfirst.frc.team2811.robot.subsystems.Turret;
+import org.usfirst.frc.team2811.robot.subsystems.TurretControlPID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,11 +27,14 @@ public class Robot extends IterativeRobot {
 	public static Gear gear;
 	public static Climber climber;
 	public static Shooter shooter;
+	public static Turret turret;
 	
-
 	public static OI oi;
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<Command> chooser;
+
+	//Debug Commands
+	private Command turretHomeBothWays;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,13 +47,17 @@ public class Robot extends IterativeRobot {
 		gear = new Gear ();
 		climber = new Climber();
 		shooter = new Shooter();
+		turret = new Turret();
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
-		
+		chooser = new SendableChooser<Command>();
+
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
+		chooser.addObject("Turret Calibration", new TurretTwoWayHoming());
 		SmartDashboard.putData("Auto mode", chooser);
+		turretHomeBothWays=new TurretTwoWayHoming();
 	}
 
 	/**
@@ -62,6 +73,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		turret.updateValuesFromFlash();
 	}
 	
 	
@@ -80,16 +92,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		turretHomeBothWays.start();
 	}
 
 	/**
@@ -118,7 +123,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
-		SmartDashboard.putNumber("Error", Robot.shooter.getPIDError());
+		SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 	}
 
 	

@@ -2,6 +2,7 @@ package org.usfirst.frc.team2811.robot.subsystems;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -10,13 +11,17 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 
 	private CANTalon motor;
+	private Solenoid intakeSolenoid;
+	private boolean out = true;
+	private boolean in = !out;
 
 	public Intake(){
-		 motor = new CANTalon(22);
-		 motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		 motor.clearStickyFaults();
-		 motor.enable();
-		 motor.set(0);
+		intakeSolenoid = new Solenoid(1);
+		motor = new CANTalon(3);
+		motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		motor.clearStickyFaults();
+		motor.enable();
+		motor.set(0);
 		 
 	}
 	
@@ -27,6 +32,14 @@ public class Intake extends Subsystem {
 		}else{
 			return false;
 		}
+	}
+	
+	public void intakeOut(){
+		intakeSolenoid.set(out);
+	}
+	
+	public void intakeIn(){
+		intakeSolenoid.set(in);
 	}
 	
 	/** if the current value is too high and the intake is on it returns true*/

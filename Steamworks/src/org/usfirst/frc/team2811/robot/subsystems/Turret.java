@@ -44,7 +44,7 @@ public class Turret extends Subsystem {
     // Normal operating functions
     // **************************
 	public Turret(){
-		turretMotor = new CANTalon(4);
+		turretMotor = new CANTalon(6);
         turretMotor.reset();
     	turretMotor.clearStickyFaults();
     	turretMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);

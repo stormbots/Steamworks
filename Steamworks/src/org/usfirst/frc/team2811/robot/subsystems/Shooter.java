@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.hal.HAL;
  */
 public class Shooter extends Subsystem{
 	 private CANTalon shooterMotor;
-	 private CANTalon shooterMotor2;
+	 //private CANTalon shooterMotor2;
 	 
 	 private int upJoystick = 1;
 	
@@ -30,7 +30,7 @@ public class Shooter extends Subsystem{
 	 private double bias = 0.0;
 	 
     public Shooter(){
-    	shooterMotor = new CANTalon(2);
+    	shooterMotor = new CANTalon(12);
         shooterMotor.reset();
     	shooterMotor.clearStickyFaults();
     	//Change the motor into speed mode (closed-loop velocity)
@@ -41,15 +41,15 @@ public class Shooter extends Subsystem{
     	shooterMotor.enable();
     	shooterMotor.set(0);
     	
-    	System.out.println("device id: " + shooterMotor.getDeviceID());
-    	shooterMotor2 = new CANTalon(3);
-        shooterMotor2.reset();
-    	shooterMotor2.clearStickyFaults();
-    	//Change the motor into follower mode, mirror the first motor
-    	shooterMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
-    	shooterMotor2.enableBrakeMode(false);
-    	shooterMotor2.enable();
-    	shooterMotor2.set(shooterMotor.getDeviceID());
+//    	System.out.println("device id: " + shooterMotor.getDeviceID());
+//    	shooterMotor2 = new CANTalon(3);
+//        shooterMotor2.reset();
+//    	shooterMotor2.clearStickyFaults();
+//    	//Change the motor into follower mode, mirror the first motor
+//    	shooterMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
+//    	shooterMotor2.enableBrakeMode(false);
+//    	shooterMotor2.enable();
+//    	shooterMotor2.set(shooterMotor.getDeviceID());
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
     	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);	

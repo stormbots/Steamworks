@@ -1,7 +1,10 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.subsystems.Blender;
+import org.usfirst.frc.team2811.robot.subsystems.Chassis;
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
+import org.usfirst.frc.team2811.robot.subsystems.Intake;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
@@ -36,6 +39,10 @@ public class Robot extends IterativeRobot {
 	public static Turret turret;
 	public static Elevator elevator;
 	public static Compressor compressor;
+	public static Intake intake;
+	public static Chassis chassis;
+	public static Blender blender;
+	
 	
 	public static OI oi;
 	Command autonomousCommand;
@@ -56,6 +63,9 @@ public class Robot extends IterativeRobot {
 		turret = new Turret();
 		elevator = new Elevator();
 		compressor = new Compressor();
+		intake = new Intake();
+		blender = new Blender();
+		chassis = new Chassis();
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();

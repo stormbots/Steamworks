@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -28,11 +30,14 @@ public class Elevator extends Subsystem {
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new ElevatorOff());
     }
     
     public void setRPM(double targetRPM){
     	elevatorMotor.set(targetRPM);
+    }
+    public void elevatorOff(){
+    	elevatorMotor.set(0);
     }
 
 }

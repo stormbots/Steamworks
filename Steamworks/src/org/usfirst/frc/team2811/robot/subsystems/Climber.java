@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.ClimberOff;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Preferences;
@@ -42,8 +44,8 @@ public class Climber extends Subsystem {
 		}
 	}
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        // Set the default commansd for a subsystem here.
+        setDefaultCommand(new ClimberOff());
     }
     
     public void climbUp(){
@@ -54,6 +56,9 @@ public class Climber extends Subsystem {
     
     public double getCurrent(){
     	return climberMotor.getOutputCurrent();
+    }
+    public void climberOff(){
+    	climberMotor.set(0);
     }
 }
 

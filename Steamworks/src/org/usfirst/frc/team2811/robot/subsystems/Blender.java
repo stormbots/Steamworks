@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -19,7 +21,9 @@ public class Blender extends Subsystem {
 	 	motor.enable();
 	 	motor.set(0);
     }
-    
+    public void initDefaultCommand() {
+       setDefaultCommand(new BlenderOff());
+    }
     public boolean isBlenderOn(){
     	if(!(motor.get()!=0)){
 			return true;
@@ -41,9 +45,6 @@ public class Blender extends Subsystem {
     	motor.set(0);
     }
     
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+
 }
 

@@ -36,6 +36,7 @@ public class Elevator extends Subsystem {
     public void setRPM(double targetRPM){
     	elevatorMotor.set(targetRPM);
     }
+    
     public void elevatorOff(){
     	elevatorMotor.set(0);
     }

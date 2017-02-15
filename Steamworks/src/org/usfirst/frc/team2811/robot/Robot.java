@@ -11,6 +11,8 @@ import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
 import org.usfirst.frc.team2811.robot.subsystems.Elevator;
+
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -33,6 +35,7 @@ public class Robot extends IterativeRobot {
 	public static Shooter shooter;
 	public static Turret turret;
 	public static Elevator elevator;
+	public static Compressor compressor;
 	
 	public static OI oi;
 	Command autonomousCommand;
@@ -52,6 +55,7 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		turret = new Turret();
 		elevator = new Elevator();
+		compressor = new Compressor();
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
@@ -133,6 +137,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
+		SmartDashboard.putData("Compressor", compressor);
+        
 	}
 
 	

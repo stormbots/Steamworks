@@ -16,7 +16,7 @@ public class Intake extends Subsystem {
 	private boolean in = !out;
 
 	public Intake(){
-		intakeSolenoid = new Solenoid(1);
+		intakeSolenoid = new Solenoid(0);
 		motor = new CANTalon(3);
 		motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
 		motor.clearStickyFaults();

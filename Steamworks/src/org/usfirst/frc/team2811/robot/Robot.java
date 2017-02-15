@@ -6,6 +6,7 @@ import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
 import org.usfirst.frc.team2811.robot.subsystems.Intake;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
@@ -78,6 +79,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Shoot", new ShooterRateUpdate());
 		chooser.addObject("ONe way", new TurretOneWayHoming());
 		chooser.addObject("Set Angle", new TurretSetTargetAngle());
+		chooser.addObject("Blender off", new BlenderOff() );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
 	

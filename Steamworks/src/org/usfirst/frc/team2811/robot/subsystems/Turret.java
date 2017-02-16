@@ -62,7 +62,7 @@ public class Turret extends Subsystem {
       	}
 	
 	protected void initDefaultCommand() {
-		setDefaultCommand(new TurretSetTargetAngle());
+		//setDefaultCommand(new TurretSetTargetAngle());
 	}
 
 	public void updateValuesFromFlash(){

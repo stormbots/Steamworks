@@ -40,7 +40,7 @@ public class Chassis extends Subsystem {
     	
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
     	
-    	gearShifter = new Solenoid(0, 0);
+    	gearShifter = new Solenoid(1);
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     	

@@ -6,7 +6,6 @@ import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -27,10 +26,10 @@ public class OI {
 	
 ////////THREE AXIS    
     public Joystick threeAxis;
-    public Button threeAxisButton1;
-    public Button threeAxisButton3;
-    public Button threeAxisButton4;
-	public Button threeAxisButton10;
+    public JoystickButton threeAxisButton1;
+    public JoystickButton threeAxisButton3;
+    public JoystickButton threeAxisButton4;
+	public JoystickButton threeAxisButton10;
 
     
 	public OI(){
@@ -95,7 +94,6 @@ public class OI {
     	return threeAxis.getRawAxis(3);
     }
 
-    /*
     public boolean isTurningClock(){
         return threeAxisButton3.get();
     }
@@ -103,5 +101,4 @@ public class OI {
     public boolean isTurningCounterClock(){
         return threeAxisButton4.get();
     } 
-	*/
 }

@@ -74,8 +74,6 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
 		chooser = new SendableChooser<Command>();
-
-		chassis = new Chassis();
 		
 		joystickDrive = new JoystickDrive();
 

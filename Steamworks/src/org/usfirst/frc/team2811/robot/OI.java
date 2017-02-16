@@ -27,10 +27,10 @@ public class OI {
 	
 ////////THREE AXIS    
     public Joystick threeAxis;
-    private Button shootButton;
-	private Button climbButton;
-    private Button clock;
-    private Button counterClock;
+    public Button threeAxisButton1;
+    public Button threeAxisButton3;
+    public Button threeAxisButton4;
+	public Button threeAxisButton10;
 
     
 	public OI(){
@@ -51,15 +51,15 @@ public class OI {
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
 		
-		shootButton = new JoystickButton(threeAxis,1);
-        shootButton.whenPressed(new ShooterRateUpdate());
+		threeAxisButton1 = new JoystickButton(threeAxis,1);
+        threeAxisButton1.whenPressed(new ShooterRateUpdate());
         
-        clock = new JoystickButton(threeAxis, 3);
+        threeAxisButton3 = new JoystickButton(threeAxis, 3);
         
-        counterClock = new JoystickButton(threeAxis, 4);
+        threeAxisButton4 = new JoystickButton(threeAxis, 4);
 		
-        climbButton = new JoystickButton(threeAxis,10);		
-		climbButton.whenPressed(new Climb());
+        threeAxisButton10 = new JoystickButton(threeAxis,10);		
+		threeAxisButton10.whenPressed(new Climb());
 
 	}
 	
@@ -95,12 +95,13 @@ public class OI {
     	return threeAxis.getRawAxis(3);
     }
 
+    /*
     public boolean isTurningClock(){
-        return clock.get();
+        return threeAxisButton3.get();
     }
     
     public boolean isTurningCounterClock(){
-        return counterClock.get();
+        return threeAxisButton4.get();
     } 
-
+	*/
 }

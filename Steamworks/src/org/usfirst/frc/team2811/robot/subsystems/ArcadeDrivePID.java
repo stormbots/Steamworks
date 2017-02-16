@@ -50,7 +50,7 @@ public class ArcadeDrivePID extends RobotDrive {
     }
 	
 	/**
-	  * Arcade drive implements single stick driving. This function lets you directly provide
+	  * Arcade drive implements two axis driving. This function lets you directly provide
 	  * joystick values from any source.
 	  *
 	  * @param moveValue     The value to use for forwards/backwards
@@ -58,12 +58,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	  */
 	public void newArcadeDrive(double moveValue, double rotateValue) {
 	    // local variables to hold the computed PWM values for the motors
-	    if (!kArcadeStandard_Reported) {
-	      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
-	          tInstances.kRobotDrive_ArcadeStandard);
-	      kArcadeStandard_Reported = true;
-	    }
-
 	    double leftMotorSpeed;
 	    double rightMotorSpeed;
 
@@ -88,7 +82,23 @@ public class ArcadeDrivePID extends RobotDrive {
 	      }
 	    }
 	    
-	    double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+	    newLeftRightDrive(leftMotorSpeed,rightMotorSpeed);
+	}
+	
+	/**
+	 * Directly writes values to the PID. Can be used for a tank drive setup, or for more advanced functions.
+	 * @param leftMotorSpeed
+	 * @param rightMotorSpeed
+	 */
+	
+	public void newLeftRightDrive(double leftMotorSpeed, double rightMotorSpeed){
+		if (!kArcadeStandard_Reported) {
+		      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
+		          tInstances.kRobotDrive_ArcadeStandard);
+		      kArcadeStandard_Reported = true;
+		    }
+		
+		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
 	    leftMotor.set(Math.abs(leftPIDWrite)<.05?0:leftPIDWrite);
@@ -97,6 +107,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	    if (m_safetyHelper != null) {
 		      m_safetyHelper.feed();
 		}
-	  }
+	}
 }
 

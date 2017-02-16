@@ -1,24 +1,24 @@
 package org.usfirst.frc.team2811.robot;
 
-import org.usfirst.frc.team2811.robot.subsystems.Blender;
-import org.usfirst.frc.team2811.robot.subsystems.Chassis;
-import org.usfirst.frc.team2811.robot.subsystems.Climber;
-import org.usfirst.frc.team2811.robot.subsystems.Gear;
-import org.usfirst.frc.team2811.robot.subsystems.Intake;
-import org.usfirst.frc.team2811.robot.subsystems.Shooter;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.Climb;
+import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
-import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
+import org.usfirst.frc.team2811.robot.commands.TurnToHeading;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
-import org.usfirst.frc.team2811.robot.subsystems.Turret;
+import org.usfirst.frc.team2811.robot.subsystems.Blender;
+import org.usfirst.frc.team2811.robot.subsystems.Chassis;
+import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Elevator;
+import org.usfirst.frc.team2811.robot.subsystems.Gear;
+import org.usfirst.frc.team2811.robot.subsystems.Intake;
+import org.usfirst.frc.team2811.robot.subsystems.Shooter;
+import org.usfirst.frc.team2811.robot.subsystems.Turret;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -43,9 +43,11 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Chassis chassis;
 	public static Blender blender;
-	
-	
+		
 	public static OI oi;
+
+	Command joystickDrive;
+	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser;
 
@@ -70,7 +72,12 @@ public class Robot extends IterativeRobot {
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
+
 		chooser = new SendableChooser<Command>();
+
+		chassis = new Chassis();
+		
+		joystickDrive = new JoystickDrive();
 
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -115,7 +122,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = new TurnToHeading(90);
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -138,7 +145,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
-		
+
+		joystickDrive.start();
 	}
 
 	/**
@@ -147,10 +155,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
         
+		chassis.updateDashboard();
+		if(oi.isOperatorControl()) joystickDrive.start();
+
 	}
 
 	

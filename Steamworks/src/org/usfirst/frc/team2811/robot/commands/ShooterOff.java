@@ -7,12 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Climb extends Command {
+public class ShooterOff extends Command {
 
-    public Climb() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.climber);
+    public ShooterOff() {
+        requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +19,7 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.climber.climbUp();
+    	Robot.shooter.shooterOff();
     }
 
     // Make this return true when this Command no longer needs to run execute()

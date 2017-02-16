@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.TurretOff;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
 import com.ctre.CANTalon;
@@ -62,7 +63,7 @@ public class Turret extends Subsystem {
       	}
 	
 	protected void initDefaultCommand() {
-		setDefaultCommand(new TurretSetTargetAngle());
+		setDefaultCommand(new TurretOff());
 	}
 
 	public void updateValuesFromFlash(){
@@ -135,6 +136,10 @@ public class Turret extends Subsystem {
     		return true;
     	}
     	return false;
+	}
+	
+	public void setTurretOff(){
+		turretMotor.set(0);
 	}
     
     //******************

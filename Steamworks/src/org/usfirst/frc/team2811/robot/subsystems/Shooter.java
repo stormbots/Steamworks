@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 
 import com.ctre.CANTalon;
@@ -37,6 +38,7 @@ public class Shooter extends Subsystem{
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
         shooterMotor.reverseSensor(true);
+        shooterMotor.reverseOutput(true);
     	shooterMotor.enableBrakeMode(false);
     	shooterMotor.enable();
     	shooterMotor.set(0);
@@ -57,7 +59,7 @@ public class Shooter extends Subsystem{
     
     public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new ShooterRateUpdate());
+		setDefaultCommand(new ShooterOff());
 	}
     
     

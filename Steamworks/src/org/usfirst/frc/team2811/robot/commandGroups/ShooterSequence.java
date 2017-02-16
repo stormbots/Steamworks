@@ -33,13 +33,14 @@ public class ShooterSequence extends CommandGroup {
     	
     	//TODO: map a button to whileHeld()
     	//TODO: Need to add vision to this EX: Turn to target(chassis)
-    	addSequential(new TurretSetTargetAngle());
-    	addSequential(new Wait(0.5));
-    	addSequential(new ShooterRateUpdate(),20);
-    	addSequential(new Wait(0.5));
+    	
+    	//addSequential(new TurretSetTargetAngle());
+    	//addSequential(new Wait(0.5));
+    	addParallel(new ShooterRateUpdate());
+//    	addSequential(new Wait(0.5));
     	//Both blender and elevator are set to a hard coded value
-    	addSequential(new ElevatorOn(),19.5);
-    	addSequential(new BlenderOn(),19.5);
+    	addParallel(new ElevatorOn());
+    	addSequential(new BlenderOn());
     	
     }
 }

@@ -10,13 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeOut extends Command {
 
     public IntakeOut() {
+    	requires(Robot.intake);
         
     }
 
     protected void initialize() {
     }
 
-       protected void execute() {
+    protected void execute() {
     	Robot.intake.intakeOut();
     }
 

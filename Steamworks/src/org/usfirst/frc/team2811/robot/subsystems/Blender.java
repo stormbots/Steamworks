@@ -38,7 +38,7 @@ public class Blender extends Subsystem {
     }
     
     public void setBlenderOn(){
-    	motor.set(0.5);
+    	motor.set(-0.25);
     }
     
     public void setBlenderOff(){

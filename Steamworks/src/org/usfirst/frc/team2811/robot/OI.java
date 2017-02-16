@@ -1,6 +1,15 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
+import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.Climb;
+import org.usfirst.frc.team2811.robot.commands.ClimberOff;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
+import org.usfirst.frc.team2811.robot.commands.IntakeIn;
+import org.usfirst.frc.team2811.robot.commands.IntakeOff;
+import org.usfirst.frc.team2811.robot.commands.IntakeOn;
+import org.usfirst.frc.team2811.robot.commands.IntakeOut;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import edu.wpi.first.wpilibj.Joystick;
@@ -19,18 +28,38 @@ public class OI {
 
     private Button clock;
     private Button counterClock;
+    private Button intakeInButton;
+    private Button elevatorOnButton;
+    private Button intakeOutButton;
+    private Button blenderOnButton;
+    private Button intakeOnButton;
+    
 	
     public OI(){
     	stick = new Joystick(1);
 
     	shootButton = new JoystickButton(stick,1);
-		climbButton = new JoystickButton(stick,10);
-
-    	shootButton.whenPressed(new ShooterRateUpdate());
-		climbButton.whenPressed(new Climb());
-
-        clock = new JoystickButton(stick, 3);
-        counterClock = new JoystickButton(stick, 4);
+    	shootButton.whenPressed(new ShooterSequence());
+    
+		intakeInButton = new JoystickButton(stick,2);
+        intakeInButton.whileHeld(new IntakeIn());
+        
+        blenderOnButton = new JoystickButton(stick,4);
+        blenderOnButton.whileHeld(new BlenderOn());
+        
+        intakeOutButton = new JoystickButton(stick,3);
+        intakeOutButton.whileHeld(new IntakeOut());
+        
+        intakeOnButton = new JoystickButton(stick, 9);
+        intakeOnButton.whileHeld(new IntakeOn());
+        
+        elevatorOnButton = new JoystickButton(stick,12);
+        elevatorOnButton.whileHeld(new ElevatorOn());
+        
+        climbButton = new JoystickButton(stick,7);
+        climbButton.whenPressed(new Climb());
+        //M10 is bad
+        
     }
     
     public double getShootTargetRate(){

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.IntakeOff;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -14,6 +16,7 @@ public class Intake extends Subsystem {
 	private Solenoid intakeSolenoid;
 	private boolean out = true;
 	private boolean in = !out;
+	private double speed = 0.5;
 
 	public Intake(){
 		intakeSolenoid = new Solenoid(0);
@@ -55,7 +58,7 @@ public class Intake extends Subsystem {
 	
 	
     public void setIntakeOn(){
-    	motor.set(1);
+    	motor.set(-speed);
     	
     	//TODO find the right value for the motor on
     }
@@ -65,7 +68,7 @@ public class Intake extends Subsystem {
     }
     
     public void reverseIntake(){
-    	motor.set(-1);
+    	motor.set(speed);
     }
 
 	
@@ -73,6 +76,7 @@ public class Intake extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new IntakeOff());
     }
     
     

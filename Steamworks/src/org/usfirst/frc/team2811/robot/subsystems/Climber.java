@@ -50,7 +50,7 @@ public class Climber extends Subsystem {
     
     public void climbUp(){
     	if(climberMotor.getOutputCurrent()<currentLimit){
-    		climberMotor.set(0.5);
+    		climberMotor.set(-0.5);
     	}
     }
     

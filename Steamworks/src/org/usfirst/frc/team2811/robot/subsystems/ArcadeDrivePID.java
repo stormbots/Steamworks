@@ -21,7 +21,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	private MiniPID drivePIDRight;
 
 	private double 	maxTickRate;
-	
+		
     public ArcadeDrivePID(CANTalon leftSideMotor, CANTalon rightSideMotor){
 		
     	super(leftSideMotor, rightSideMotor);
@@ -102,14 +102,15 @@ public class ArcadeDrivePID extends RobotDrive {
 		      kArcadeStandard_Reported = true;
 		}
 		
-		if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))>1600){
-			Robot.chassis.setGear(true);
+		if(Robot.chassis.autoShiftEnabled){
+			if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))>1600){
+				Robot.chassis.setGear(true);
+			}
+			
+			if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))<1500){
+				Robot.chassis.setGear(false);
+			}
 		}
-		
-		if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))<1500){
-			Robot.chassis.setGear(false);
-		}
-		
 		
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);

@@ -28,6 +28,8 @@ public class Chassis extends Subsystem {
     
     private Solenoid gearShifter;
     private AHRS navxGyro;
+    
+    public boolean 	autoShiftEnabled;
 	
     public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -41,6 +43,7 @@ public class Chassis extends Subsystem {
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
     	
     	gearShifter = new Solenoid(1);
+    	autoShiftEnabled = true;
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     	

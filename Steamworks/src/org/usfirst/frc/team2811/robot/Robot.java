@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Compressor", compressor);
         
 		chassis.updateDashboard();
-		if(oi.isOperatorControl()) joystickDrive.start();
+		joystickDrive.start();
 
 	}
 

@@ -18,22 +18,30 @@ public class ArcadeDrivePID extends RobotDrive {
 	private MiniPID drivePIDLeft;
 	private MiniPID drivePIDRight;
 
-	private double 	maxTickRate;
-
+	private double 	maxTickRateHigh;
+	private double 	maxTickRateLow;
+	private double 	currentMaxTickRate;
+	private boolean currentGear;
+	
     public ArcadeDrivePID(CANTalon leftSideMotor, CANTalon rightSideMotor){
 		
     	super(leftSideMotor, rightSideMotor);
     	
-    	maxTickRate = 2700;
+    	maxTickRateHigh = 4800;
+    	maxTickRateLow = 1700;
+    	currentMaxTickRate = maxTickRateLow;
+    	currentGear = false;
     	
     	leftMotor = leftSideMotor;
     	rightMotor = rightSideMotor;
     	
-		drivePIDLeft  =	new MiniPID(.5,.003,0,1);
+		//drivePIDLeft  =	new MiniPID(.75,.005,0,.94);
+    	drivePIDLeft  =	new MiniPID(.5,.005,.001,1);
 		drivePIDLeft.setOutputLimits(-1,1);
 		drivePIDLeft.setMaxIOutput(.1);
 		
-		drivePIDRight =	new MiniPID(.5,.003,0,1);
+		//drivePIDRight =	new MiniPID(.75,.005,0,1);
+		drivePIDRight =	new MiniPID(.5,.005,.001,1);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
 		
@@ -41,12 +49,17 @@ public class ArcadeDrivePID extends RobotDrive {
     
     /** Maps encoder tick value to a reasonable range for comparing to motor values */
     public double mapToMotorRange(double inputTicks){
-    	double maximum = maxTickRate;
-    	double minimum = -maxTickRate;
+    	double maximum =  currentMaxTickRate;
+    	double minimum = -currentMaxTickRate;
     	double outputMax = 1;
     	double outputMin = -1; 
         return (inputTicks/(maximum-minimum)-minimum/(maximum-minimum))*(outputMax-outputMin)+outputMin;
          
+    }
+    
+    public void shiftGears(){
+    	currentGear = !currentGear;
+    	currentMaxTickRate=currentGear?maxTickRateHigh:maxTickRateLow;
     }
 	
 	/**
@@ -101,8 +114,8 @@ public class ArcadeDrivePID extends RobotDrive {
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
-	    leftMotor.set(Math.abs(leftPIDWrite)<.05?0:leftPIDWrite);
-	    rightMotor.set(Math.abs(rightPIDWrite)<.05?0:-rightPIDWrite);
+	    leftMotor.set(leftPIDWrite);
+	    rightMotor.set(-rightPIDWrite);
 	    
 	    if (m_safetyHelper != null) {
 		      m_safetyHelper.feed();

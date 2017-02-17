@@ -92,16 +92,7 @@ public class Chassis extends Subsystem {
     public void drive(double move, double rotate){
     	robotDrive.newArcadeDrive(move, rotate);
     }
-        
-    /** Must be in range of -179 to 179
-     * 
-     * @param targetHeading Target angle relative to the robot's orientation  
-     * @return PID turn rate for ArcadeDrive
-     */
-    public double turnToHeading(double targetHeading){    	
-    	return headingPID.getOutput(navxGyro.getYaw(),targetHeading);	
-    }
-    
+            
     public double getYaw(){
     	return navxGyro.getYaw();
     }
@@ -113,11 +104,17 @@ public class Chassis extends Subsystem {
     
     public void shiftGears(){
     	gearShifter.set(!gearShifter.get());
+    	robotDrive.shiftGears();
     }
     
     //Runs constantly in the background.
     public void updateDashboard(){
     	SmartDashboard.putData("navX-MXP", navxGyro);
+    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
+    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
+    	SmartDashboard.putNumber("Left Write", frontLeft.get());
+    	SmartDashboard.putNumber("Right Write", frontRight.get());
+    	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
     }
 }
 

@@ -104,7 +104,10 @@ public class Chassis extends Subsystem {
     
     public void shiftGears(){
     	gearShifter.set(!gearShifter.get());
-    	robotDrive.shiftGears();
+    }
+    
+    public void setGear(boolean gear){
+    	gearShifter.set(gear);
     }
     
     //Runs constantly in the background.
@@ -114,6 +117,7 @@ public class Chassis extends Subsystem {
     	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
     	SmartDashboard.putNumber("Left Write", frontLeft.get());
     	SmartDashboard.putNumber("Right Write", frontRight.get());
+    	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
     	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
     }
 }

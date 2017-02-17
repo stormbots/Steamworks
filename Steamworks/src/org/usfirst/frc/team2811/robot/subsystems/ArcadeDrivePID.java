@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -18,20 +20,14 @@ public class ArcadeDrivePID extends RobotDrive {
 	private MiniPID drivePIDLeft;
 	private MiniPID drivePIDRight;
 
-	private double 	maxTickRateHigh;
-	private double 	maxTickRateLow;
-	private double 	currentMaxTickRate;
-	private boolean currentGear;
+	private double 	maxTickRate;
 	
     public ArcadeDrivePID(CANTalon leftSideMotor, CANTalon rightSideMotor){
 		
     	super(leftSideMotor, rightSideMotor);
     	
-    	maxTickRateHigh = 4800;
-    	maxTickRateLow = 1700;
-    	currentMaxTickRate = maxTickRateLow;
-    	currentGear = false;
-    	
+    	maxTickRate= 4800;
+    	    	
     	leftMotor = leftSideMotor;
     	rightMotor = rightSideMotor;
     	
@@ -49,17 +45,12 @@ public class ArcadeDrivePID extends RobotDrive {
     
     /** Maps encoder tick value to a reasonable range for comparing to motor values */
     public double mapToMotorRange(double inputTicks){
-    	double maximum =  currentMaxTickRate;
-    	double minimum = -currentMaxTickRate;
+    	double maximum =  maxTickRate;
+    	double minimum = -maxTickRate;
     	double outputMax = 1;
     	double outputMin = -1; 
         return (inputTicks/(maximum-minimum)-minimum/(maximum-minimum))*(outputMax-outputMin)+outputMin;
          
-    }
-    
-    public void shiftGears(){
-    	currentGear = !currentGear;
-    	currentMaxTickRate=currentGear?maxTickRateHigh:maxTickRateLow;
     }
 	
 	/**
@@ -109,7 +100,16 @@ public class ArcadeDrivePID extends RobotDrive {
 		      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
 		          tInstances.kRobotDrive_ArcadeStandard);
 		      kArcadeStandard_Reported = true;
-		    }
+		}
+		
+		if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))>1600){
+			Robot.chassis.setGear(true);
+		}
+		
+		if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))<1500){
+			Robot.chassis.setGear(false);
+		}
+		
 		
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);

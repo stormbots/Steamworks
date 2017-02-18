@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TurretManualTurn extends Command {
+public class IntakeBallIn extends Command {
 
-	private double input;
-    public TurretManualTurn(double input) {
-    	requires(Robot.turret);
-        this.input = input;
+    public IntakeBallIn() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
@@ -21,16 +21,7 @@ public class TurretManualTurn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.oi.isTurningClock()){
-        	Robot.turret.setTurretMotor(input);
-        	Robot.turret.checkLeftSwitch();
-    	}else if(Robot.oi.isTurningCounterClock()){
-    		Robot.turret.setTurretMotor(-input);
-    	}else{
-    		Robot.turret.setTurretMotor(0);
-    	}
-    	Robot.turret.checkLeftSwitch();
-    	Robot.turret.checkRightSwitch();
+    	Robot.intake.setIntakeOn();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -40,13 +31,10 @@ public class TurretManualTurn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.turret.setTurretMotor(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.turret.setTurretMotor(0);
-
     }
 }

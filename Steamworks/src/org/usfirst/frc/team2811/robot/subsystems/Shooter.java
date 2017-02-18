@@ -5,6 +5,7 @@ import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.hal.HAL;
 public class Shooter extends Subsystem{
 	 private CANTalon shooterMotor;
 	 //private CANTalon shooterMotor2;
-	 
+	 public Preferences prefs = Preferences.getInstance();
 	 private int upJoystick = 1;
 	
 	 private double upRPM = 5380;
@@ -27,6 +28,8 @@ public class Shooter extends Subsystem{
 	 private int izone = 0;
 	 
 	 private double targetDistance = 0.0;
+	 
+	 private double speed;
 	 
 	 private double bias = 0.0;
 	 
@@ -54,7 +57,9 @@ public class Shooter extends Subsystem{
 //    	shooterMotor2.set(shooterMotor.getDeviceID());
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
-    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);	
+    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
+    	
+    	updateValFromFlash();
     }
     
     public void initDefaultCommand() {
@@ -62,6 +67,17 @@ public class Shooter extends Subsystem{
 		setDefaultCommand(new ShooterOff());
 	}
     
+    
+    public void updateValFromFlash(){
+    	speed = prefs.getDouble("Shooter Speed", 3000);
+    	if(prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 3000);
+
+    	//shooterMotor.set(speed);
+    }
+    
+    public void pidTuneSetRPM(){
+    	shooterMotor.set(speed);
+    }
     
     //**************************
     // Normal Operation 
@@ -76,7 +92,6 @@ public class Shooter extends Subsystem{
     	System.out.println("PID Target Setpoint " + targetRPM);
     	System.out.println("PID Output " + shooterMotor.pidGet());	
     }
-    
     
     public double getTargetDistance(){
     	return targetDistance;

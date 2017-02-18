@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
-import org.usfirst.frc.team2811.robot.commands.IntakeOff;
+import org.usfirst.frc.team2811.robot.commands.IntakeBallOff;
 
 import com.ctre.CANTalon;
 
@@ -14,9 +14,10 @@ public class Intake extends Subsystem {
 
 	private CANTalon motor;
 	private Solenoid intakeSolenoid;
-	private boolean out = true;
+	private boolean out = false;
 	private boolean in = !out;
 	private double speed = 0.5;
+	private Solenoid somethingSolenoid;
 
 	public Intake(){
 		intakeSolenoid = new Solenoid(0);
@@ -44,7 +45,7 @@ public class Intake extends Subsystem {
 	public void intakeIn(){
 		intakeSolenoid.set(in);
 	}
-	
+
 	/** if the current value is too high and the intake is on it returns true*/
 	// change the limit of the OutputCurrent
 	public boolean isIntakeStalled(){
@@ -76,7 +77,7 @@ public class Intake extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new IntakeOff());
+    	setDefaultCommand(new IntakeBallOff());
     }
     
     

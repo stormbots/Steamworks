@@ -7,12 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeOn extends Command {
+public class UpdateValFromFlash extends Command {
 
-    public IntakeOn() {
+    public UpdateValFromFlash() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +20,10 @@ public class IntakeOn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.setIntakeOn();
+    	Robot.shooter.updateValFromFlash();
+    	Robot.turret.updateValFromFlash();
+    	Robot.elevator.updateValFromFlash();
+    	//Robot.blender.updateValFromFlash();
     }
 
     // Make this return true when this Command no longer needs to run execute()

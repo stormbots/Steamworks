@@ -5,6 +5,7 @@ import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Preferences;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -17,11 +18,14 @@ public class Turret extends Subsystem {
 	//Access preference on the SmartDashboard
 	Preferences prefs = Preferences.getInstance();
 	
+	private DigitalInput switchClockwise;
+	private DigitalInput switchCounterClockwise;
+	
 	private CANTalon turretMotor;
 	//Save or fetch data into preference
     private int upTicks;
 	private int downTicks;
-    private int upAngle = 180;
+    private int upAngle = 90;
     private int downAngle = 0;
     
     //Only needed for joystick control
@@ -40,6 +44,8 @@ public class Turret extends Subsystem {
     private double currentOutput;
     private double currentAngle;
     private double targetAngle;
+
+	private boolean SWITCH_CLOSED = false;
     
     // **************************
     // Normal operating functions
@@ -58,21 +64,23 @@ public class Turret extends Subsystem {
         turretPID.setOutputLimits(-1, 1);
         //Reverse is not working -> there's a "-" on CalculatePIDOutput()
         turretPID.setDirection(true);
-        updateValuesFromFlash();
+        updateValFromFlash();
         
+        switchClockwise = new DigitalInput(4);
+        switchCounterClockwise  = new DigitalInput(5);
       	}
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TurretOff());
 	}
 
-	public void updateValuesFromFlash(){
+	public void updateValFromFlash(){
 		upTicks = prefs.getInt("turretUpTicks", -45200);
 		downTicks = prefs.getInt("turretDownTicks", -35);
 		P = prefs.getDouble("turretP", 1);
 		I = prefs.getDouble("turretI", 0);
 		D = prefs.getDouble("turretD", 0);
-		homingSpeed = prefs.getDouble("turretHomingSpeed", 0.8);
+		homingSpeed = prefs.getDouble("turretHomingSpeed", -0.1);
 		
 		turretPID.setPID(P,I,D);
 		
@@ -88,7 +96,7 @@ public class Turret extends Subsystem {
 	//Homing checking limit switch on one side, use the ticks recorded in preference
     public boolean homeCW(){
     	turretMotor.set(-homingSpeed); 
-    	if(turretMotor.isRevLimitSwitchClosed()){
+    	if(switchClockwise.get()==SWITCH_CLOSED){
     		turretMotor.setEncPosition(upTicks);
     		homed = true;
     		System.out.println("upTicks: "+upTicks + ", downTicks: "+downTicks);
@@ -102,7 +110,7 @@ public class Turret extends Subsystem {
 		//move motor
 		turretMotor.set(homingSpeed);
 		//look for switch/stall
-		if(turretMotor.isFwdLimitSwitchClosed()){
+		if(switchCounterClockwise.get()==SWITCH_CLOSED){
 			//set(downTicks)
 			downTicks = turretMotor.getEncPosition();
 			System.out.println(downTicks);
@@ -121,7 +129,7 @@ public class Turret extends Subsystem {
 			System.out.println("Homed one way");
 			//homeCW
 			turretMotor.set(-homingSpeed); 
-	    	if(turretMotor.isRevLimitSwitchClosed()){
+	    	if(switchClockwise.get()==SWITCH_CLOSED){
 	    		upTicks = turretMotor.getEncPosition();
 				System.out.println(upTicks);
 	    		upTicksSet = true;
@@ -175,6 +183,7 @@ public class Turret extends Subsystem {
 		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
 	}
 	
+	
     public double ticksToAngle(int ticks){
     	return map(ticks, downTicks, upTicks, downAngle, upAngle);
     }
@@ -211,5 +220,18 @@ public class Turret extends Subsystem {
     	return homed;
     }
 
+    public void checkLeftSwitch(){
+    	if (!switchCounterClockwise.get()){
+    		System.out.println("CounterClockSwitchClosed");
+    	}
+    }
 	
+    public void checkRightSwitch(){
+    	if (!switchClockwise.get()){
+    		System.out.println("ClockSwitchClosed");
+
+    	}
+    	
+    }
+    
 }

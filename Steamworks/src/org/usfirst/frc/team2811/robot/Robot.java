@@ -6,6 +6,9 @@ import org.usfirst.frc.team2811.robot.subsystems.Climber;
 import org.usfirst.frc.team2811.robot.subsystems.Gear;
 import org.usfirst.frc.team2811.robot.subsystems.Intake;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
+
+import java.awt.Robot;
+
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
@@ -13,6 +16,7 @@ import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
+import org.usfirst.frc.team2811.robot.commands.UpdateValFromFlash;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
 import org.usfirst.frc.team2811.robot.subsystems.Elevator;
 
@@ -47,6 +51,7 @@ public class Robot extends IterativeRobot {
 	
 	public static OI oi;
 	Command autonomousCommand;
+	Command updateValFromFlash;
 	SendableChooser<Command> chooser;
 
 	//Debug Commands
@@ -82,6 +87,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Blender off", new BlenderOff() );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+		updateValFromFlash = new UpdateValFromFlash();
 	
 	}
 
@@ -98,7 +105,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		turret.updateValuesFromFlash();
+//		turret.updateValFromFlash();
+//		shooter.updateValFromFlash();
+		Robot.turret.updateValFromFlash();
+		Robot.shooter.updateValFromFlash();
+		Robot.blender.updateValFromFlash();
+		Robot.elevator.updateValFromFlash();
 	}
 	
 	
@@ -149,8 +161,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
-		SmartDashboard.putData("Compressor", compressor);
-        
+		SmartDashboard.putData("Compressor", compressor);   
 	}
 
 	

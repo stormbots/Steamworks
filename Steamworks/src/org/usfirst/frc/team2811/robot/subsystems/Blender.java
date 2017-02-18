@@ -4,6 +4,7 @@ import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -11,7 +12,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Blender extends Subsystem {
 
+	Preferences prefs = Preferences.getInstance();
+	
     private CANTalon motor;
+    private double speed;
     
     
     public Blender(){
@@ -20,10 +24,19 @@ public class Blender extends Subsystem {
     	motor.clearStickyFaults();
 	 	motor.enable();
 	 	motor.set(0);
+	 	
+	 	updateValFromFlash();
     }
+    
     public void initDefaultCommand() {
        setDefaultCommand(new BlenderOff());
     }
+    
+    public void updateValFromFlash(){
+    	speed = prefs.getDouble("Blender Speed", 0.15);
+    	if(prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.15);
+    }
+    
     public boolean isBlenderOn(){
     	if(!(motor.get()!=0)){
 			return true;
@@ -31,14 +44,14 @@ public class Blender extends Subsystem {
 			return false;
 		}
     }
-    
+    	
     public boolean isBlenderStalled(){
     	//TODO
     	return false;
     }
     
     public void setBlenderOn(){
-    	motor.set(-0.25);
+    	motor.set(-0.5);
     }
     
     public void setBlenderOff(){

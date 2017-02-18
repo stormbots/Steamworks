@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -19,21 +21,23 @@ public class ArcadeDrivePID extends RobotDrive {
 	private MiniPID drivePIDRight;
 
 	private double 	maxTickRate;
-
+		
     public ArcadeDrivePID(CANTalon leftSideMotor, CANTalon rightSideMotor){
 		
     	super(leftSideMotor, rightSideMotor);
     	
-    	maxTickRate = 2700;
-    	
+    	maxTickRate= 4800;
+    	    	
     	leftMotor = leftSideMotor;
     	rightMotor = rightSideMotor;
     	
-		drivePIDLeft  =	new MiniPID(.5,.003,0,1);
+		//drivePIDLeft  =	new MiniPID(.75,.005,0,.94);
+    	drivePIDLeft  =	new MiniPID(.5,.005,.001,1);
 		drivePIDLeft.setOutputLimits(-1,1);
 		drivePIDLeft.setMaxIOutput(.1);
 		
-		drivePIDRight =	new MiniPID(.5,.003,0,1);
+		//drivePIDRight =	new MiniPID(.75,.005,0,1);
+		drivePIDRight =	new MiniPID(.5,.005,.001,1);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
 		
@@ -41,7 +45,7 @@ public class ArcadeDrivePID extends RobotDrive {
     
     /** Maps encoder tick value to a reasonable range for comparing to motor values */
     public double mapToMotorRange(double inputTicks){
-    	double maximum = maxTickRate;
+    	double maximum =  maxTickRate;
     	double minimum = -maxTickRate;
     	double outputMax = 1;
     	double outputMin = -1; 
@@ -50,7 +54,7 @@ public class ArcadeDrivePID extends RobotDrive {
     }
 	
 	/**
-	  * Arcade drive implements single stick driving. This function lets you directly provide
+	  * Arcade drive implements two axis driving. This function lets you directly provide
 	  * joystick values from any source.
 	  *
 	  * @param moveValue     The value to use for forwards/backwards
@@ -58,12 +62,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	  */
 	public void newArcadeDrive(double moveValue, double rotateValue) {
 	    // local variables to hold the computed PWM values for the motors
-	    if (!kArcadeStandard_Reported) {
-	      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
-	          tInstances.kRobotDrive_ArcadeStandard);
-	      kArcadeStandard_Reported = true;
-	    }
-
 	    double leftMotorSpeed;
 	    double rightMotorSpeed;
 
@@ -88,15 +86,41 @@ public class ArcadeDrivePID extends RobotDrive {
 	      }
 	    }
 	    
-	    double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+	    newLeftRightDrive(leftMotorSpeed,rightMotorSpeed);
+	}
+	
+	/**
+	 * Directly writes values to the PID. Can be used for a tank drive setup, or for more advanced functions.
+	 * @param leftMotorSpeed
+	 * @param rightMotorSpeed
+	 */
+	
+	public void newLeftRightDrive(double leftMotorSpeed, double rightMotorSpeed){
+		if (!kArcadeStandard_Reported) {
+		      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
+		          tInstances.kRobotDrive_ArcadeStandard);
+		      kArcadeStandard_Reported = true;
+		}
+		
+		if(Robot.chassis.autoShiftEnabled){
+			if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))>1600){
+				Robot.chassis.setGear(true);
+			}
+			
+			if(Math.max(Math.abs(leftMotor.getEncVelocity()),Math.abs(rightMotor.getEncVelocity()))<1500){
+				Robot.chassis.setGear(false);
+			}
+		}
+		
+		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
-	    leftMotor.set(Math.abs(leftPIDWrite)<.05?0:leftPIDWrite);
-	    rightMotor.set(Math.abs(rightPIDWrite)<.05?0:-rightPIDWrite);
+	    leftMotor.set(leftPIDWrite);
+	    rightMotor.set(-rightPIDWrite);
 	    
 	    if (m_safetyHelper != null) {
 		      m_safetyHelper.feed();
 		}
-	  }
+	}
 }
 

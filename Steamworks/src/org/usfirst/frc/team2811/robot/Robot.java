@@ -17,6 +17,7 @@ import org.usfirst.frc.team2811.robot.subsystems.Gear;
 import org.usfirst.frc.team2811.robot.subsystems.Intake;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
+import org.usfirst.frc.team2811.robot.subsystems.Vision;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	//Declare subsystems
+	public static Vision vision;
 	public static Gear gear;
 	public static Climber climber;
 	public static Shooter shooter;
@@ -62,6 +64,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {		
 		//Initialize Subsystems
+		vision = new Vision ();
 		gear = new Gear ();
 		climber = new Climber();
 		shooter = new Shooter();

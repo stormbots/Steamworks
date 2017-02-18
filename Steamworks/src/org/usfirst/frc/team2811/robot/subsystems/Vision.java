@@ -17,6 +17,10 @@ public class Vision extends Subsystem {
 	private double visionTimestamp = 0;
 	private double robotTimestamp = 0;
 
+    public Vision() {
+    	networkTable=NetworkTable.getTable("ContourData");
+	}
+
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	

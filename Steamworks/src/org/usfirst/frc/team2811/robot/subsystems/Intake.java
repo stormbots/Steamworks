@@ -17,8 +17,7 @@ public class Intake extends Subsystem {
 	private boolean out = false;
 	private boolean in = !out;
 	private double speed = 0.5;
-	private Solenoid somethingSolenoid;
-
+	
 	public Intake(){
 		intakeSolenoid = new Solenoid(0);
 		motor = new CANTalon(3);
@@ -36,6 +35,10 @@ public class Intake extends Subsystem {
 		}else{
 			return false;
 		}
+	}
+	
+	public boolean isIntakeToggled(){
+		return in;
 	}
 	
 	public void intakeOut(){

@@ -47,35 +47,41 @@ public class OI {
 
     	shootButton = new JoystickButton(stick,1);
     	shootButton.whileHeld(new ShooterSequence());
-    	//shootButton.whileHeld(new ShooterTuning());
     	
-    	shootButton2 = new JoystickButton(stick, 11);
-    	shootButton2.whileHeld(new ShooterRateUpdate());
-//		intakeInButton = new JoystickButton(stick,2);
-//        intakeInButton.whileHeld(new IntakeIn());
-        
-        blenderOnButton = new JoystickButton(stick,4);
+        manualTurretControl = new JoystickButton(stick,2);
+        manualTurretControl.whileHeld(new TurretSetTargetAngle());
+
+        blenderOnButton = new JoystickButton(stick,3);
         blenderOnButton.whileHeld(new BlenderOn());
         
-//        intakeOutButton = new JoystickButton(stick,3);
-//        intakeOutButton.whileHeld(new IntakeOut());
-        
-        intakeOnButton = new JoystickButton(stick, 9);
+        intakeOnButton = new JoystickButton(stick, 5);
         intakeOnButton.whileHeld(new IntakeBallIn());
         
+        climbButton = new JoystickButton(stick,6);
+        climbButton.whenPressed(new Climb());        
+
+    	shootButton2 = new JoystickButton(stick, 11);
+    	shootButton2.whileHeld(new ShooterTuning());
+    	
         elevatorOnButton = new JoystickButton(stick,12);
         elevatorOnButton.whileHeld(new ElevatorOn());
         
-        climbButton = new JoystickButton(stick,7);
-        climbButton.whenPressed(new Climb());
         
-        clock = new JoystickButton(stick, 2);
-        counterClock = new JoystickButton(stick, 3);
-        turn = new JoystickButton(stick,5);
-        turn.whileHeld(new TurretManualTurn(0.1));
         
-        manualTurretControl = new JoystickButton(stick,6);
-        manualTurretControl.whileHeld(new TurretSetTargetAngle());
+//        turn = new JoystickButton(stick,5);
+//        turn.whileHeld(new TurretManualTurn(0.1)); 
+        
+//        clock = new JoystickButton(stick, 2);
+//        counterClock = new JoystickButton(stick, 3);
+
+//		intakeInButton = new JoystickButton(stick,2);
+//        intakeInButton.whileHeld(new IntakeIn());
+       	//shootButton.whileHeld(new ShooterTuning());     
+
+//        intakeOutButton = new JoystickButton(stick,3);
+//        intakeOutButton.whileHeld(new IntakeOut());
+                
+
         
         
         

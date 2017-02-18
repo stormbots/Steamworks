@@ -24,12 +24,11 @@ public class Chassis extends Subsystem {
     private CANTalon backRight;
 
     private ArcadeDrivePID robotDrive;
-    private MiniPID headingPID;
-    
+        
     private Solenoid gearShifter;
     private AHRS navxGyro;
     
-    public boolean 	autoShiftEnabled;
+    public boolean autoShiftEnabled;
 	
     public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -46,8 +45,6 @@ public class Chassis extends Subsystem {
     	autoShiftEnabled = true;
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
-    	
-    	//TODO Tune PID things
     }
     
     public void initDefaultCommand() {    	    	
@@ -122,6 +119,7 @@ public class Chassis extends Subsystem {
     	SmartDashboard.putNumber("Right Write", frontRight.get());
     	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
     	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
+    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity())));
     }
 }
 

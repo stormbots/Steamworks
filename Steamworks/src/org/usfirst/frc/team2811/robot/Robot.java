@@ -7,6 +7,7 @@ import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.TurnToHeading;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
+import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngleFromVision;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
 import org.usfirst.frc.team2811.robot.commands.UpdateValFromFlash;
 import org.usfirst.frc.team2811.robot.subsystems.Blender;
@@ -90,6 +91,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("ONe way", new TurretOneWayHoming());
 		chooser.addObject("Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Blender off", new BlenderOff() );
+		chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -116,6 +118,7 @@ public class Robot extends IterativeRobot {
 		Robot.shooter.updateValFromFlash();
 		Robot.blender.updateValFromFlash();
 		Robot.elevator.updateValFromFlash();
+		Robot.vision.updateValFromFlash();
 	}
 	
 	

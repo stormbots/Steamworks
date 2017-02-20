@@ -119,7 +119,7 @@ public class Chassis extends Subsystem {
     	SmartDashboard.putNumber("Right Write", frontRight.get());
     	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
     	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
-    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity())));
+    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity()+.01)/Math.abs(frontRight.getEncVelocity()+.01)));
     }
 }
 

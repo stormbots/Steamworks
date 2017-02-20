@@ -34,7 +34,7 @@ public class Blender extends Subsystem {
     
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Blender Speed", 0.15);
-    	if(prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.15);
+    	if(!prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.15);
     }
     
     public boolean isBlenderOn(){
@@ -51,11 +51,11 @@ public class Blender extends Subsystem {
     }
     
     public void setBlenderOn(){
-    	motor.set(-0.5);
+    	motor.set(-speed);
     }
     
     public void setBlenderOff(){
-    	motor.set(0);
+    	motor.set(-0.1);
     }
     
 

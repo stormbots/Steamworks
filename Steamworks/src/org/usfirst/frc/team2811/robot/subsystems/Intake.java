@@ -16,7 +16,7 @@ public class Intake extends Subsystem {
 	private Solenoid intakeSolenoid;
 	private boolean out = false;
 	private boolean in = !out;
-	private double speed = 0.5;
+	private double speed = 0.95;
 	
 	public Intake(){
 		intakeSolenoid = new Solenoid(0);
@@ -25,7 +25,8 @@ public class Intake extends Subsystem {
 		motor.clearStickyFaults();
 		motor.enable();
 		motor.set(0);
-		 
+		intakeOut();
+		
 	}
 	
 	
@@ -37,8 +38,8 @@ public class Intake extends Subsystem {
 		}
 	}
 	
-	public boolean isIntakeToggled(){
-		return in;
+	public boolean isIntakeIn(){
+		return intakeSolenoid.get()==in;
 	}
 	
 	public void intakeOut(){

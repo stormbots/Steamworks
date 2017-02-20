@@ -70,7 +70,7 @@ public class Shooter extends Subsystem{
     
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Shooter Speed", 3000);
-    	if(prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 3000);
+    	if(!prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 3000);
 
     	//shooterMotor.set(speed);
     }

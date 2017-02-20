@@ -112,8 +112,12 @@ public class ArcadeDrivePID extends RobotDrive {
 			}
 		}
 		
-		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
-	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
+//		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+//	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
+		double leftPIDWrite  = leftMotorSpeed;
+	    double rightPIDWrite = rightMotorSpeed;
+	    
+	    System.out.println("Output for drive"+ leftPIDWrite + " "+ rightPIDWrite);
 	    
 	    leftMotor.set(leftPIDWrite);
 	    rightMotor.set(-rightPIDWrite);

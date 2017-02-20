@@ -27,7 +27,7 @@ public class Elevator extends Subsystem {
         elevatorMotor.reset();
     	elevatorMotor.clearStickyFaults();
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
@@ -41,7 +41,7 @@ public class Elevator extends Subsystem {
     
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Elevator Speed", 500);
-    	if(prefs.containsKey("Elevator Speed")) prefs.putDouble("Elevator Speed", 500);
+    	if(!prefs.containsKey("Elevator Speed")) prefs.putDouble("Elevator Speed", 500);
 
     }
     

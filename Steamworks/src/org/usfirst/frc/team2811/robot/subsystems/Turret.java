@@ -136,11 +136,11 @@ public class Turret extends Subsystem {
 	    	}
 		}
 		else if(upTicksSet&&downTicksSet){
-			System.out.println("Homed both wasy");
+			System.out.println("Homed both ways");
     		homed = true;
     		//put into preference
-    		prefs.putInt("turretUpTicks", upTicks);
-    		prefs.putInt("turretDownTicks", downTicks);
+    		prefs.putDouble("turretUpTicks", upTicks);
+    		prefs.putDouble("turretDownTicks", downTicks);
     		return true;
     	}
     	return false;
@@ -229,9 +229,7 @@ public class Turret extends Subsystem {
     public void checkRightSwitch(){
     	if (!switchClockwise.get()){
     		System.out.println("ClockSwitchClosed");
-
     	}
-    	
     }
     
 }

@@ -25,6 +25,7 @@ public class Gear extends Subsystem {
 		
 		sonarRight = new Ultrasonic(2,3);		     
 		sonarRight.setEnabled(true);
+
 		
 		//Apparently setAutomaticMode must be called after all ultrasonics 
 		//are initialized
@@ -42,11 +43,11 @@ public class Gear extends Subsystem {
     	
     }
     
-    public double distanceLeftSide(){
+    public double distanceLeftSideInches(){
     	return sonarLeft.getRangeInches();
     }
     
-    public double distanceRightSide(){
+    public double distanceRightSideInches(){
     	return sonarRight.getRangeInches();
     }
     

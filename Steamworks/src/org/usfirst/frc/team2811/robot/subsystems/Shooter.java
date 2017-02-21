@@ -117,7 +117,7 @@ public class Shooter extends Subsystem{
     
     public double getPIDError(){
        	double error = shooterMotor.getClosedLoopError();
-    	System.out.println("Error" + error);
+    	//System.out.println("Error" + error);
     	return error;
     }
     

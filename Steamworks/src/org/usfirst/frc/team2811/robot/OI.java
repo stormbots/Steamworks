@@ -2,6 +2,8 @@ package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
@@ -51,6 +53,10 @@ public class OI {
     private JoystickButton blenderOnButton;
     private JoystickButton intakeOnButton;
     private JoystickButton manualTurretControl;
+    
+    private JoystickButton chassisAutoDrive3;
+    private JoystickButton chassisAutoDrive8;
+    private JoystickButton chassisAutoDrive10;
 
     
 	public OI(){
@@ -91,6 +97,16 @@ public class OI {
     	
         elevatorOnButton = new JoystickButton(threeAxis,12);
         elevatorOnButton.whileHeld(new ElevatorOn());
+        
+        chassisAutoDrive3 = new JoystickButton(threeAxis,7);
+        chassisAutoDrive3.whenPressed(new ChassisAutoDrive(3));
+        
+        chassisAutoDrive8 = new JoystickButton(threeAxis,8);
+        chassisAutoDrive8.whenPressed(new ChassisAutoDrive(1));
+        
+        chassisAutoDrive10 = new JoystickButton(threeAxis,9);
+        chassisAutoDrive10.whenPressed(new ChassisDriveUltrasonic(3,0));
+        
 
 //      turn = new JoystickButton(threeAxis,5);
 //      turn.whileHeld(new TurretManualTurn(0.1)); 

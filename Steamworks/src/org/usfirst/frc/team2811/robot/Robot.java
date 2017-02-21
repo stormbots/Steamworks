@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
@@ -9,7 +10,6 @@ import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngleFromVision;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
-import org.usfirst.frc.team2811.robot.commands.UpdateValFromFlash;
 import org.usfirst.frc.team2811.robot.subsystems.Blender;
 import org.usfirst.frc.team2811.robot.subsystems.Chassis;
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -53,7 +54,6 @@ public class Robot extends IterativeRobot {
 	Command joystickDrive;
 	
 	Command autonomousCommand;
-	Command updateValFromFlash;
 	SendableChooser<Command> chooser;
 
 	//Debug Commands
@@ -63,6 +63,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
+	
 	public void robotInit() {		
 		//Initialize Subsystems
 		vision = new Vision ();
@@ -88,16 +89,14 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turret Calibration", new TurretTwoWayHoming());
 		chooser.addObject("climb", new Climb());
 		chooser.addObject("Shoot", new ShooterRateUpdate());
-		chooser.addObject("ONe way", new TurretOneWayHoming());
-		chooser.addObject("Set Angle", new TurretSetTargetAngle());
+		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
+		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Blender off", new BlenderOff() );
 		chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
+		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
-		
-		updateValFromFlash = new UpdateValFromFlash();
-	
-	}
+		}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -135,7 +134,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = new TurnToHeading(90);
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -157,9 +155,9 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)
-			autonomousCommand.cancel();
-
-		joystickDrive.start();
+			autonomousCommand.cancel();		
+		
+		chassis.encoderReset();
 	}
 
 	/**
@@ -172,10 +170,12 @@ public class Robot extends IterativeRobot {
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
-        
+		
+		chassis.getRightPosition();
+		chassis.getLeftPosition();
 		chassis.updateDashboard();
-		joystickDrive.start();
-	}
+	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.distanceRightSideInches()/12.0);
+		}
 
 	
 	public void testInit() {
@@ -192,5 +192,6 @@ public class Robot extends IterativeRobot {
 		//System.out.println("left : "+gear.distanceLeftSide());
 		//System.out.println("Right: "+gear.distanceRightSide());
 	}
+	
 }
 

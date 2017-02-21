@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
+
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -29,6 +31,17 @@ public class Chassis extends Subsystem {
     private AHRS navxGyro;
     
     public boolean autoShiftEnabled;
+    
+    // Auto turn & drive
+	private double ticksForwardLeft = -35005;
+	private double feetForwardLeft = 8.0;
+	
+	private double ticksForwardRight = 33491;
+	private double feetForwardRight = 8.0;
+	
+	private double ticksRotateRight = -29186.0;
+	private double degreesForwardRight = 360.0;
+	
 	
     public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -48,10 +61,12 @@ public class Chassis extends Subsystem {
     }
     
     public void initDefaultCommand() {    	    	
+    	setDefaultCommand(new JoystickDrive());
     	frontLeft.reset();
     	frontLeft.enable();
     	frontLeft.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	frontLeft.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	frontLeft.reverseSensor(false);
     	frontLeft.clearStickyFaults();
     	
     	topLeft.reset();
@@ -90,6 +105,8 @@ public class Chassis extends Subsystem {
     }
 
     public void drive(double move, double rotate){
+    	//TODO :Austin, make this work so that positive means forward
+    	// and clockwise
     	robotDrive.newArcadeDrive(move, rotate);
     }
             
@@ -110,16 +127,62 @@ public class Chassis extends Subsystem {
     	gearShifter.set(gear);
     }
     
+    // Encoder 
+    
+    //TODO put in an utility class
+    private double map(double inputTicks,double inMin, double inMax, double outputMin,double outputMax){
+        return (inputTicks/(inMax-inMin)-inMin/(inMax-inMin))*(outputMax-outputMin)+outputMin;
+    }
+    
+    public double getRightPosition(){
+    	SmartDashboard.putNumber("RightTicks", frontRight.getEncPosition());
+		return frontRight.getEncPosition();
+	}
+	
+	public double getLeftPosition(){
+		SmartDashboard.putNumber("LeftTicks", frontLeft.getEncPosition());
+		return frontLeft.getEncPosition();
+	}
+	
+	public double getFeetLeft(){
+    	double ticks=frontLeft.getEncPosition();
+        return map(ticks,0,ticksForwardLeft,0,feetForwardLeft);
+    }
+    
+    public double getFeetRight(){
+    	double ticks = frontRight.getEncPosition();
+    	return map(ticks,0,ticksForwardRight,0,feetForwardRight);
+	
+    }
+
+    public double getFeet(){
+    	return (getFeetLeft()+getFeetRight())/2.0;
+    }
+    
+    public double getRotation(){
+    	double degreesRight = map(frontRight.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
+    	return degreesRight;
+    }
+    
+    public void encoderReset(){
+		frontRight.setPosition(0);
+		frontLeft.setPosition(0);
+	}
+	
+	
+    
     //Runs constantly in the background.
     public void updateDashboard(){
     	SmartDashboard.putData("navX-MXP", navxGyro);
     	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
     	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
+    	SmartDashboard.putNumber("Left Encoder (feet)", getFeetLeft());
+    	SmartDashboard.putNumber("Right Encoder (feet)", getFeetRight());
     	SmartDashboard.putNumber("Left Write", frontLeft.get());
     	SmartDashboard.putNumber("Right Write", frontRight.get());
     	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
     	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
-    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity())));
+    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity()+.00001)));
     }
 }
 

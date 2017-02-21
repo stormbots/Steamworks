@@ -35,11 +35,17 @@ public class ArcadeDrivePID extends RobotDrive {
     	drivePIDLeft  =	new MiniPID(.5,.005,.001,1);
 		drivePIDLeft.setOutputLimits(-1,1);
 		drivePIDLeft.setMaxIOutput(.1);
+
+
 		
 		//drivePIDRight =	new MiniPID(.75,.005,0,1);
 		drivePIDRight =	new MiniPID(.5,.005,.001,1);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
+
+		//TODO DEBUG REMOVE ME 
+    	drivePIDLeft.setPID(0,0,0,.95);
+    	drivePIDRight.setPID(0,0,0,1);
 		
 	}
     
@@ -112,8 +118,8 @@ public class ArcadeDrivePID extends RobotDrive {
 			}
 		}
 		
-		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
-	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
+		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(-leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
 	    leftMotor.set(leftPIDWrite);
 	    rightMotor.set(-rightPIDWrite);

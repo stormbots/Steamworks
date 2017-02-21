@@ -44,6 +44,7 @@ public class Turret extends Subsystem {
     private double currentOutput;
     private double currentAngle;
     private double targetAngle;
+    private double motorOutputManual;
 
 	private boolean SWITCH_CLOSED = false;
     
@@ -81,6 +82,7 @@ public class Turret extends Subsystem {
 		I = prefs.getDouble("turretI", 0);
 		D = prefs.getDouble("turretD", 0);
 		homingSpeed = prefs.getDouble("turretHomingSpeed", -0.1);
+		motorOutputManual = prefs.getDouble("TurretManualOutputVal", 0.1);
 		
 		turretPID.setPID(P,I,D);
 		
@@ -90,6 +92,7 @@ public class Turret extends Subsystem {
 		checkKeys("turretI", I);
 		checkKeys("turretD", D);
 		checkKeys("turretHomingSpeed", homingSpeed);
+		checkKeys("turretManualOutputVal", motorOutputManual);
 
 	}
 
@@ -136,11 +139,11 @@ public class Turret extends Subsystem {
 	    	}
 		}
 		else if(upTicksSet&&downTicksSet){
-			System.out.println("Homed both wasy");
+			System.out.println("Homed both ways");
     		homed = true;
     		//put into preference
-    		prefs.putInt("turretUpTicks", upTicks);
-    		prefs.putInt("turretDownTicks", downTicks);
+    		prefs.putDouble("turretUpTicks", upTicks);
+    		prefs.putDouble("turretDownTicks", downTicks);
     		return true;
     	}
     	return false;
@@ -167,6 +170,8 @@ public class Turret extends Subsystem {
 	}
     
 	public void setTargetAngle(double angle){
+		if(targetAngle>upAngle) targetAngle = upAngle;
+		else if(targetAngle<downAngle) targetAngle = downAngle;
 		targetAngle = angle;
 	}
 	
@@ -229,9 +234,10 @@ public class Turret extends Subsystem {
     public void checkRightSwitch(){
     	if (!switchClockwise.get()){
     		System.out.println("ClockSwitchClosed");
-
     	}
-    	
     }
     
+    public double getManualSpeed(){
+    	return motorOutputManual;
+    }
 }

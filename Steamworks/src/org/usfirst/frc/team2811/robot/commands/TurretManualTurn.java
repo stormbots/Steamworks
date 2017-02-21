@@ -9,10 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurretManualTurn extends Command {
 
-	private double input;
-    public TurretManualTurn(double input) {
+    public TurretManualTurn() {
     	requires(Robot.turret);
-        this.input = input;
+       
     }
 
     // Called just before this Command runs the first time
@@ -22,10 +21,10 @@ public class TurretManualTurn extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if(Robot.oi.isTurningClock()){
-        	Robot.turret.setTurretMotor(input);
+        	Robot.turret.setTurretMotor(Robot.turret.getManualSpeed());
         	Robot.turret.checkLeftSwitch();
     	}else if(Robot.oi.isTurningCounterClock()){
-    		Robot.turret.setTurretMotor(-input);
+    		Robot.turret.setTurretMotor(-Robot.turret.getManualSpeed());
     	}else{
     		Robot.turret.setTurretMotor(0);
     	}

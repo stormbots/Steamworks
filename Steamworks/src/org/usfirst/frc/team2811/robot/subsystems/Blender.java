@@ -16,6 +16,7 @@ public class Blender extends Subsystem {
 	
     private CANTalon motor;
     private double speed;
+    private double blenderStalled;
     
     
     public Blender(){
@@ -23,18 +24,22 @@ public class Blender extends Subsystem {
     	motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	motor.clearStickyFaults();
 	 	motor.enable();
+	 	motor.reverseOutput(true);
 	 	motor.set(0);
 	 	
 	 	updateValFromFlash();
     }
-    
+   
     public void initDefaultCommand() {
        setDefaultCommand(new BlenderOff());
     }
     
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Blender Speed", 0.15);
-    	if(prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.15);
+    	blenderStalled = prefs.getDouble("BlenderStalled", 6000);
+    	if(!prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.15);
+    	if(!prefs.containsKey("blenderStalled")) prefs.putDouble("blenderStalled", 6000);
+
     }
     
     public boolean isBlenderOn(){
@@ -46,16 +51,20 @@ public class Blender extends Subsystem {
     }
     	
     public boolean isBlenderStalled(){
-    	//TODO
+    	System.out.println("BlenderCurrent " + motor.getOutputCurrent());
+    	if(motor.getOutputCurrent() > 6000) return true;
     	return false;
     }
     
     public void setBlenderOn(){
-    	motor.set(-0.5);
+    	motor.set(-speed);
     }
     
     public void setBlenderOff(){
     	motor.set(0);
+    }
+    public void setBlenderReverse(){
+    	motor.set(-0.05);
     }
     
 

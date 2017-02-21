@@ -20,6 +20,7 @@ public class Elevator extends Subsystem {
 	private CANTalon elevatorMotor;
 
 	private double speed;
+	private double power;
 	
 	public Elevator(){
 		elevatorMotor = new CANTalon(5);
@@ -27,7 +28,8 @@ public class Elevator extends Subsystem {
         elevatorMotor.reset();
     	elevatorMotor.clearStickyFaults();
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	elevatorMotor.reverseOutput(true);
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
@@ -41,10 +43,17 @@ public class Elevator extends Subsystem {
     
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Elevator Speed", 500);
-    	if(prefs.containsKey("Elevator Speed")) prefs.putDouble("Elevator Speed", 500);
+    	power = prefs.getDouble("Elevator Power", 0.4);
+    	if(!prefs.containsKey("Elevator Speed")) prefs.putDouble("Elevator Speed", 500);
+    	if(!prefs.containsKey("Elevator Power")) prefs.putDouble("Elevator Power", 0.4);
 
     }
-    
+    public void setPercentPower(){
+    	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	elevatorMotor.enable();
+    	
+    	elevatorMotor.set(power);    	
+    }
     public void setRPM(double targetRate){
     	elevatorMotor.set(targetRate);
     }

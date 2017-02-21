@@ -84,10 +84,10 @@ public class Robot extends IterativeRobot {
 
 		//chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		chooser.addObject("Turret Calibration", new TurretTwoWayHoming());
+		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
 		chooser.addObject("climb", new Climb());
 		chooser.addObject("Shoot", new ShooterRateUpdate());
-		chooser.addObject("ONe way", new TurretOneWayHoming());
+		//chooser.addObject("ONe way", new TurretOneWayHoming());
 		chooser.addObject("Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Blender off", new BlenderOff() );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
@@ -132,7 +132,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = new TurnToHeading(90);
+		autonomousCommand = chooser.getSelected();
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -145,6 +145,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		chassis.updateDashboard();
 	}
 
 	@Override

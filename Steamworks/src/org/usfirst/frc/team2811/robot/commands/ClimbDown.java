@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeToggle extends Command {
+public class ClimbDown extends Command {
 
-    public IntakeToggle() {
+    public ClimbDown() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -20,17 +20,12 @@ public class IntakeToggle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.intake.isIntakeIn()){
-    		Robot.intake.intakeOut();
-    	}else{
-    		Robot.intake.intakeIn();
-    	}
-    	
+    	Robot.climber.climbDown();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

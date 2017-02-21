@@ -3,11 +3,16 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.Climb;
+import org.usfirst.frc.team2811.robot.commands.ClimbDown;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
+import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
 import org.usfirst.frc.team2811.robot.commands.ShiftGears;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
+import org.usfirst.frc.team2811.robot.commands.TurretManualControl;
+import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
+import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -48,9 +53,13 @@ public class OI {
     private JoystickButton intakeInButton;
     private JoystickButton elevatorOnButton;
     private JoystickButton intakeOutButton;
+    private JoystickButton climbDownButton;
     private JoystickButton blenderOnButton;
     private JoystickButton intakeOnButton;
     private JoystickButton manualTurretControl;
+    private JoystickButton turretCalButton;
+    private JoystickButton turretManualControlButton;
+    
 
     
 	public OI(){
@@ -77,33 +86,44 @@ public class OI {
         manualTurretControl = new JoystickButton(threeAxis,2);
         manualTurretControl.whileHeld(new TurretSetTargetAngle());
 
-        blenderOnButton = new JoystickButton(threeAxis,3);
-        blenderOnButton.whileHeld(new BlenderOn());
-        
-        intakeOnButton = new JoystickButton(threeAxis, 5);
+        intakeOnButton = new JoystickButton(threeAxis, 3);
         intakeOnButton.whileHeld(new IntakeBallIn());
         
+        intakeOutButton = new JoystickButton(threeAxis,4);
+        intakeOutButton.whenPressed(new IntakeToggle());
+        
+        blenderOnButton = new JoystickButton(threeAxis,5);
+        blenderOnButton.whileHeld(new BlenderOn());
+
         climbButton = new JoystickButton(threeAxis,6);
-        climbButton.whenPressed(new Climb());        
+        climbButton.whileHeld(new Climb()); 
+        
+        climbDownButton = new JoystickButton(threeAxis, 7);
+        climbDownButton.whileHeld(new ClimbDown());
+        
+//      turretCalButton = new JoystickButton(threeAxis,8);
+//      turretCalButton.whenPressed(new TurretOneWayHoming());
 
     	shootButton2 = new JoystickButton(threeAxis, 11);
     	shootButton2.whileHeld(new ShooterTuning());
     	
         elevatorOnButton = new JoystickButton(threeAxis,12);
         elevatorOnButton.whileHeld(new ElevatorOn());
+        
+        
 
-//      turn = new JoystickButton(threeAxis,5);
-//      turn.whileHeld(new TurretManualTurn(0.1)); 
-      
-//      clock = new JoystickButton(threeAxis, 2);
-//      counterClock = new JoystickButton(threeAxis, 3);
-
+        //Put back turretCalButton if not manual turn!
+        turn = new JoystickButton(threeAxis,8);
+        turn.whileHeld(new TurretManualTurn()); 
+        clock = new JoystickButton(threeAxis, 9);
+        counterClock = new JoystickButton(threeAxis, 10);
+        
 //		intakeInButton = new JoystickButton(threeAxis,2);
 //      intakeInButton.whileHeld(new IntakeIn());
-     	//shootButton.whileHeld(new ShooterTuning());     
+     	
+        //shootButton.whileHeld(new ShooterTuning());     
 
-//      intakeOutButton = new JoystickButton(threeAxis,3);
-//      intakeOutButton.whileHeld(new IntakeOut());
+        
 
 	}
 	
@@ -140,10 +160,10 @@ public class OI {
     }
 
     public boolean isTurningClock(){
-        return threeAxisButton3.get();
+        return clock.get();
     }
     
     public boolean isTurningCounterClock(){
-        return threeAxisButton4.get();
+        return counterClock.get();
     } 
 }

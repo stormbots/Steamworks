@@ -16,7 +16,7 @@ public class Climber extends Subsystem {
 	private CANTalon climberMotor;
 	private CANTalon climberMotor2;
 	private double currentLimit;
-	private double speed = 0.5;
+	private double speed = 1;
 	public Climber(){
 		climberMotor = new CANTalon(10);
 		climberMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -59,6 +59,9 @@ public class Climber extends Subsystem {
     }
     public void climberOff(){
     	climberMotor.set(0);
+    }
+    public void climbDown(){
+    	climberMotor.set(speed);
     }
 }
 

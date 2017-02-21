@@ -26,23 +26,34 @@ public class BlenderOn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last > 0.1){
+    	
+    	if(Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last > 1.5){
     		blenderOn = !blenderOn;
     		last=Timer.getFPGATimestamp();
     		System.out.println("Blender set to Off " + last);
-    	}else if(!Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last >0.75){
+    	}else if(!Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last >0.1){
     		blenderOn = !blenderOn;
     		last=Timer.getFPGATimestamp(); 
-    		System.out.println("Blender set to On " + last);
+   		System.out.println("Blender set to On " + last);
     	}
+    	
+//    	if(Robot.blender.isBlenderOn()&&Robot.blender.isBlenderStalled()){
+//    		blenderOn = !blenderOn;
+//    		last=Timer.getFPGATimestamp();
+//    		System.out.println("Blender set to Off " + last);
+//    	}else if(!Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last >0.75){
+//    		blenderOn = !blenderOn;
+//    		last=Timer.getFPGATimestamp(); 
+//    		System.out.println("Blender set to On " + last);
+//    	}
+    	
     	//toggle motor in the target direction
     	if(blenderOn){
     		//TODO rename blender off to backwards since it goes backwards, instead of off
-    		Robot.blender.setBlenderOff();
+    		Robot.blender.setBlenderOn();
     	}
     	else{
-    		Robot.blender.setBlenderOn();
-    		
+    		Robot.blender.setBlenderReverse();
     	}
     	
 		//Robot.blender.setBlenderOn();

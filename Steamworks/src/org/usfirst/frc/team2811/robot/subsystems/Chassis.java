@@ -26,6 +26,7 @@ public class Chassis extends Subsystem {
     private ArcadeDrivePID robotDrive;
         
     private Solenoid gearShifter;
+    private Solenoid opGearShifter;
     private AHRS navxGyro;
     
     public boolean autoShiftEnabled;
@@ -41,8 +42,9 @@ public class Chassis extends Subsystem {
     	
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
     	
-    	gearShifter = new Solenoid(1);
-    	autoShiftEnabled = true;
+    	gearShifter = new Solenoid(2);
+    	opGearShifter = new Solenoid(3);
+    	autoShiftEnabled = false;
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     }
@@ -84,8 +86,7 @@ public class Chassis extends Subsystem {
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
     	backRight.set(13);    	
-    	
-    	
+    	setGear(false);
     	navxGyro.reset();
     }
 
@@ -104,10 +105,12 @@ public class Chassis extends Subsystem {
     
     public void shiftGears(){
     	gearShifter.set(!gearShifter.get());
+    	opGearShifter.set(!opGearShifter.get());
     }
     
     public void setGear(boolean gear){
     	gearShifter.set(gear);
+    	opGearShifter.set(!gear);
     }
     
     //Runs constantly in the background.

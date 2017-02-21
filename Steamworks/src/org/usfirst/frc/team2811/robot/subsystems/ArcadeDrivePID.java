@@ -32,12 +32,14 @@ public class ArcadeDrivePID extends RobotDrive {
     	rightMotor = rightSideMotor;
     	
 		//drivePIDLeft  =	new MiniPID(.75,.005,0,.94);
-    	drivePIDLeft  =	new MiniPID(.5,.005,.001,1);
+    	//drivePIDLeft  =	new MiniPID(.5,.005,.001,1);
+    	drivePIDLeft  =	new MiniPID(0,0,0,.95);
 		drivePIDLeft.setOutputLimits(-1,1);
 		drivePIDLeft.setMaxIOutput(.1);
 		
 		//drivePIDRight =	new MiniPID(.75,.005,0,1);
-		drivePIDRight =	new MiniPID(.5,.005,.001,1);
+		//drivePIDRight =	new MiniPID(.5,.005,.001,1);
+		drivePIDRight  =	new MiniPID(0,0,0,1);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
 		
@@ -112,12 +114,12 @@ public class ArcadeDrivePID extends RobotDrive {
 			}
 		}
 		
-//		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
-//	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
-		double leftPIDWrite  = leftMotorSpeed;
-	    double rightPIDWrite = rightMotorSpeed;
+		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
+//		double leftPIDWrite  = leftMotorSpeed;
+//	    double rightPIDWrite = rightMotorSpeed;
 	    
-	    System.out.println("Output for drive"+ leftPIDWrite + " "+ rightPIDWrite);
+	    //System.out.println("Output for drive"+ leftPIDWrite + " "+ rightPIDWrite);
 	    
 	    leftMotor.set(leftPIDWrite);
 	    rightMotor.set(-rightPIDWrite);

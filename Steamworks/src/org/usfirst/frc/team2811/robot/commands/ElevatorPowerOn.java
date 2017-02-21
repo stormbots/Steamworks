@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TurretManualTurn extends Command {
+public class ElevatorPowerOn extends Command {
 
-    public TurretManualTurn() {
-    	requires(Robot.turret);
-       
+    public ElevatorPowerOn() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -20,16 +20,7 @@ public class TurretManualTurn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.oi.isTurningClock()){
-        	Robot.turret.setTurretMotor(Robot.turret.getManualSpeed());
-        	Robot.turret.checkLeftSwitch();
-    	}else if(Robot.oi.isTurningCounterClock()){
-    		Robot.turret.setTurretMotor(-Robot.turret.getManualSpeed());
-    	}else{
-    		Robot.turret.setTurretMotor(0);
-    	}
-    	Robot.turret.checkLeftSwitch();
-    	Robot.turret.checkRightSwitch();
+    	Robot.elevator.setPercentPower();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -39,13 +30,10 @@ public class TurretManualTurn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.turret.setTurretMotor(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.turret.setTurretMotor(0);
-
     }
 }

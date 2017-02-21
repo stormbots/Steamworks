@@ -37,12 +37,12 @@ public class Shooter extends Subsystem{
     	shooterMotor = new CANTalon(12);
         shooterMotor.reset();
     	shooterMotor.clearStickyFaults();
-    	//Change the motor into speed mode (closed-loop velocity)
+    	//Change the motor into speed mode (closed-loop velocity[]\)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
         shooterMotor.reverseSensor(true);
-        shooterMotor.reverseOutput(true);
     	shooterMotor.enableBrakeMode(false);
+    	shooterMotor.enableLimitSwitch(false, false);
     	shooterMotor.enable();
     	shooterMotor.set(0);
     	
@@ -71,7 +71,7 @@ public class Shooter extends Subsystem{
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Shooter Speed", 3000);
     	if(!prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 3000);
-
+    	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }
     
@@ -117,7 +117,7 @@ public class Shooter extends Subsystem{
     
     public double getPIDError(){
        	double error = shooterMotor.getClosedLoopError();
-    	System.out.println("Error" + error);
+    	//System.out.println("Error" + error);
     	return error;
     }
     

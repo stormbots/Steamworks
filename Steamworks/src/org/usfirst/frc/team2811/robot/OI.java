@@ -10,6 +10,8 @@ import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
 import org.usfirst.frc.team2811.robot.commands.ShiftGears;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
+import org.usfirst.frc.team2811.robot.commands.TurretManualControl;
+import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
@@ -56,6 +58,8 @@ public class OI {
     private JoystickButton intakeOnButton;
     private JoystickButton manualTurretControl;
     private JoystickButton turretCalButton;
+    private JoystickButton turretManualControlButton;
+    
 
     
 	public OI(){
@@ -97,8 +101,8 @@ public class OI {
         climbDownButton = new JoystickButton(threeAxis, 7);
         climbDownButton.whileHeld(new ClimbDown());
         
-        turretCalButton = new JoystickButton(threeAxis,8);
-        turretCalButton.whenPressed(new TurretOneWayHoming());
+//      turretCalButton = new JoystickButton(threeAxis,8);
+//      turretCalButton.whenPressed(new TurretOneWayHoming());
 
     	shootButton2 = new JoystickButton(threeAxis, 11);
     	shootButton2.whileHeld(new ShooterTuning());
@@ -108,12 +112,12 @@ public class OI {
         
         
 
-//      turn = new JoystickButton(threeAxis,5);
-//      turn.whileHeld(new TurretManualTurn(0.1)); 
-      
-//      clock = new JoystickButton(threeAxis, 2);
-//      counterClock = new JoystickButton(threeAxis, 3);
-
+        //Put back turretCalButton if not manual turn!
+        turn = new JoystickButton(threeAxis,8);
+        turn.whileHeld(new TurretManualTurn()); 
+        clock = new JoystickButton(threeAxis, 9);
+        counterClock = new JoystickButton(threeAxis, 10);
+        
 //		intakeInButton = new JoystickButton(threeAxis,2);
 //      intakeInButton.whileHeld(new IntakeIn());
      	
@@ -156,10 +160,10 @@ public class OI {
     }
 
     public boolean isTurningClock(){
-        return threeAxisButton3.get();
+        return clock.get();
     }
     
     public boolean isTurningCounterClock(){
-        return threeAxisButton4.get();
+        return counterClock.get();
     } 
 }

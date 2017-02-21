@@ -12,26 +12,31 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-	private CANTalon motor;
+	private CANTalon intakeMotor;
 	private Solenoid intakeSolenoid;
 	private boolean out = false;
 	private boolean in = !out;
-	private double speed = 0.95;
+	private boolean opOut =!out;
+	private boolean opIn = !in;
+	private double speed = -0.95;
+	private Solenoid intakeOpSolenoid; 
 	
 	public Intake(){
 		intakeSolenoid = new Solenoid(0);
-		motor = new CANTalon(3);
-		motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-		motor.clearStickyFaults();
-		motor.enable();
-		motor.set(0);
+		intakeOpSolenoid = new Solenoid(1);
+		
+		intakeMotor = new CANTalon(3);
+		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		intakeMotor.clearStickyFaults();
+		intakeMotor.enable();
+		intakeMotor.set(0);
 		intakeOut();
 		
 	}
 	
 	
 	public boolean isIntakeOn(){
-		if(!(motor.get()!=0)){
+		if(!(intakeMotor.get()!=0)){
 			return true;
 		}else{
 			return false;
@@ -44,16 +49,18 @@ public class Intake extends Subsystem {
 	
 	public void intakeOut(){
 		intakeSolenoid.set(out);
+		intakeOpSolenoid.set(opOut);
 	}
 	
 	public void intakeIn(){
 		intakeSolenoid.set(in);
+		intakeOpSolenoid.set(opIn);
 	}
 
 	/** if the current value is too high and the intake is on it returns true*/
 	// change the limit of the OutputCurrent
 	public boolean isIntakeStalled(){
-		if(isIntakeOn() && motor.getOutputCurrent() > 10){		
+		if(isIntakeOn() && intakeMotor.getOutputCurrent() > 10){		
 			return true;
 		}else{
 			return false;
@@ -63,17 +70,17 @@ public class Intake extends Subsystem {
 	
 	
     public void setIntakeOn(){
-    	motor.set(-speed);
+    	intakeMotor.set(-speed);
     	
     	//TODO find the right value for the motor on
     }
     
     public void setIntakeOff(){
-		motor.set(0);
+		intakeMotor.set(0);
     }
     
     public void reverseIntake(){
-    	motor.set(speed);
+    	intakeMotor.set(speed);
     }
 
 	

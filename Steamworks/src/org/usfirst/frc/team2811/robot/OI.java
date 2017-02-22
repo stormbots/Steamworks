@@ -98,7 +98,7 @@ public class OI {
         threeAxisButton8.whileHeld(new TurretManualTurn());
         
         threeAxisButton9 = new JoystickButton(threeAxis, 9);
-        
+
         threeAxisButton10 = new JoystickButton(threeAxis, 10);
         
     	threeAxisButton11 = new JoystickButton(threeAxis, 11);

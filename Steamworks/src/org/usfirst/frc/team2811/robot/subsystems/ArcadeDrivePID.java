@@ -21,12 +21,14 @@ public class ArcadeDrivePID extends RobotDrive {
 	private MiniPID drivePIDRight;
 
 	private double 	maxTickRate;
+	private double 	maxIOutput;
 		
     public ArcadeDrivePID(CANTalon leftSideMotor, CANTalon rightSideMotor){
 		
     	super(leftSideMotor, rightSideMotor);
     	
     	maxTickRate= 4800;
+    	maxIOutput = .1;
     	    	
     	leftMotor = leftSideMotor;
     	rightMotor = rightSideMotor;
@@ -114,12 +116,27 @@ public class ArcadeDrivePID extends RobotDrive {
 			}
 		}
 		
+		if(leftMotorSpeed<.05&&rightMotorSpeed<.05){
+			drivePIDLeft.setMaxIOutput(0);
+			drivePIDLeft.reset();
+			drivePIDRight.setMaxIOutput(0);
+			drivePIDRight.reset();
+			
+		} else {
+			drivePIDLeft.setMaxIOutput(maxIOutput);
+			drivePIDRight.setMaxIOutput(maxIOutput);
+		}
+		
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
-//		double leftPIDWrite  = leftMotorSpeed;
-//	    double rightPIDWrite = rightMotorSpeed;
 	    
-	    //System.out.println("Output for drive"+ leftPIDWrite + " "+ rightPIDWrite);
+	    //Use these to force non-PID control 
+	    /*
+	    double leftPIDWrite  = leftMotorSpeed;
+	    double rightPIDWrite = rightMotorSpeed;
+	    */
+	    
+	    //System.out.println("Output for drive: "+ leftPIDWrite + " | "+ rightPIDWrite);
 	    
 	    leftMotor.set(leftPIDWrite);
 	    rightMotor.set(-rightPIDWrite);

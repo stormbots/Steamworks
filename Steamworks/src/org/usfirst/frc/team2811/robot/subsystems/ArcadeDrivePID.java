@@ -27,21 +27,23 @@ public class ArcadeDrivePID extends RobotDrive {
 		
     	super(leftSideMotor, rightSideMotor);
     	
-    	maxTickRate= 4800;
-    	maxIOutput = .1;
+    	maxTickRate= 4350; //Tuned for comp bot
+    	maxIOutput = .1; //May fix later
     	    	
     	leftMotor = leftSideMotor;
     	rightMotor = rightSideMotor;
     	
 		//drivePIDLeft = new MiniPID(.75,.005,0,.94);
     	//drivePIDLeft = new MiniPID(.5,.005,.001,1);
-    	drivePIDLeft = new MiniPID(0,0,0,.95);
+    	//drivePIDLeft = new MiniPID(0,0,0,.95);
+    	drivePIDLeft = new MiniPID(.5,.005,.001,.94);
 		drivePIDLeft.setOutputLimits(-1,1);
 		drivePIDLeft.setMaxIOutput(.1);
 		
 		//drivePIDRight = new MiniPID(.75,.005,0,1);
 		//drivePIDRight = new MiniPID(.5,.005,.001,1);
-		drivePIDRight = new MiniPID(0,0,0,1);
+		//drivePIDRight = new MiniPID(0,0,0,1);
+		drivePIDRight = new MiniPID(.5,.005,.001,1);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
 		
@@ -107,11 +109,11 @@ public class ArcadeDrivePID extends RobotDrive {
 		}
 		
 		if(Robot.chassis.autoShiftEnabled){
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>1300){
+			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>2600){
 				Robot.chassis.setGear(true);
 			}
 			
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<1200){
+			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<2400){
 				Robot.chassis.setGear(false);
 			}
 		}

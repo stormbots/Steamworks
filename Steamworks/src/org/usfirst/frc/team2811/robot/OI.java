@@ -10,6 +10,7 @@ import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
 import org.usfirst.frc.team2811.robot.commands.ShiftGears;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
+import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
 import edu.wpi.first.wpilibj.DriverStation;

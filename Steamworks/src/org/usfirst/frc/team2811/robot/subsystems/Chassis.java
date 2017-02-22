@@ -44,7 +44,7 @@ public class Chassis extends Subsystem {
     	
     	gearShifter = new Solenoid(2);
     	opGearShifter = new Solenoid(3);
-    	autoShiftEnabled = false;
+    	autoShiftEnabled = true;
 
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     }

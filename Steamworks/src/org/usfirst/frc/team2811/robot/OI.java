@@ -92,10 +92,11 @@ public class OI {
         
         //threeAxisButton8 = new JoystickButton(threeAxis,8);
         //threeAxisButton8.whenPressed(new TurretOneWayHoming());
-
+        
         //Put back turretCalButton if not manual turn!
         threeAxisButton8 = new JoystickButton(threeAxis,8);
         threeAxisButton8.whileHeld(new TurretManualTurn());
+        
         
         threeAxisButton9 = new JoystickButton(threeAxis, 9);
 
@@ -105,7 +106,8 @@ public class OI {
     	threeAxisButton11.whileHeld(new ShooterTuning());
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new ElevatorOn());   
+        threeAxisButton12.whileHeld(new ElevatorOn());
+        
 	}
 	
 	public double getMoveValue(){
@@ -127,7 +129,7 @@ public class OI {
     private double triggerMath(){
     	double output = Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3); 
     	xBox.setRumble(output>0?RumbleType.kLeftRumble:RumbleType.kRightRumble, Math.abs(output));
-    	return output;
+    	return output;6
     }
     
     public boolean isOperatorControl(){

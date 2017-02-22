@@ -158,6 +158,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand.cancel();
 
 		joystickDrive.start();
+		
 	}
 
 	/**
@@ -170,7 +171,9 @@ public class Robot extends IterativeRobot {
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
-        
+        SmartDashboard.putNumber("TurretPos", Robot.turret.getCurrentPos());
+        SmartDashboard.putNumber("Turret Current Angle", Robot.turret.getCurrentAngle());
+        SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
 		chassis.updateDashboard();
 		joystickDrive.start();
 	}

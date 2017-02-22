@@ -23,7 +23,6 @@ public class TurretSetTargetAngle extends Command {
     protected void execute() {
     	Robot.turret.setTargetAngle(Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
     	Robot.turret.calculateTurretPIDOutput();
-    	Robot.turret.setTurretMotor(Robot.turret.getOutput());
     }
 
     // Make this return true when this Command no longer needs to run execute()

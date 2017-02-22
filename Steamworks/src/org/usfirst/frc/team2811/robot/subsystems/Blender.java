@@ -25,6 +25,7 @@ public class Blender extends Subsystem {
     	motor.clearStickyFaults();
 	 	motor.enable();
 	 	motor.reverseOutput(true);
+	 	
 	 	motor.set(0);
 	 	
 	 	updateValFromFlash();
@@ -57,7 +58,7 @@ public class Blender extends Subsystem {
     }
     
     public void setBlenderOn(){
-    	motor.set(-speed);
+    	motor.set(speed);
     }
     
     public void setBlenderOff(){

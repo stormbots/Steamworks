@@ -28,7 +28,7 @@ public class Elevator extends Subsystem {
         elevatorMotor.reset();
     	elevatorMotor.clearStickyFaults();
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	elevatorMotor.reverseOutput(true);
     	elevatorMotor.enable();
     	elevatorMotor.set(0);

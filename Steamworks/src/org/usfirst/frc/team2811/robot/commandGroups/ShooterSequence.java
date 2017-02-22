@@ -43,7 +43,7 @@ public class ShooterSequence extends CommandGroup {
 //    	addSequential(new Wait(0.5));
     	//Both blender and elevator are set to a hard coded value
     	//addParallel(new ElevatorOn());
-    	addParallel(new ElevatorPowerOn());
-    	//addSequential(new BlenderOn());
+    	addParallel(new ElevatorOn());
+    	addSequential(new BlenderOn());
     }
 }

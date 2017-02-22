@@ -23,10 +23,10 @@ public class Turret extends Subsystem {
 	
 	private CANTalon turretMotor;
 	//Save or fetch data into preference
-    private int upTicks;
-	private int downTicks;
-    private int upAngle = 90;
-    private int downAngle = 0;
+    private int counterClockTicks;
+	private int clockTicks;
+    private int counterClockAngle = 90;
+    private int clockAngle = 0;
     
     //Only needed for joystick control
     private int downJoystick = -1;
@@ -57,12 +57,16 @@ public class Turret extends Subsystem {
     	turretMotor.clearStickyFaults();
     	turretMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	turretMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	//turretMotor.reverseOutput(true);
+    	//turretMotor.reverseSensor(true);
     	turretMotor.enable();
     	turretMotor.set(0);
+    	turretMotor.enableForwardSoftLimit(false);
+    	turretMotor.enableReverseSoftLimit(false);
     	
 
         turretPID = new MiniPID(P,I,D);
-        turretPID.setOutputLimits(-1, 1);
+        turretPID.setOutputLimits(-0.15, 0.15);
         //Reverse is not working -> there's a "-" on CalculatePIDOutput()
         turretPID.setDirection(true);
         updateValFromFlash();
@@ -75,19 +79,23 @@ public class Turret extends Subsystem {
 		setDefaultCommand(new TurretOff());
 	}
 
+	public void reversedHomed(){
+		homed = !homed;
+	}
 	public void updateValFromFlash(){
-		upTicks = prefs.getInt("turretUpTicks", -45200);
-		downTicks = prefs.getInt("turretDownTicks", -35);
-		P = prefs.getDouble("turretP", 1);
+		counterClockTicks = prefs.getInt("turretCounterClockTicks", 25029);
+		clockTicks = prefs.getInt("turretClockTicks", 13440);
+		P = prefs.getDouble("turretP", 0.05);
 		I = prefs.getDouble("turretI", 0);
 		D = prefs.getDouble("turretD", 0);
 		homingSpeed = prefs.getDouble("turretHomingSpeed", -0.1);
 		motorOutputManual = prefs.getDouble("TurretManualOutputVal", 0.1);
 		
+		
 		turretPID.setPID(P,I,D);
 		
-		checkKeys("turretUpTicks", upTicks);
-		checkKeys("turretDownTicks", downTicks);
+		checkKeys("turretCounterClockTicks", counterClockTicks);
+		checkKeys("turretClockTicks", clockTicks);
 		checkKeys("turretP", P);
 		checkKeys("turretI", I);
 		checkKeys("turretD", D);
@@ -100,9 +108,13 @@ public class Turret extends Subsystem {
     public boolean homeCW(){
     	turretMotor.set(-homingSpeed); 
     	if(switchClockwise.get()==SWITCH_CLOSED){
-    		turretMotor.setEncPosition(upTicks);
+    		turretMotor.setEncPosition(clockTicks);
     		homed = true;
-    		System.out.println("upTicks: "+upTicks + ", downTicks: "+downTicks);
+    		System.out.println("upTicks: "+counterClockTicks + ", downTicks: "+clockTicks);
+        	turretMotor.enableForwardSoftLimit(true);
+        	turretMotor.enableReverseSoftLimit(true);
+    		turretMotor.setForwardSoftLimit(counterClockTicks);
+    		turretMotor.setReverseSoftLimit(clockTicks);
     	}
     	return homed;
     }
@@ -115,8 +127,8 @@ public class Turret extends Subsystem {
 		//look for switch/stall
 		if(switchCounterClockwise.get()==SWITCH_CLOSED){
 			//set(downTicks)
-			downTicks = turretMotor.getEncPosition();
-			System.out.println(downTicks);
+			clockTicks = turretMotor.getEncPosition();
+			System.out.println(clockTicks);
 
 			downTicksSet = true;
 		}
@@ -133,8 +145,8 @@ public class Turret extends Subsystem {
 			//homeCW
 			turretMotor.set(-homingSpeed); 
 	    	if(switchClockwise.get()==SWITCH_CLOSED){
-	    		upTicks = turretMotor.getEncPosition();
-				System.out.println(upTicks);
+	    		counterClockTicks = turretMotor.getEncPosition();
+				System.out.println(counterClockTicks);
 	    		upTicksSet = true;
 	    	}
 		}
@@ -142,8 +154,8 @@ public class Turret extends Subsystem {
 			System.out.println("Homed both ways");
     		homed = true;
     		//put into preference
-    		prefs.putDouble("turretUpTicks", upTicks);
-    		prefs.putDouble("turretDownTicks", downTicks);
+    		prefs.putDouble("turretUpTicks", counterClockTicks);
+    		prefs.putDouble("turretDownTicks", clockTicks);
     		return true;
     	}
     	return false;
@@ -170,8 +182,8 @@ public class Turret extends Subsystem {
 	}
     
 	public void setTargetAngle(double angle){
-		if(targetAngle>upAngle) targetAngle = upAngle;
-		else if(targetAngle<downAngle) targetAngle = downAngle;
+		if(targetAngle>counterClockAngle) targetAngle = counterClockAngle;
+		else if(targetAngle<clockAngle) targetAngle = clockAngle;
 		targetAngle = angle;
 	}
 	
@@ -190,15 +202,15 @@ public class Turret extends Subsystem {
 	
 	
     public double ticksToAngle(int ticks){
-    	return map(ticks, downTicks, upTicks, downAngle, upAngle);
+    	return map(ticks, clockTicks, counterClockTicks, clockAngle, counterClockAngle);
     }
     
     public double joystickToAngle(double input){
-    	return map(input, downJoystick, upJoystick, downAngle, upAngle);
+    	return map(input, downJoystick, upJoystick, clockAngle, counterClockAngle);
     }
     
     private int angleToTicks(double angle){
-    	return (int)map(angle, downAngle, upAngle, downTicks, upTicks);
+    	return (int)map(angle, clockAngle, counterClockAngle, clockTicks, counterClockTicks);
     }
     
     private double map(double x, double in_min, double in_max, double out_min, double out_max) {
@@ -239,5 +251,9 @@ public class Turret extends Subsystem {
     
     public double getManualSpeed(){
     	return motorOutputManual;
+    }
+    
+    public double getCurrentPos(){
+    	return turretMotor.getEncPosition();
     }
 }

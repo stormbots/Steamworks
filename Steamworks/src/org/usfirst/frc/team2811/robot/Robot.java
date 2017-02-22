@@ -78,16 +78,14 @@ public class Robot extends IterativeRobot {
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
 
-		chooser = new SendableChooser<Command>();
 		
 		joystickDrive = new JoystickDrive();
-
-		//chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		
+		chooser = new SendableChooser<Command>();
 		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
 		chooser.addObject("climb", new Climb());
 		chooser.addObject("Shoot", new ShooterRateUpdate());
-		//chooser.addObject("ONe way", new TurretOneWayHoming());
+		//chooser.addObject("One way", new TurretOneWayHoming());
 		chooser.addObject("Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Blender off", new BlenderOff() );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
@@ -110,12 +108,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-//		turret.updateValFromFlash();
-//		shooter.updateValFromFlash();
+
 		Robot.turret.updateValFromFlash();
 		Robot.shooter.updateValFromFlash();
 		Robot.blender.updateValFromFlash();
 		Robot.elevator.updateValFromFlash();
+		Robot.chassis.updateValFromFlash();
 	}
 	
 	

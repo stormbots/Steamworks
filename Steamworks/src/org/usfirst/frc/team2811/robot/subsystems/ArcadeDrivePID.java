@@ -4,6 +4,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
@@ -14,51 +15,53 @@ import edu.wpi.first.wpilibj.hal.HAL;
  */
 public class ArcadeDrivePID extends RobotDrive {
 
+	//Access preference on the SmartDashboard
+	Preferences prefs = Preferences.getInstance();
+	
 	private CANTalon leftMotor;
 	private CANTalon rightMotor;
 	
 	private MiniPID drivePIDLeft;
+	private double leftP = 0;
+	private double leftI = 0;
+	private double leftD = 0;
+	private double leftF = 1;
+		
 	private MiniPID drivePIDRight;
+	private double rightP = 0;
+	private double rightI = 0;
+	private double rightD = 0;
+	private double rightF = 1;
+	
+	private double 	maxTickRate = 4350; //Tuned for comp bot
+	private double 	maxIOutput = .1;	//TODO tune later?
+	
+	/**
+	 * New class to seamlessly integrate MiniPID functionality into a West-Coast or Tank Drive chassis using CANTalons
+	 * @param leftSideLeaderMotor
+	 * @param rightSideLeaderMotor
+	 */
+    public ArcadeDrivePID(CANTalon leftSideLeaderMotor, CANTalon rightSideLeaderMotor){
+		
+    	super(leftSideLeaderMotor, rightSideLeaderMotor); //Pacifies "safety" things
+    	leftMotor = leftSideLeaderMotor;
+    	rightMotor = rightSideLeaderMotor;
 
-	private double 	maxTickRate;
-	private double 	maxIOutput;
-		
-    public ArcadeDrivePID(CANTalon leftSideMotor, CANTalon rightSideMotor){
-		
-    	super(leftSideMotor, rightSideMotor);
+    	updateValFromFlash();
     	
-    	maxTickRate= 4350; //Tuned for comp bot
-    	maxIOutput = .1; //May fix later
-    	    	
-    	leftMotor = leftSideMotor;
-    	rightMotor = rightSideMotor;
-    	
-		//drivePIDLeft = new MiniPID(.75,.005,0,.94);
-    	//drivePIDLeft = new MiniPID(.5,.005,.001,1);
-    	//drivePIDLeft = new MiniPID(0,0,0,.95);
-    	drivePIDLeft = new MiniPID(.5,.005,.001,.94);
+    	//drivePIDLeft = new MiniPID(.5,.005,.001,.94);
+    	drivePIDLeft = new MiniPID(leftP,leftI,leftD,leftF);
 		drivePIDLeft.setOutputLimits(-1,1);
 		drivePIDLeft.setMaxIOutput(.1);
-		
-		//drivePIDRight = new MiniPID(.75,.005,0,1);
+
 		//drivePIDRight = new MiniPID(.5,.005,.001,1);
-		//drivePIDRight = new MiniPID(0,0,0,1);
-		drivePIDRight = new MiniPID(.5,.005,.001,1);
+		drivePIDRight = new MiniPID(rightP,rightI,rightD,rightF);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
 		
 	}
     
-    /** Maps encoder tick value to a reasonable range for comparing to motor values */
-    public double mapToMotorRange(double inputTicks){
-    	double maximum =  maxTickRate;
-    	double minimum = -maxTickRate;
-    	double outputMax = 1;
-    	double outputMin = -1; 
-        return (inputTicks/(maximum-minimum)-minimum/(maximum-minimum))*(outputMax-outputMin)+outputMin;
-         
-    }
-	
+    
 	/**
 	  * Arcade drive implements two axis driving. This function lets you directly provide
 	  * joystick values from any source.
@@ -67,7 +70,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	  * @param rotateValue   The value to use for the rotate right/left
 	  */
 	public void newArcadeDrive(double moveValue, double rotateValue) {
-	    // local variables to hold the computed PWM values for the motors
+	    // Local variables to hold the computed PWM values for the motors
 	    double leftMotorSpeed;
 	    double rightMotorSpeed;
 
@@ -100,7 +103,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	 * @param leftMotorSpeed
 	 * @param rightMotorSpeed
 	 */
-	
 	public void newLeftRightDrive(double leftMotorSpeed, double rightMotorSpeed){
 		if (!kArcadeStandard_Reported) {
 		      HAL.report(tResourceType.kResourceType_RobotDrive, getNumMotors(),
@@ -118,17 +120,18 @@ public class ArcadeDrivePID extends RobotDrive {
 			}
 		}
 		
+		//PREVENTS WEIRD TINY MOVEMENTS - DON'T TOUCH
 		if(leftMotorSpeed<.05&&rightMotorSpeed<.05){
 			drivePIDLeft.setMaxIOutput(0);
 			drivePIDLeft.reset();
 			drivePIDRight.setMaxIOutput(0);
 			drivePIDRight.reset();
-			
 		} else {
 			drivePIDLeft.setMaxIOutput(maxIOutput);
 			drivePIDRight.setMaxIOutput(maxIOutput);
 		}
 		
+		//FIXME Find the correct # and placement of negative signs
 		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
@@ -138,14 +141,63 @@ public class ArcadeDrivePID extends RobotDrive {
 	    double rightPIDWrite = rightMotorSpeed;
 	    */
 	    
+	    //PRINT SPAM
 	    //System.out.println("Output for drive: "+ leftPIDWrite + " | "+ rightPIDWrite);
 	    
 	    leftMotor.set(leftPIDWrite);
 	    rightMotor.set(-rightPIDWrite);
 	    
+	    //Stops "RobotDrive not updated often enough"
 	    if (m_safetyHelper != null) {
 		      m_safetyHelper.feed();
 		}
+	}
+
+
+	//*****************
+	//Utility functions
+	//*****************
+	
+	/** Maps encoder tick value to -1 to 1 for comparing to motor values */
+    private double mapToMotorRange(double inputTicks){
+    	double maximum =  maxTickRate;
+    	double minimum = -maxTickRate;
+    	double outputMax = 1;
+    	double outputMin = -1; 
+        return (inputTicks/(maximum-minimum)-minimum/(maximum-minimum))*(outputMax-outputMin)+outputMin;
+         
+    }
+		
+	private void checkKeys(String key, double value){
+		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
+	}
+	
+	public void updateValFromFlash(){
+		leftP = prefs.getDouble("Left Proportional", 0);
+		leftI = prefs.getDouble("Left Integral",	 0);
+		leftD = prefs.getDouble("Left Derivative",	 0);
+		leftF = prefs.getDouble("Left Feed-Forward", 1);
+		
+		rightP = prefs.getDouble("Right Proportional", 0);
+		rightI = prefs.getDouble("Right Integral", 	   0);
+		rightD = prefs.getDouble("Right Derivative",   0);
+		rightF = prefs.getDouble("Right Feed-Forward", 1);
+		
+		maxTickRate = prefs.getDouble("Max Tick Rate", 4350);  //Tuned for comp bot
+		maxIOutput 	= prefs.getDouble("Max I Output",  .1);	//TODO tune later?
+		
+		checkKeys("Left Proportional", 	 leftP);
+		checkKeys("Left Integral", 		 leftI);
+		checkKeys("Left Derivative", 	 leftD);
+		checkKeys("Left Feed-Forward", 	 leftF);
+		
+		checkKeys("Rightt Proportional", rightP);
+		checkKeys("Right Integral",		 rightI);
+		checkKeys("Right Derivative", 	 rightD);
+		checkKeys("Right Feed-Forward",	 rightF);
+		
+		checkKeys("Max Tick Rate", maxTickRate);
+		checkKeys("Max I Output",  maxIOutput);
 	}
 }
 

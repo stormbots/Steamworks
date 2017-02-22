@@ -1,8 +1,11 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
+
 import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -15,6 +18,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Chassis extends Subsystem {
 
+	//Access preference on the SmartDashboard
+	Preferences prefs = Preferences.getInstance();
+	
     private CANTalon frontLeft;
     private CANTalon topLeft;
     private CANTalon backLeft;
@@ -29,7 +35,9 @@ public class Chassis extends Subsystem {
     private Solenoid opGearShifter;
     private AHRS navxGyro;
     
-    public boolean autoShiftEnabled;
+    public 	boolean autoShiftEnabled;
+    private boolean startingGear;
+    
 	
     public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -40,16 +48,69 @@ public class Chassis extends Subsystem {
     	topRight = new CANTalon(14);
     	backRight = new CANTalon(15);
     	
+    	initTalons();
+    	
     	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);   
     	
     	gearShifter = new Solenoid(2);
     	opGearShifter = new Solenoid(3);
-    	autoShiftEnabled = true;
-
+    	startingGear = false;
+    	autoShiftEnabled = false;
+    	setGear(startingGear);
+    	
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
-    }
+    	navxGyro.reset();
+    	
+        updateValFromFlash();    	
+     }
     
     public void initDefaultCommand() {    	    	
+    	setDefaultCommand(new JoystickDrive());
+    }
+
+    public void drive(double move, double rotate){
+    	robotDrive.newArcadeDrive(move, rotate);
+    }
+            
+    public double getYaw(){
+    	return navxGyro.getYaw();
+    }
+    
+    //MAKE SURE YOU KNOW WHAT YOU ARE DOING WHEN YOU CALL THIS
+    public void resetGyro(){
+    	navxGyro.reset();
+    }
+    
+    public void shiftGears(){
+    	gearShifter.set(!gearShifter.get());
+    	opGearShifter.set(!opGearShifter.get());
+    }
+    
+    public void setGear(boolean gear){
+    	gearShifter.set(gear);
+    	opGearShifter.set(!gear);
+    }
+    
+    
+    //*****************
+    //Utility functions
+    //*****************
+    
+    private void checkKeys(String key, boolean value){
+		if(!prefs.containsKey(key)) prefs.putBoolean(key, value);
+	}
+    
+    public void updateValFromFlash(){
+    	robotDrive.updateValFromFlash();
+    	
+    	autoShiftEnabled = prefs.getBoolean("Auto Shift", false);
+    	startingGear = prefs.getBoolean("Starting Gear", false);
+		
+		checkKeys("Auto Shift", autoShiftEnabled);
+		checkKeys("Starting Gear", startingGear);
+	}
+    
+    private void initTalons(){
     	frontLeft.reset();
     	frontLeft.enable();
     	frontLeft.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -85,32 +146,7 @@ public class Chassis extends Subsystem {
     	backRight.enable();
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
-    	backRight.set(13);    	
-    	setGear(false);
-    	navxGyro.reset();
-    }
-
-    public void drive(double move, double rotate){
-    	robotDrive.newArcadeDrive(move, rotate);
-    }
-            
-    public double getYaw(){
-    	return navxGyro.getYaw();
-    }
-    
-    //MAKE SURE YOU KNOW WHAT YOU ARE DOING WHEN YOU CALL THIS
-    public void resetGyro(){
-    	navxGyro.reset();
-    }
-    
-    public void shiftGears(){
-    	gearShifter.set(!gearShifter.get());
-    	opGearShifter.set(!opGearShifter.get());
-    }
-    
-    public void setGear(boolean gear){
-    	gearShifter.set(gear);
-    	opGearShifter.set(!gear);
+    	backRight.set(13);  
     }
     
     //Runs constantly in the background.

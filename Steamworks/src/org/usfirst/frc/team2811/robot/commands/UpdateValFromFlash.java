@@ -23,6 +23,7 @@ public class UpdateValFromFlash extends Command {
     	Robot.shooter.updateValFromFlash();
     	Robot.turret.updateValFromFlash();
     	Robot.elevator.updateValFromFlash();
+    	Robot.chassis.updateValFromFlash();
     	//Robot.blender.updateValFromFlash();
     }
 

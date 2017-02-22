@@ -8,14 +8,12 @@ import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
 import org.usfirst.frc.team2811.robot.commands.ShiftGears;
-import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
-import org.usfirst.frc.team2811.robot.commands.TurretManualControl;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
-import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -39,29 +37,19 @@ public class OI {
 ////////THREE AXIS    
     public Joystick threeAxis;
     public JoystickButton threeAxisButton1;
+    public JoystickButton threeAxisButton2;
     public JoystickButton threeAxisButton3;
     public JoystickButton threeAxisButton4;
-	public JoystickButton threeAxisButton10;
-	private JoystickButton shootButton;
-	private JoystickButton shootButton2;
-	private JoystickButton climbButton;
-
-    private JoystickButton clock;
-    private JoystickButton counterClock;
-    private JoystickButton turn;
-    
-    private JoystickButton intakeInButton;
-    private JoystickButton elevatorOnButton;
-    private JoystickButton intakeOutButton;
-    private JoystickButton climbDownButton;
-    private JoystickButton blenderOnButton;
-    private JoystickButton intakeOnButton;
-    private JoystickButton manualTurretControl;
-    private JoystickButton turretCalButton;
-    private JoystickButton turretManualControlButton;
-    
-
-    
+    public JoystickButton threeAxisButton5;
+    public JoystickButton threeAxisButton6;
+    public JoystickButton threeAxisButton7;
+    public JoystickButton threeAxisButton8;
+    public JoystickButton threeAxisButton9;
+    public JoystickButton threeAxisButton10;
+	public JoystickButton threeAxisButton11;
+	public JoystickButton threeAxisButton12;
+	
+	
 	public OI(){
 ////////TWO STICK    	
     	leftStick = new Joystick(0);
@@ -80,51 +68,43 @@ public class OI {
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
 		
-		shootButton = new JoystickButton(threeAxis,1);
-    	shootButton.whileHeld(new ShooterSequence());
+		threeAxisButton1 = new JoystickButton(threeAxis,1);
+    	threeAxisButton1.whileHeld(new ShooterSequence());
     	
-        manualTurretControl = new JoystickButton(threeAxis,2);
-        manualTurretControl.whileHeld(new TurretSetTargetAngle());
+        threeAxisButton2 = new JoystickButton(threeAxis,2);
+        threeAxisButton2.whileHeld(new TurretSetTargetAngle());
 
-        intakeOnButton = new JoystickButton(threeAxis, 3);
-        intakeOnButton.whileHeld(new IntakeBallIn());
+        threeAxisButton3 = new JoystickButton(threeAxis, 3);
+        threeAxisButton3.whileHeld(new IntakeBallIn());
         
-        intakeOutButton = new JoystickButton(threeAxis,4);
-        intakeOutButton.whenPressed(new IntakeToggle());
+        threeAxisButton4 = new JoystickButton(threeAxis,4);
+        threeAxisButton4.whenPressed(new IntakeToggle());
         
-        blenderOnButton = new JoystickButton(threeAxis,5);
-        blenderOnButton.whileHeld(new BlenderOn());
+        threeAxisButton5 = new JoystickButton(threeAxis,5);
+        threeAxisButton5.whileHeld(new BlenderOn());
 
-        climbButton = new JoystickButton(threeAxis,6);
-        climbButton.whileHeld(new Climb()); 
+        threeAxisButton6 = new JoystickButton(threeAxis,6);
+        threeAxisButton6.whileHeld(new Climb()); 
         
-        climbDownButton = new JoystickButton(threeAxis, 7);
-        climbDownButton.whileHeld(new ClimbDown());
+        threeAxisButton7 = new JoystickButton(threeAxis, 7);
+        threeAxisButton7.whileHeld(new ClimbDown());
         
-//      turretCalButton = new JoystickButton(threeAxis,8);
-//      turretCalButton.whenPressed(new TurretOneWayHoming());
-
-    	shootButton2 = new JoystickButton(threeAxis, 11);
-    	shootButton2.whileHeld(new ShooterTuning());
-    	
-        elevatorOnButton = new JoystickButton(threeAxis,12);
-        elevatorOnButton.whileHeld(new ElevatorOn());
-        
-        
+        //threeAxisButton8 = new JoystickButton(threeAxis,8);
+        //threeAxisButton8.whenPressed(new TurretOneWayHoming());
 
         //Put back turretCalButton if not manual turn!
-        turn = new JoystickButton(threeAxis,8);
-        turn.whileHeld(new TurretManualTurn()); 
-        clock = new JoystickButton(threeAxis, 9);
-        counterClock = new JoystickButton(threeAxis, 10);
+        threeAxisButton8 = new JoystickButton(threeAxis,8);
+        threeAxisButton8.whileHeld(new TurretManualTurn());
         
-//		intakeInButton = new JoystickButton(threeAxis,2);
-//      intakeInButton.whileHeld(new IntakeIn());
-     	
-        //shootButton.whileHeld(new ShooterTuning());     
-
+        threeAxisButton9 = new JoystickButton(threeAxis, 9);
         
-
+        threeAxisButton10 = new JoystickButton(threeAxis, 10);
+        
+    	threeAxisButton11 = new JoystickButton(threeAxis, 11);
+    	threeAxisButton11.whileHeld(new ShooterTuning());
+    	
+        threeAxisButton12 = new JoystickButton(threeAxis,12);
+        threeAxisButton12.whileHeld(new ElevatorOn());   
 	}
 	
 	public double getMoveValue(){
@@ -143,8 +123,10 @@ public class OI {
     	}
     }
 
-    public double triggerMath(){
-    	return Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3);
+    private double triggerMath(){
+    	double output = Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3); 
+    	xBox.setRumble(output>0?RumbleType.kLeftRumble:RumbleType.kRightRumble, Math.abs(output));
+    	return output;
     }
     
     public boolean isOperatorControl(){
@@ -160,10 +142,10 @@ public class OI {
     }
 
     public boolean isTurningClock(){
-        return clock.get();
+        return threeAxisButton9.get();
     }
     
     public boolean isTurningCounterClock(){
-        return counterClock.get();
+        return threeAxisButton10.get();
     } 
 }

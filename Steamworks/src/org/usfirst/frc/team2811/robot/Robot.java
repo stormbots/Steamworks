@@ -1,14 +1,14 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
-import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
+//import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.TurnToHeading;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
-import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngleFromVision;
+//import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngleFromVision;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
 import org.usfirst.frc.team2811.robot.subsystems.Blender;
 import org.usfirst.frc.team2811.robot.subsystems.Chassis;
@@ -92,8 +92,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
 		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Blender off", new BlenderOff() );
-		chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
-		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
+		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
+		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
 		}

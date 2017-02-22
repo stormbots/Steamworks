@@ -36,6 +36,10 @@ public class Chassis extends Subsystem {
 	private double ticksForwardLeft = -35005;
 	private double feetForwardLeft = 8.0;
 	
+	//ticksForwardRight = 38170.0 
+	//10 feet!
+	//ticksForwardLeft = -37942.0
+	
 	private double ticksForwardRight = 33491;
 	private double feetForwardRight = 8.0;
 	

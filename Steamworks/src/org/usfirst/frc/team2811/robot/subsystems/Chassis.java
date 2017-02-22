@@ -36,11 +36,18 @@ public class Chassis extends Subsystem {
 	private double ticksForwardLeft = -35005;
 	private double feetForwardLeft = 8.0;
 	
+	//ticksForwardRight = 38170.0 
+	//10 feet!
+	//ticksForwardLeft = -37942.0
+	
 	private double ticksForwardRight = 33491;
 	private double feetForwardRight = 8.0;
 	
 	private double ticksRotateRight = -29186.0;
+	//Left ticks -282630.0 in comp bot
+	//Right ticks -287506.0 in comp bot
 	private double degreesForwardRight = 360.0;
+	//10 Rotations in comp bot
 	
 	
     public Chassis(){

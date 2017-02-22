@@ -44,11 +44,20 @@ public class Gear extends Subsystem {
     }
     
     public double distanceLeftSideInches(){
-    	return sonarLeft.getRangeInches();
+    	if(sonarLeft.getRangeInches() < 1){
+    		return 120;
+    	}else{
+    		return sonarLeft.getRangeInches();
+    	}
+    	
     }
     
     public double distanceRightSideInches(){
-    	return sonarRight.getRangeInches();
+    	if(sonarRight.getRangeInches() < 1){
+    		return 120;
+    	}else{
+    		return sonarRight.getRangeInches();
+    	}
     }
     
     

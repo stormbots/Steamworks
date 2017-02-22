@@ -56,7 +56,7 @@ public class OI {
     
     private JoystickButton chassisAutoDrive3;
     private JoystickButton chassisAutoDrive8;
-    private JoystickButton chassisAutoDrive10;
+    private JoystickButton chassisAutoDriveUltrasonicGear;
 
     
 	public OI(){
@@ -67,6 +67,10 @@ public class OI {
     	leftTrigger.whenPressed(new ShiftGears());
     	
     	rightStick = new Joystick(1);
+    	
+    	chassisAutoDriveUltrasonicGear = new JoystickButton(rightStick,1);
+        chassisAutoDriveUltrasonicGear.whenPressed
+        (new ChassisDriveUltrasonic(0,11.25,0.05001));	//TODO tune with compbot
     	
 ////////XBOX    	
     	xBox = new Joystick(2);
@@ -99,13 +103,12 @@ public class OI {
         elevatorOnButton.whileHeld(new ElevatorOn());
         
         chassisAutoDrive3 = new JoystickButton(threeAxis,7);
-        chassisAutoDrive3.whenPressed(new ChassisAutoDrive(3));
+        chassisAutoDrive3.whenPressed(new ChassisAutoDrive(3.0));
         
         chassisAutoDrive8 = new JoystickButton(threeAxis,8);
-        chassisAutoDrive8.whenPressed(new ChassisAutoDrive(1));
+        chassisAutoDrive8.whenPressed(new ChassisAutoDrive(1.0));
         
-        chassisAutoDrive10 = new JoystickButton(threeAxis,9);
-        chassisAutoDrive10.whenPressed(new ChassisDriveUltrasonic(3,0));
+        
         
 
 //      turn = new JoystickButton(threeAxis,5);

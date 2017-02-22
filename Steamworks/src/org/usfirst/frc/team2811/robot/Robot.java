@@ -93,7 +93,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Blender off", new BlenderOff() );
 		chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
-		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
+		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
 		}
@@ -173,8 +173,10 @@ public class Robot extends IterativeRobot {
 		
 		chassis.getRightPosition();
 		chassis.getLeftPosition();
+		
 		chassis.updateDashboard();
 	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.distanceRightSideInches()/12.0);
+	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.distanceRightSideInches());
 		}
 
 	

@@ -2,6 +2,7 @@ package org.usfirst.frc.team2811.robot.commands;
 
 import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.subsystems.MiniPID;
+import org.usfirst.frc.team2811.robot.Util;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,12 +23,15 @@ public class ChassisDriveUltrasonic extends Command {
 	private double setPointRange;
 	private double targetFeet;
 	private double targetInches;
+	private double driveMinimumOutputLimit;
+	private double toleranceInches;
 	
 	
-    public ChassisDriveUltrasonic(double targetFeet,double targetInches){
+    public ChassisDriveUltrasonic(double targetFeet,double targetInches, double toleranceInches){
     	requires(Robot.chassis);
     	this.targetFeet = targetFeet;
     	this.targetInches = targetInches;
+    	this.toleranceInches = toleranceInches;
     	minipid = new MiniPID(0,0,0);
     	prefs = Preferences.getInstance();
     }
@@ -38,14 +42,16 @@ public class ChassisDriveUltrasonic extends Command {
     	d = prefs.getDouble("DriveFeetDerivative", 0);
     	maxI=prefs.getDouble("DriveFeetMaxI", 0);
     	setPointRange = prefs.getDouble("DriveFeetSetpointRange", 0);
+    	driveMinimumOutputLimit = prefs.getDouble("DriveMinimumOutputLimit", 0.2);	
     	
     	checkKeys("DriveFeetProportional",p);
     	checkKeys("DriveFeetIntegral",i);
     	checkKeys("DriveFeetDerivative",d);
     	checkKeys("DriveFeetMaxI",maxI);
     	checkKeys("DriveFeetSetpointRange",setPointRange);
+    	checkKeys("DriveMinimumOutputLimit", driveMinimumOutputLimit);
     	
-    	minipid.setOutputLimits(-1,1);
+    	minipid.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
     	minipid.setSetpointRange(setPointRange);
 		minipid.setMaxIOutput(maxI);
 		minipid.setPID(p, i, d);
@@ -56,7 +62,7 @@ public class ChassisDriveUltrasonic extends Command {
     protected void initialize() {
     	minipid.reset();
     	initMiniPID();
-    	setTimeout(8);
+    	setTimeout(.75);
     	Robot.chassis.autoShiftEnabled = false;
     	Robot.chassis.encoderReset();
     	
@@ -65,10 +71,17 @@ public class ChassisDriveUltrasonic extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	double output = minipid.getOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches*12.0+targetFeet);
-    	SmartDashboard.putNumber("Drive PID Output", output);
-    	Robot.chassis.drive(output, 0);
+    	double output = minipid.getOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches/12.0+targetFeet);
     	
+    	if(output > 0){
+    		output = output + driveMinimumOutputLimit;
+    		Robot.chassis.drive(output, 0);
+    	}else{
+    		output = output - driveMinimumOutputLimit;
+    		Robot.chassis.drive(output, 0);
+    	}
+    	
+		SmartDashboard.putNumber("Drive PID Output", output);
     	System.out.println("Ultrasonic drive running!!");
 
 
@@ -77,11 +90,13 @@ public class ChassisDriveUltrasonic extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
 
-    	return false;
- //    	if(isTimedOut())cancel();
-//    	double distance = Math.abs(Robot.gear.distanceRightSideInches());
-//    	double target = Math.abs(targetFeet*12.0 + targetInches);
-//      return Math.abs(distance - target) <2 ;
+    	//return false;
+     	if(isTimedOut())cancel();
+    	double distance = Math.abs(Robot.gear.distanceRightSideInches());
+    	double target = Math.abs(targetFeet*12.0 + targetInches);
+        return Util.difference(distance,target) < toleranceInches;
+        		
+      
     }
 
     // Called once after isFinished returns true

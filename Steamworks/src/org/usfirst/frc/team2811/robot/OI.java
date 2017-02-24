@@ -129,7 +129,7 @@ public class OI {
     private double triggerMath(){
     	double output = Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3); 
     	xBox.setRumble(output>0?RumbleType.kLeftRumble:RumbleType.kRightRumble, Math.abs(output));
-    	return output;6
+    	return output;
     }
     
     public boolean isOperatorControl(){

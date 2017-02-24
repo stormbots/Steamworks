@@ -64,7 +64,7 @@ public class Turret extends Subsystem {
     	turretMotor.enableForwardSoftLimit(false);
     	turretMotor.enableReverseSoftLimit(false);
     	
-
+    	
         turretPID = new MiniPID(P,I,D);
         turretPID.setOutputLimits(-0.15, 0.15);
         //Reverse is not working -> there's a "-" on CalculatePIDOutput()
@@ -91,7 +91,6 @@ public class Turret extends Subsystem {
 		homingSpeed = prefs.getDouble("turretHomingSpeed", -0.1);
 		motorOutputManual = prefs.getDouble("TurretManualOutputVal", 0.1);
 		
-		
 		turretPID.setPID(P,I,D);
 		
 		checkKeys("turretCounterClockTicks", counterClockTicks);
@@ -101,7 +100,6 @@ public class Turret extends Subsystem {
 		checkKeys("turretD", D);
 		checkKeys("turretHomingSpeed", homingSpeed);
 		checkKeys("turretManualOutputVal", motorOutputManual);
-
 	}
 
 	//Homing checking limit switch on one side, use the ticks recorded in preference

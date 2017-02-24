@@ -24,10 +24,10 @@ public class Blender extends Subsystem {
     	motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	motor.clearStickyFaults();
 	 	motor.enable();
+	 	
+	 	//Reverse is true on comp bot
 	 	motor.reverseOutput(true);
-	 	
 	 	motor.set(0);
-	 	
 	 	updateValFromFlash();
     }
    

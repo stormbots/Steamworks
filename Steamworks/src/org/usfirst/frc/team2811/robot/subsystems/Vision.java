@@ -5,12 +5,13 @@ import org.usfirst.frc.team2811.robot.commands.UpdateVision;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class Vision extends Subsystem {
-	
+
 	private NetworkTable networkTable;
 	private double distanceTarget = 0;	
 	private double angleTargetHorizontal = 0;
@@ -53,6 +54,7 @@ public class Vision extends Subsystem {
 			//have new data!
 			distanceTarget=networkTable.getNumber("distanceTarget", 0);
 			angleTargetHorizontal = networkTable.getNumber("angleTargetHorizontal",0);
+		
 			visionTimestamp = time;
 			robotTimestamp=Timer.getFPGATimestamp();
 
@@ -64,6 +66,7 @@ public class Vision extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
 		setDefaultCommand(new UpdateVision());
     }
+
 
 }
 

@@ -90,13 +90,12 @@ public class OI {
         threeAxisButton7 = new JoystickButton(threeAxis, 7);
         threeAxisButton7.whileHeld(new ClimbDown());
         
-        //threeAxisButton8 = new JoystickButton(threeAxis,8);
-        //threeAxisButton8.whenPressed(new TurretOneWayHoming());
-        
-        //Put back turretCalButton if not manual turn!
         threeAxisButton8 = new JoystickButton(threeAxis,8);
-        threeAxisButton8.whileHeld(new TurretManualTurn());
+        threeAxisButton8.whenPressed(new TurretOneWayHoming());
         
+//        //Put back turretCalButton if not manual turn!
+//        threeAxisButton8 = new JoystickButton(threeAxis,8);
+//        threeAxisButton8.whileHeld(new TurretManualTurn());
         
         threeAxisButton9 = new JoystickButton(threeAxis, 9);
 

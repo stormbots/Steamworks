@@ -66,7 +66,7 @@ public class Turret extends Subsystem {
     	
     	
         turretPID = new MiniPID(P,I,D);
-        turretPID.setOutputLimits(-0.15, 0.15);
+        turretPID.setOutputLimits(-0.2, 0.2);
         //Reverse is not working -> there's a "-" on CalculatePIDOutput()
         turretPID.setDirection(true);
         updateValFromFlash();
@@ -109,10 +109,10 @@ public class Turret extends Subsystem {
     		turretMotor.setEncPosition(clockTicks);
     		homed = true;
     		System.out.println("upTicks: "+counterClockTicks + ", downTicks: "+clockTicks);
-        	turretMotor.enableForwardSoftLimit(true);
-        	turretMotor.enableReverseSoftLimit(true);
-    		turretMotor.setForwardSoftLimit(counterClockTicks);
-    		turretMotor.setReverseSoftLimit(clockTicks);
+//        	turretMotor.enableForwardSoftLimit(true);
+//        	turretMotor.enableReverseSoftLimit(true);
+//    		turretMotor.setForwardSoftLimit(counterClockTicks);
+//    		turretMotor.setReverseSoftLimit(clockTicks);
     	}
     	return homed;
     }
@@ -168,7 +168,7 @@ public class Turret extends Subsystem {
     //******************
     public void calculateTurretPIDOutput(){
     	currentAngle = getCurrentAngle();
-		currentOutput = - turretPID.getOutput(currentAngle, targetAngle);
+		currentOutput = turretPID.getOutput(currentAngle, targetAngle);
 		//System.out.println("target: " +targetAngle);
 		//System.out.println("current: " +currentAngle);
 		
@@ -182,7 +182,7 @@ public class Turret extends Subsystem {
 	public void setTargetAngle(double angle){
 		if(targetAngle>counterClockAngle) targetAngle = counterClockAngle;
 		else if(targetAngle<clockAngle) targetAngle = clockAngle;
-		targetAngle = angle;
+		else targetAngle = angle;
 	}
 	
 	public double getCurrentAngle(){

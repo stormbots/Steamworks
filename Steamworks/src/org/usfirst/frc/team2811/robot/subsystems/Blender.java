@@ -65,7 +65,7 @@ public class Blender extends Subsystem {
     	motor.set(0);
     }
     public void setBlenderReverse(){
-    	motor.set(-0.05);
+    	motor.set(-speed);
     }
     
 

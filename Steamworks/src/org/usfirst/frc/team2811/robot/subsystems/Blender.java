@@ -22,6 +22,7 @@ public class Blender extends Subsystem {
     public Blender(){
     	motor = new CANTalon(4);
     	motor.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	//motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
         motor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	motor.clearStickyFaults();
 	 	motor.enable();
@@ -61,5 +62,8 @@ public class Blender extends Subsystem {
     	motor.set(-speed);
     }
     
+    public double getPIDError(){
+    	return motor.getClosedLoopError();
+    }
 }
 

@@ -57,7 +57,7 @@ public class Chassis extends Subsystem {
     	startingGear = false;
     	autoShiftEnabled = false;
     	setGear(startingGear);
-    	
+        
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     	navxGyro.reset();
     	

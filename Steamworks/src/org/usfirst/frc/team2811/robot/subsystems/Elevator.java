@@ -29,11 +29,12 @@ public class Elevator extends Subsystem {
     	elevatorMotor.clearStickyFaults();
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
     	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-    	elevatorMotor.reverseOutput(true);
+    	//Reverse is true on comp bot
+    	elevatorMotor.reverseOutput(false);
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
-    	elevatorMotor.setPID(1, 0, 0);
+    	//elevatorMotor.setPID(1, 0, 0);
     	updateValFromFlash();
 	}
     public void initDefaultCommand() {

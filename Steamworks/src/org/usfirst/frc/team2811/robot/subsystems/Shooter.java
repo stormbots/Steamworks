@@ -46,15 +46,9 @@ public class Shooter extends Subsystem{
     	shooterMotor.enable();
     	shooterMotor.set(0);
     	
-//    	System.out.println("device id: " + shooterMotor.getDeviceID());
-//    	shooterMotor2 = new CANTalon(3);
-//        shooterMotor2.reset();
-//    	shooterMotor2.clearStickyFaults();
-//    	//Change the motor into follower mode, mirror the first motor
-//    	shooterMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
-//    	shooterMotor2.enableBrakeMode(false);
-//    	shooterMotor2.enable();
-//    	shooterMotor2.set(shooterMotor.getDeviceID());
+    	//Reverse is false on comp bot
+    	shooterMotor.reverseOutput(true);
+
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
     	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
@@ -69,8 +63,8 @@ public class Shooter extends Subsystem{
     
     
     public void updateValFromFlash(){
-    	speed = prefs.getDouble("Shooter Speed", 3000);
-    	if(!prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 3000);
+    	speed = prefs.getDouble("Shooter Speed", 4200);
+    	if(!prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }

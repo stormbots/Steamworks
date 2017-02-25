@@ -15,6 +15,7 @@ public class JoystickDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.chassis.autoShiftEnabled = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,14 +30,20 @@ public class JoystickDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.chassis.autoShiftEnabled = false;
+    	Robot.chassis.setGear(false);
     	Robot.chassis.drive(0, 0);
+    	
     	System.err.println("Something is borked. Should never happen");
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.chassis.autoShiftEnabled = false;
+    	Robot.chassis.setGear(false);
     	Robot.chassis.drive(0, 0);
+    	
     	System.err.println("JoystickDrive cancelled. Restart to drive.");
     }
 }

@@ -18,6 +18,7 @@ import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -34,7 +35,7 @@ public class OI {
     public JoystickButton rightTrigger;
 
 ////////XBOX    
-    public Joystick xBox;
+    public XboxController xBox;
     public JoystickButton x2;
 	
 ////////THREE AXIS    
@@ -65,7 +66,7 @@ public class OI {
         rightTrigger.whenPressed(new ChassisDriveUltrasonic(0,11.25,0.05001));	//TODO tune with compbot
     	
 ////////XBOX    	
-    	xBox = new Joystick(2);
+    	xBox = new XboxController(2);
     	
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());

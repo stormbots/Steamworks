@@ -33,6 +33,7 @@ public class Chassis extends Subsystem {
         
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
+    
     private AHRS navxGyro;
     
     private boolean startingGear;
@@ -165,11 +166,7 @@ public class Chassis extends Subsystem {
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
     	backRight.set(13);    	
-        }
-
-
-    
-    // Encoder 
+    }
     
     //TODO put in an utility class
     private double map(double inputTicks,double inMin, double inMax, double outputMin,double outputMax){

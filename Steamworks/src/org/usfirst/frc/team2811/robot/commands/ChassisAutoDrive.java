@@ -62,7 +62,6 @@ public class ChassisAutoDrive extends Command {
     	minipid.reset();
     	initMiniPID();
     	setTimeout(8);
-    	Robot.chassis.autoShiftEnabled = false;
     	Robot.chassis.encoderReset();
     	
     }

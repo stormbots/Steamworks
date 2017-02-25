@@ -2,6 +2,8 @@ package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ClimbDown;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
@@ -49,16 +51,18 @@ public class OI {
     public JoystickButton threeAxisButton10;
 	public JoystickButton threeAxisButton11;
 	public JoystickButton threeAxisButton12;
-	
-	
+
 	public OI(){
 ////////TWO STICK    	
     	leftStick = new Joystick(0);
     	
     	leftTrigger = new JoystickButton(leftStick,1);
     	leftTrigger.whenPressed(new ShiftGears());
-    	
+
     	rightStick = new Joystick(1);
+    	
+    	rightTrigger = new JoystickButton(rightStick,1);
+        rightTrigger.whenPressed(new ChassisDriveUltrasonic(0,11.25,0.05001));	//TODO tune with compbot
     	
 ////////XBOX    	
     	xBox = new Joystick(2);
@@ -80,7 +84,7 @@ public class OI {
         
         threeAxisButton4 = new JoystickButton(threeAxis,4);
         threeAxisButton4.whenPressed(new IntakeToggle());
-        
+
         threeAxisButton5 = new JoystickButton(threeAxis,5);
         threeAxisButton5.whileHeld(new BlenderOn());
 

@@ -58,7 +58,10 @@ public class ArcadeDrivePID extends RobotDrive {
 		drivePIDRight = new MiniPID(rightP,rightI,rightD,rightF);
 		drivePIDRight.setOutputLimits(-1,1);
 		drivePIDRight.setMaxIOutput(.1);
-		
+
+		//TODO DEBUG REMOVE ME 
+    	drivePIDLeft.setPID(0,0,0,.95);
+    	drivePIDRight.setPID(0,0,0,1);
 	}
     
     
@@ -132,8 +135,8 @@ public class ArcadeDrivePID extends RobotDrive {
 		}
 		
 		//FIXME Find the correct # and placement of negative signs
-		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(leftMotor.getEncVelocity()), leftMotorSpeed*.9);
-	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(-rightMotor.getEncVelocity()), rightMotorSpeed*.9);
+		double leftPIDWrite  = drivePIDLeft.getOutput(mapToMotorRange(-leftMotor.getEncVelocity()), leftMotorSpeed*.9);
+	    double rightPIDWrite = drivePIDRight.getOutput(mapToMotorRange(rightMotor.getEncVelocity()), rightMotorSpeed*.9);
 	    
 	    //Use these to force non-PID control 
 	    /*

@@ -176,31 +176,31 @@ public class ArcadeDrivePID extends RobotDrive {
 	}
 	
 	public void updateValFromFlash(){
-		leftP = prefs.getDouble("Left Proportional", 0);
-		leftI = prefs.getDouble("Left Integral",	 0);
-		leftD = prefs.getDouble("Left Derivative",	 0);
-		leftF = prefs.getDouble("Left Feed-Forward", 1);
+		leftP = prefs.getDouble("Chassis leftP", 0);
+		leftI = prefs.getDouble("Chassis leftI",	 0);
+		leftD = prefs.getDouble("Chassis leftD",	 0);
+		leftF = prefs.getDouble("Chassis leftF", 1);
 		
-		rightP = prefs.getDouble("Right Proportional", 0);
-		rightI = prefs.getDouble("Right Integral", 	   0);
-		rightD = prefs.getDouble("Right Derivative",   0);
-		rightF = prefs.getDouble("Right Feed-Forward", 1);
+		rightP = prefs.getDouble("Chassis rightP", 0);
+		rightI = prefs.getDouble("Chassis rightI", 	   0);
+		rightD = prefs.getDouble("Chassis rightD",   0);
+		rightF = prefs.getDouble("Chassis rightF", 1);
 		
-		maxTickRate = prefs.getDouble("Max Tick Rate", 4350);  //Tuned for comp bot
-		maxIOutput 	= prefs.getDouble("Max I Output",  .1);	//TODO tune later?
+		maxTickRate = prefs.getDouble("Chassis maxTickRate", 4350);  //Tuned for comp bot
+		maxIOutput 	= prefs.getDouble("Chassis maxIOutput",  .1);	//TODO tune later?
 		
-		checkKeys("Left Proportional", 	 leftP);
-		checkKeys("Left Integral", 		 leftI);
-		checkKeys("Left Derivative", 	 leftD);
-		checkKeys("Left Feed-Forward", 	 leftF);
+		checkKeys("Chassis leftP", 	 leftP);
+		checkKeys("Chassis leftI", 		 leftI);
+		checkKeys("Chassis leftD", 	 leftD);
+		checkKeys("Chassis leftF", 	 leftF);
 		
-		checkKeys("Rightt Proportional", rightP);
-		checkKeys("Right Integral",		 rightI);
-		checkKeys("Right Derivative", 	 rightD);
-		checkKeys("Right Feed-Forward",	 rightF);
+		checkKeys("Chassis rightP", rightP);
+		checkKeys("Chassis rightI",		 rightI);
+		checkKeys("Chassis rightD", 	 rightD);
+		checkKeys("Chassis rightF",	 rightF);
 		
-		checkKeys("Max Tick Rate", maxTickRate);
-		checkKeys("Max I Output",  maxIOutput);
+		checkKeys("Chassis maxTickRate", maxTickRate);
+		checkKeys("Chassis maxIOutput",  maxIOutput);
 	}
 }
 

@@ -165,9 +165,7 @@ public class Chassis extends Subsystem {
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
     	backRight.set(13);    	
-    	
-    	navxGyro.reset();
-    }
+        }
 
 
     

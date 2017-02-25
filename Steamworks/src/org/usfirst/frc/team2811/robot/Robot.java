@@ -10,6 +10,7 @@ import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngleFromVision;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
+import org.usfirst.frc.team2811.robot.commands.Wait;
 import org.usfirst.frc.team2811.robot.subsystems.Blender;
 import org.usfirst.frc.team2811.robot.subsystems.Chassis;
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
@@ -50,11 +51,10 @@ public class Robot extends IterativeRobot {
 	public static Blender blender;
 		
 	public static OI oi;
-
-	Command joystickDrive;
+	public static OI debugoi;
 	
-	Command autonomousCommand;
 	SendableChooser<Command> chooser;
+	SendableChooser<OI> oiChooser;
 
 	//Debug Commands
 
@@ -79,11 +79,16 @@ public class Robot extends IterativeRobot {
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
+		oiChooser = new SendableChooser<Command>();
+		oiChooser.addDefault("Driver OI", new OI());
+		oiChooser.addObject("Debug OI", new DebugOI());
+		oiChooser = new SendableChooser();
+		SmartDashboard.putData("Operator Interface", oiChooser);
 
 		
-		joystickDrive = new JoystickDrive();
 		
 		chooser = new SendableChooser<Command>();
+		chooser.addDefault("Do Nothing", new Wait(0));
 		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
 		chooser.addObject("climb", new Climb());
 		chooser.addObject("Shoot", new ShooterRateUpdate());
@@ -96,6 +101,7 @@ public class Robot extends IterativeRobot {
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
+		
 		}
 
 	/**
@@ -155,6 +161,9 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
+		
+		oi = oiChooser.getSelected();
+
 	}
 
 	/**

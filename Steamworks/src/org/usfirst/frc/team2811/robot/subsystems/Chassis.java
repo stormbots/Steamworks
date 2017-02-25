@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 
 import com.ctre.CANTalon;
@@ -38,22 +39,127 @@ public class Chassis extends Subsystem {
     private boolean startingGear;
     public boolean autoShiftEnabled;
     
-    // Auto turn & drive
-	private double ticksForwardLeft = -35005;
-	private double feetForwardLeft = 8.0;
+    
+    
+//------------------------------------------------------------------------------------------------------------//    
+    
+	    //**************************************//
+	   //                              	       //
+	  //    DRIVE COMMAND HELPER FUNCTIONS    //
+	 //                                      //
+	//**************************************//
+    
+    /* Practice bot drivefwd map values
+		private double ticksForwardLeft = -35005;
+		private double ticksForwardRight = 33491;
+		private double feetForward = 8.0;
+	*/
 	
-	//ticksForwardRight = 38170.0 
-	//10 feet!
-	//ticksForwardLeft = -37942.0
+	// Competion bot drivefwd map values
+		private double ticksForwardRight; 
+		private double ticksForwardLeft;
+		private double feetForward;
+		
+		private MiniPID minipidDrive;
+		private double driveP;
+		private double driveI;
+		private double driveD;
+		private double driveMaxI;
+		private double driveSetPointRange;
+		private double driveMinimumOutputLimit;
+		
+		public void drivePIDinit(){
+			
+			ticksForwardRight = Util.getPreferencesDouble("TicksForwardRight", 38170.0);
+			ticksForwardLeft = Util.getPreferencesDouble("TicksForwardLeft", -37942.0);
+			feetForward = Util.getPreferencesDouble("FeetForward", 10.0);
+			
+	    	driveP = Util.getPreferencesDouble("DriveFeetPrportional", 0);
+	    	driveI = Util.getPreferencesDouble("DriveFeetIntegral", 0);
+	    	driveD = Util.getPreferencesDouble("DriveFeetDerivative", 0);
+	    	driveMaxI=Util.getPreferencesDouble("DriveFeetMaxI", 0);
+	    	driveSetPointRange = Util.getPreferencesDouble("DriveFeetSetpointRange", 0);
+	    	driveMinimumOutputLimit = Util.getPreferencesDouble("DriveMinimumOutputLimit", 0.2);
+	    	
+	    	minipidDrive.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
+	    	minipidDrive.setSetpointRange(driveSetPointRange);
+			minipidDrive.setMaxIOutput(driveMaxI);
+			minipidDrive.setPID(driveP, driveI, driveD);
+	    }
+		
+		public void minipidDriveReset(){
+			minipidDrive.reset();
+		}
+		
+		public double minipidDriveGetOutput(double actual,double setPoint){
+			
+			double output = minipidDrive.getOutput(actual, setPoint);
+	    	if(output > 0){
+	    		output = output + driveMinimumOutputLimit;
+	    	}else{
+	    		output = output - driveMinimumOutputLimit;
+	    	}
+			return output;
+		}
 	
-	private double ticksForwardRight = 33491;
-	private double feetForwardRight = 8.0;
 	
-	private double ticksRotateRight = -29186.0;
-	//Left ticks -282630.0 in comp bot
-	//Right ticks -287506.0 in comp bot
-	private double degreesForwardRight = 360.0;
-	//10 Rotations in comp bot
+	
+	
+//---------------------------------------------------------------------------------------------------------------//    
+	
+	    //**************************************//
+	   //                              	       //
+	  //    TURN COMMAND HELPER FUNCTIONS     //
+	 //                                      //
+	//**************************************//
+	
+	/*
+	Practice bot map turn values
+		private double ticksRotateRight = -29186.0;
+		private double degreesForwardRight = 360.0;
+	*/
+	
+	// Competion bot map turn values
+		//private double ticksRotateLeft = -282630.0; 
+		private double ticksRotateRight;
+		private double degreesForwardRight; 
+		
+		private MiniPID minipidTurn;
+		private double turnP;
+		private double turnI;
+		private double turnD;
+		private double turnMaxI;
+		private double turnSetPointRange;
+		private double turnMinimumOutputLimit;
+		
+		public void TurnPIDinit(){
+			ticksRotateRight = Util.getPreferencesDouble("TicksRotateRight", -287506.0);
+			degreesForwardRight = Util.getPreferencesDouble("DeegresForwardRight", 360*10.0);
+			
+	    	turnP = Util.getPreferencesDouble("TurnProportional", 0);
+	    	turnI = Util.getPreferencesDouble("TurnIntegral", 0);
+	    	turnD = Util.getPreferencesDouble("TurnDerivative", 0);
+	    	turnMaxI=Util.getPreferencesDouble("TurnMaxI", 0);
+	    	turnSetPointRange = Util.getPreferencesDouble("TurnSetpointRange", 0);
+	    	turnMinimumOutputLimit = Util.getPreferencesDouble("TurnMinimumOutputLimit", 0.2);
+	    	
+	    	minipidTurn.setOutputLimits(-1+turnMinimumOutputLimit,1-turnMinimumOutputLimit);
+	    	minipidTurn.setSetpointRange(turnSetPointRange);
+			minipidTurn.setMaxIOutput(turnMaxI);
+			minipidTurn.setPID(turnP, turnI, turnD);
+		}
+		
+		public void minipidTurnReset(){
+			minipidTurn.reset();
+		}
+		
+		public double minipidTurnGetOutput(double actual, double setPoint){
+			return minipidTurn.getOutput(actual, setPoint);
+			//TODO: implement detailed getOuput turn behavior
+		}
+		
+	
+//---------------------------------------------------------------------------------------------------------------//
 	
 	
     public Chassis(){
@@ -74,6 +180,9 @@ public class Chassis extends Subsystem {
     	startingGear = false;
     	autoShiftEnabled = false;
     	setGear(startingGear);
+    	
+    	minipidDrive = new MiniPID(0,0,0);
+    	minipidTurn = new MiniPID(0,0,0);
         
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
     	navxGyro.reset();
@@ -172,9 +281,7 @@ public class Chassis extends Subsystem {
     // Encoder 
     
     //TODO put in an utility class
-    private double map(double inputTicks,double inMin, double inMax, double outputMin,double outputMax){
-        return (inputTicks/(inMax-inMin)-inMin/(inMax-inMin))*(outputMax-outputMin)+outputMin;
-    }
+    
     
     public double getRightPosition(){
     	SmartDashboard.putNumber("RightTicks", frontRight.getEncPosition());
@@ -188,12 +295,12 @@ public class Chassis extends Subsystem {
 	
 	public double getFeetLeft(){
     	double ticks=frontLeft.getEncPosition();
-        return map(ticks,0,ticksForwardLeft,0,feetForwardLeft);
+        return Util.map(ticks,0,ticksForwardLeft,0,feetForward);
     }
     
     public double getFeetRight(){
     	double ticks = frontRight.getEncPosition();
-    	return map(ticks,0,ticksForwardRight,0,feetForwardRight);
+    	return Util.map(ticks,0,ticksForwardRight,0,feetForward);
 	
     }
 
@@ -202,7 +309,7 @@ public class Chassis extends Subsystem {
     }
     
     public double getRotation(){
-    	double degreesRight = map(frontRight.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
+    	double degreesRight = Util.map(frontRight.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
     	return degreesRight;
     }
     

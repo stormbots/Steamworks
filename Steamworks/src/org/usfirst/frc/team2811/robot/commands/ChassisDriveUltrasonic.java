@@ -14,16 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ChassisDriveUltrasonic extends Command {
 	
 	
-	private MiniPID minipid;
-	private Preferences prefs;
-	private double p;
-	private double i;
-	private double d;
-	private double maxI;
-	private double setPointRange;
+	
 	private double targetFeet;
 	private double targetInches;
-	private double driveMinimumOutputLimit;
 	private double toleranceInches;
 	
 	
@@ -32,36 +25,12 @@ public class ChassisDriveUltrasonic extends Command {
     	this.targetFeet = targetFeet;
     	this.targetInches = targetInches;
     	this.toleranceInches = toleranceInches;
-    	minipid = new MiniPID(0,0,0);
-    	prefs = Preferences.getInstance();
     }
     
-    private void initMiniPID(){
-    	p = prefs.getDouble("DriveFeetProportional", 0);
-    	i = prefs.getDouble("DriveFeetIntegral", 0);
-    	d = prefs.getDouble("DriveFeetDerivative", 0);
-    	maxI=prefs.getDouble("DriveFeetMaxI", 0);
-    	setPointRange = prefs.getDouble("DriveFeetSetpointRange", 0);
-    	driveMinimumOutputLimit = prefs.getDouble("DriveMinimumOutputLimit", 0.2);	
-    	
-    	checkKeys("DriveFeetProportional",p);
-    	checkKeys("DriveFeetIntegral",i);
-    	checkKeys("DriveFeetDerivative",d);
-    	checkKeys("DriveFeetMaxI",maxI);
-    	checkKeys("DriveFeetSetpointRange",setPointRange);
-    	checkKeys("DriveMinimumOutputLimit", driveMinimumOutputLimit);
-    	
-    	minipid.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
-    	minipid.setSetpointRange(setPointRange);
-		minipid.setMaxIOutput(maxI);
-		minipid.setPID(p, i, d);
-    	
-    }
-
     // Called just before this Command runs the first time
     protected void initialize() {
-    	minipid.reset();
-    	initMiniPID();
+    	Robot.chassis.minipidDriveReset();
+    	Robot.chassis.drivePIDinit();
     	setTimeout(.75);
     	Robot.chassis.autoShiftEnabled = false;
     	Robot.chassis.encoderReset();
@@ -71,19 +40,10 @@ public class ChassisDriveUltrasonic extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	double output = minipid.getOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches/12.0+targetFeet);
-    	
-    	if(output > 0){
-    		output = output + driveMinimumOutputLimit;
-    		Robot.chassis.drive(output, 0);
-    	}else{
-    		output = output - driveMinimumOutputLimit;
-    		Robot.chassis.drive(output, 0);
-    	}
-    	
-		SmartDashboard.putNumber("Drive PID Output", output);
-    	System.out.println("Ultrasonic drive running!!");
-
+    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches/12.0+targetFeet);
+    Robot.chassis.drive(output, 0);
+	SmartDashboard.putNumber("DriveUltrasonic PID Output", output);
+    System.out.println("Ultrasonic drive running!!");
 
     }
 
@@ -108,11 +68,7 @@ public class ChassisDriveUltrasonic extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	SmartDashboard.putString("WARNING:", "Command timed out!");
+    	SmartDashboard.putString("Interrupted: ", "Command timed out!");
     }
-    
-    //TODO put in utilities
-    private void checkKeys(String key, double value){
-		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
-	}
+        
 }

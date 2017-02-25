@@ -107,6 +107,8 @@ public class Chassis extends Subsystem {
     	gearShifter.set(gear);
     	opGearShifter.set(!gear);
     }
+    
+    
     //*****************
     //Utility functions
     //*****************
@@ -167,28 +169,7 @@ public class Chassis extends Subsystem {
     	navxGyro.reset();
     }
 
-    public void drive(double move, double rotate){
-    	//TODO :Austin, make this work so that positive means forward
-    	// and clockwise
-    	robotDrive.newArcadeDrive(move, rotate);
-    }
-            
-    public double getYaw(){
-    	return navxGyro.getYaw();
-    }
-    
-    //MAKE SURE YOU KNOW WHAT YOU ARE DOING WHEN YOU CALL THIS
-    public void resetGyro(){
-    	navxGyro.reset();
-    }
-    
-    public void shiftGears(){
-    	gearShifter.set(!gearShifter.get());
-    }
-    
-    public void setGear(boolean gear){
-    	gearShifter.set(gear);
-    }
+
     
     // Encoder 
     

@@ -50,11 +50,11 @@ public class Robot extends IterativeRobot {
 	public static Chassis chassis;
 	public static Blender blender;
 		
-	public static OI oi;
-	public static OI debugoi;
-	
-	SendableChooser<Command> chooser;
+	public static OI oi;	
 	SendableChooser<OI> oiChooser;
+
+	Command autonomousCommand;
+	SendableChooser<Command> autonomousChooser;
 
 	//Debug Commands
 
@@ -79,28 +79,29 @@ public class Robot extends IterativeRobot {
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
-		oiChooser = new SendableChooser<Command>();
-		oiChooser.addDefault("Driver OI", new OI());
+		oiChooser = new SendableChooser<OI>();
+		//oiChooser.addDefault("Driver OI", new OI());
+		oiChooser.addObject("Driver OI", new OI());
 		oiChooser.addObject("Debug OI", new DebugOI());
-		oiChooser = new SendableChooser();
+		oiChooser = new SendableChooser<OI>();
 		SmartDashboard.putData("Operator Interface", oiChooser);
 
 		
 		
-		chooser = new SendableChooser<Command>();
-		chooser.addDefault("Do Nothing", new Wait(0));
-		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
-		chooser.addObject("climb", new Climb());
-		chooser.addObject("Shoot", new ShooterRateUpdate());
-		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
-		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
-		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
-		chooser.addObject("Blender off", new BlenderOff() );
-		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
+		autonomousChooser = new SendableChooser<Command>();
+		//autonomousChooser.addDefault("Do Nothing", new Wait(0));
+		autonomousChooser.addObject("Turret Calibration", new TurretOneWayHoming());
+		autonomousChooser.addObject("climb", new Climb());
+		autonomousChooser.addObject("Shoot", new ShooterRateUpdate());
+		autonomousChooser.addObject("Turret Home One way", new TurretOneWayHoming());
+		autonomousChooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
+		autonomousChooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
+		autonomousChooser.addObject("Blender off", new BlenderOff() );
+		autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
 		}
 
@@ -140,7 +141,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autonomousChooser.getSelected();
 
 		if (autonomousCommand != null) autonomousCommand.start();
 	}
@@ -162,8 +163,8 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
 		
-		oi = oiChooser.getSelected();
-
+		OI newOI=oiChooser.getSelected();
+		if(newOI != null) oi = newOI;
 	}
 
 	/**

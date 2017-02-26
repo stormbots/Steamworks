@@ -49,16 +49,16 @@ public class Chassis extends Subsystem {
 	 //                                      //
 	//**************************************//
     
-    /* Practice bot drivefwd map values
+    // Practice bot drivefwd map values
 		private double ticksForwardLeft = -35005;
 		private double ticksForwardRight = 33491;
 		private double feetForward = 8.0;
-	*/
+	
 	
 	// Competion bot drivefwd map values
-		private double ticksForwardRight; 
-		private double ticksForwardLeft;
-		private double feetForward;
+//		private double ticksForwardRight; 
+//		private double ticksForwardLeft;
+//		private double feetForward;
 		
 		private MiniPID minipidDrive;
 		private double driveP;
@@ -113,16 +113,16 @@ public class Chassis extends Subsystem {
 	 //                                      //
 	//**************************************//
 	
-	/*
-	Practice bot map turn values
+	
+	//Practice bot map turn values
 		private double ticksRotateRight = -29186.0;
 		private double degreesForwardRight = 360.0;
-	*/
+	//
 	
 	// Competion bot map turn values
 		//private double ticksRotateLeft = -282630.0; 
-		private double ticksRotateRight;
-		private double degreesForwardRight; 
+//		private double ticksRotateRight;
+//		private double degreesForwardRight; 
 		
 		private MiniPID minipidTurn;
 		private double turnP;

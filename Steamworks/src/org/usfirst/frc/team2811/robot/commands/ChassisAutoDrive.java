@@ -14,14 +14,18 @@ public class ChassisAutoDrive extends Command {
 	
 
 	private double targetFeet;
-	private double toleranceFeet;
+	private double toleranceInches;
 
-	
+	/**
+	 * 
+	 * @param feet
+	 * @param toleranceFeet
+	 */
     public ChassisAutoDrive(double feet, double toleranceFeet) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.chassis);
         this.targetFeet = feet;
-        this.toleranceFeet = toleranceFeet;
+        this.toleranceInches = toleranceFeet;
     	
     
     }
@@ -49,13 +53,14 @@ public class ChassisAutoDrive extends Command {
     	
 		Robot.chassis.drive(output, 0);
     	
+		System.out.println("ChassisAutoDrive executing");
 		SmartDashboard.putNumber("FeetDriven",Robot.chassis.getFeetLeft());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(isTimedOut())cancel();
-        return Util.difference(Robot.chassis.getFeetLeft(), targetFeet) < toleranceFeet/12.0;
+        return Util.difference(Robot.chassis.getFeetLeft(), targetFeet) < toleranceInches/12.0;
     }
 
     // Called once after isFinished returns true

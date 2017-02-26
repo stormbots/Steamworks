@@ -3,6 +3,7 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ClimbDown;
@@ -51,6 +52,10 @@ public class OI {
     public JoystickButton threeAxisButton10;
 	public JoystickButton threeAxisButton11;
 	public JoystickButton threeAxisButton12;
+	
+	public JoystickButton threeAxisAutoTurn;
+	
+	public JoystickButton threeAxisMoveForward;
 
 	public OI(){
 ////////TWO STICK    	
@@ -60,6 +65,7 @@ public class OI {
     	leftTrigger.whenPressed(new ShiftGears());
 
     	rightStick = new Joystick(1);
+    	
     	
     	rightTrigger = new JoystickButton(rightStick,1);
         rightTrigger.whenPressed(new ChassisDriveUltrasonic(0,11.25,0.05001));	//TODO tune with compbot
@@ -72,6 +78,14 @@ public class OI {
     	
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
+		
+		//AUTO TURN 90deg BUTTON 9
+		threeAxisAutoTurn = new JoystickButton(threeAxis,9);
+		threeAxisAutoTurn.whenPressed(new ChassisAutoTurn(90.0,2.0));
+		
+		//DRIVE FORWARD  4ft BUTTON 10
+		threeAxisMoveForward = new JoystickButton(threeAxis,10);
+		threeAxisMoveForward.whenPressed(new ChassisAutoDrive(4.0,2.0));
 		
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
     	threeAxisButton1.whileHeld(new ShooterSequence());
@@ -101,9 +115,9 @@ public class OI {
 //        threeAxisButton8 = new JoystickButton(threeAxis,8);
 //        threeAxisButton8.whileHeld(new TurretManualTurn());
         
-        threeAxisButton9 = new JoystickButton(threeAxis, 9);
-
-        threeAxisButton10 = new JoystickButton(threeAxis, 10);
+//        threeAxisButton9 = new JoystickButton(threeAxis, 9);
+//
+//        threeAxisButton10 = new JoystickButton(threeAxis, 10);
         
     	threeAxisButton11 = new JoystickButton(threeAxis, 11);
     	threeAxisButton11.whileHeld(new ShooterTuning());

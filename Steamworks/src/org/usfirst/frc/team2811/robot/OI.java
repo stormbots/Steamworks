@@ -81,7 +81,7 @@ public class OI {
 		
 		//AUTO TURN 90deg BUTTON 9
 		threeAxisAutoTurn = new JoystickButton(threeAxis,9);
-		threeAxisAutoTurn.whenPressed(new ChassisAutoTurn(90.0,3.0));
+		threeAxisAutoTurn.whenPressed(new ChassisAutoTurn(90.0));
 		
 		//DRIVE FORWARD  4ft BUTTON 10
 		threeAxisMoveForward = new JoystickButton(threeAxis,10);

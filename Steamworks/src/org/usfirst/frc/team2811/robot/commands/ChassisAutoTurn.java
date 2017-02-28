@@ -14,10 +14,10 @@ public class ChassisAutoTurn extends Command {
 	private double targetDegrees;
 	private double toleranceDegrees;
 	
-    public ChassisAutoTurn(double targetDegrees, double toleranceDegrees) {
+    public ChassisAutoTurn(double targetDegrees) {
         requires(Robot.chassis);
         this.targetDegrees = targetDegrees;
-        this.toleranceDegrees = toleranceDegrees;
+        this.toleranceDegrees = Robot.chassis.getToleranceDegrees();
     }
 
     

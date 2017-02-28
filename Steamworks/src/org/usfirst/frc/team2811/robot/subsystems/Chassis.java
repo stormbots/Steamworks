@@ -67,7 +67,7 @@ public class Chassis extends Subsystem {
 		private double driveMaxI;
 		private double driveSetPointRange;
 		private double driveMinimumOutputLimit;
-		private double toleranceInches;
+		private double chassisAutoDriveToleranceInches;
 		
 		public void drivePIDinit(){
 			
@@ -80,7 +80,7 @@ public class Chassis extends Subsystem {
 	    	driveMaxI=Util.getPreferencesDouble("DriveFeetMaxI", 0);
 	    	driveSetPointRange = Util.getPreferencesDouble("DriveFeetSetpointRange", 0);
 	    	driveMinimumOutputLimit = Util.getPreferencesDouble("DriveMinimumOutputLimit", 0.2);
-	    	toleranceInches = Util.getPreferencesDouble("TOLERANCE (inches)", 1.5);
+	    	chassisAutoDriveToleranceInches = Util.getPreferencesDouble("TOLERANCE (inches)", 1.5);
 	    	
 	    	
 	    	minipidDrive.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
@@ -94,7 +94,7 @@ public class Chassis extends Subsystem {
 		}
 
 		public double getToleranceInches(){
-			return toleranceInches;
+			return chassisAutoDriveToleranceInches;
 		}
 		
 		public double minipidDriveGetOutput(double actual,double setPoint){
@@ -137,10 +137,12 @@ public class Chassis extends Subsystem {
 		private double turnMaxI;
 		private double turnSetPointRange;
 		private double turnMinimumOutputLimit;
+		private double toleranceDegrees;
 		
 		public void TurnPIDinit(){
 			ticksRotateRight = Util.getPreferencesDouble("TicksRotateRight", -287506.0);
 			degreesForwardRight = Util.getPreferencesDouble("DeegresForwardRight", 360*10.0);
+			toleranceDegrees = Util.getPreferencesDouble("ChassisAutoTurn tolerance degrees", 3.0);
 			
 	    	turnP = Util.getPreferencesDouble("TurnProportional", 0);
 	    	turnI = Util.getPreferencesDouble("TurnIntegral", 0);
@@ -155,6 +157,9 @@ public class Chassis extends Subsystem {
 			minipidTurn.setPID(turnP, turnI, turnD);
 		}
 		
+		public double getToleranceDegrees(){
+			return toleranceDegrees;
+		}
 		public void minipidTurnReset(){
 			minipidTurn.reset();
 		}

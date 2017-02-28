@@ -33,10 +33,12 @@ public class Chassis extends Subsystem {
         
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
+    
     private AHRS navxGyro;
     
     private boolean startingGear;
-    public boolean autoShiftEnabled;
+    public boolean autoShiftCurrentlyEnabled;
+    public boolean autoShiftDefault;
     
     // Auto turn & drive
 	private double ticksForwardLeft = -35005;
@@ -72,7 +74,8 @@ public class Chassis extends Subsystem {
     	gearShifter = new Solenoid(2);
     	opGearShifter = new Solenoid(3);
     	startingGear = false;
-    	autoShiftEnabled = false;
+    	autoShiftCurrentlyEnabled = false;
+    	autoShiftDefault = true;
     	setGear(startingGear);
         
     	navxGyro = new AHRS(SerialPort.Port.kMXP);
@@ -120,11 +123,11 @@ public class Chassis extends Subsystem {
     public void updateValFromFlash(){
     	robotDrive.updateValFromFlash();
     	
-    	autoShiftEnabled = prefs.getBoolean("Auto Shift", false);
-    	startingGear = prefs.getBoolean("Starting Gear", false);
+    	autoShiftCurrentlyEnabled = prefs.getBoolean("Chassis Auto Shift", false);
+    	startingGear = prefs.getBoolean("Chassis Starting Gear", false);
 		
-		checkKeys("Auto Shift", autoShiftEnabled);
-		checkKeys("Starting Gear", startingGear);
+		checkKeys("Chassis Auto Shift", autoShiftDefault);
+		checkKeys("Chassis Starting Gear", startingGear);
 	}
     
     private void initTalons(){
@@ -165,11 +168,7 @@ public class Chassis extends Subsystem {
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
     	backRight.set(13);    	
-        }
-
-
-    
-    // Encoder 
+    }
     
     //TODO put in an utility class
     private double map(double inputTicks,double inMin, double inMax, double outputMin,double outputMax){
@@ -210,7 +209,11 @@ public class Chassis extends Subsystem {
 		frontRight.setPosition(0);
 		frontLeft.setPosition(0);
 	}
-	    
+    
+    public void toggleAutoShiftDefault(){
+    	autoShiftDefault = !autoShiftDefault;
+    }
+      
     //Runs constantly in the background.
     public void updateDashboard(){
     	SmartDashboard.putData("navX-MXP", navxGyro);

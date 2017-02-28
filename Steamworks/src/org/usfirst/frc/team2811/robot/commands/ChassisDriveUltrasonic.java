@@ -63,7 +63,6 @@ public class ChassisDriveUltrasonic extends Command {
     	minipid.reset();
     	initMiniPID();
     	setTimeout(.75);
-    	Robot.chassis.autoShiftEnabled = false;
     	Robot.chassis.encoderReset();
     	
     }

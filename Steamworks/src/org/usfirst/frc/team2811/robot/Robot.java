@@ -63,7 +63,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	
 	public void robotInit() {		
 		//Initialize Subsystems
 		vision = new Vision ();
@@ -86,10 +85,9 @@ public class Robot extends IterativeRobot {
 		oiChooser = new SendableChooser<OI>();
 		SmartDashboard.putData("Operator Interface", oiChooser);
 
-		
-		
+	
 		autonomousChooser = new SendableChooser<Command>();
-		//autonomousChooser.addDefault("Do Nothing", new Wait(0));
+		autonomousChooser.addDefault("Do Nothing", new Wait(0));
 		autonomousChooser.addObject("Turret Calibration", new TurretOneWayHoming());
 		autonomousChooser.addObject("climb", new Climb());
 		autonomousChooser.addObject("Shoot", new ShooterRateUpdate());
@@ -98,9 +96,8 @@ public class Robot extends IterativeRobot {
 		autonomousChooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
 		autonomousChooser.addObject("Blender off", new BlenderOff() );
 		autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
-		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
-		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
-		//chooser.addObject("Manual Turn", new TurretManualTurn());
+		
+		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
 		}
@@ -183,8 +180,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Compressor", compressor);
         SmartDashboard.putNumber("TurretPos", Robot.turret.getCurrentPos());
         SmartDashboard.putNumber("Turret Current Angle", Robot.turret.getCurrentAngle());
-        SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
-		SmartDashboard.putNumber("Turret output", Robot.turret.getOutput());
+        //SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
+		//SmartDashboard.putNumber("Turret output", Robot.turret.getOutput());
         
         SmartDashboard.putNumber("Vision distanceTarget", vision.getDistanceTarget());
 		SmartDashboard.putNumber("Vision angleTargetHorizontal", vision.getAngleTargetHorizontal());

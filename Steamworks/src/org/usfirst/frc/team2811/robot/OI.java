@@ -3,6 +3,7 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ClimbDown;
@@ -116,16 +117,17 @@ public class OI {
 //        threeAxisButton8 = new JoystickButton(threeAxis,8);
 //        threeAxisButton8.whileHeld(new TurretManualTurn());
         
-        threeAxisButton9 = new JoystickButton(threeAxis, 9);
+		threeAxisButton9 = new JoystickButton(threeAxis,9);
+		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
 
-        threeAxisButton10 = new JoystickButton(threeAxis, 10);
-        
+		threeAxisButton10 = new JoystickButton(threeAxis,10);
+		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
+		
     	threeAxisButton11 = new JoystickButton(threeAxis, 11);
     	threeAxisButton11.whileHeld(new ShooterTuning());
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new ElevatorOn());
-        
+        threeAxisButton12.whileHeld(new ElevatorOn());        
 	}
 	
 	public double getMoveValue(){

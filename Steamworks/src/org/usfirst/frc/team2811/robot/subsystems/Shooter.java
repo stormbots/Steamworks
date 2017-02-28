@@ -70,6 +70,7 @@ public class Shooter extends Subsystem{
     }
     
     public void pidTuneSetRPM(){
+    	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
     	shooterMotor.set(speed);
     }
     
@@ -103,7 +104,10 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     }
     
-    
+    public void shooterFullPower(){
+    	shooterMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	shooterMotor.set(-1);
+    }
     
     //**************************
     // Debug functions 

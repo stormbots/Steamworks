@@ -3,6 +3,7 @@ package org.usfirst.frc.team2811.robot.commandGroups;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorPowerOn;
+import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
@@ -40,6 +41,7 @@ public class ShooterSequence extends CommandGroup {
     	//addSequential(new Wait(0.5));
     	addSequential(new ShooterTuning(), 0.75);
     	addParallel(new ShooterTuning());
+    	addParallel(new IntakeBallIn());
 //    	addSequential(new Wait(0.5));
     	//Both blender and elevator are set to a hard coded value
     	//addParallel(new ElevatorOn());

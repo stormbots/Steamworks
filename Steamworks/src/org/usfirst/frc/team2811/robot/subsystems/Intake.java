@@ -18,7 +18,7 @@ public class Intake extends Subsystem {
 	private boolean in = !out;
 	private boolean opOut =!out;
 	private boolean opIn = !in;
-	private double speed = -0.95;
+	private double speed = 0.95;
 	private Solenoid intakeOpSolenoid; 
 	
 	public Intake(){

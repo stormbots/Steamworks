@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class Util {
 	
-	private static Preferences prefs;
+	private static Preferences prefs = Preferences.getInstance();
 	
 	/**
 	 * Returns a difference between two numbers

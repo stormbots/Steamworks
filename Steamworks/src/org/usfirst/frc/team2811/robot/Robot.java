@@ -91,7 +91,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
 		chooser.addObject("Blender off", new BlenderOff() );
-		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
+//		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
@@ -171,8 +171,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Compressor", compressor);
         SmartDashboard.putNumber("TurretPos", Robot.turret.getCurrentPos());
         SmartDashboard.putNumber("Turret Current Angle", Robot.turret.getCurrentAngle());
-        SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
-		SmartDashboard.putNumber("Turret output", Robot.turret.getOutput());
+        //SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
+		//SmartDashboard.putNumber("Turret output", Robot.turret.getOutput());
         
         SmartDashboard.putNumber("Vision distanceTarget", vision.getDistanceTarget());
 		SmartDashboard.putNumber("Vision angleTargetHorizontal", vision.getAngleTargetHorizontal());

@@ -31,7 +31,7 @@ public class ChassisDriveUltrasonic extends Command {
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
     	Robot.chassis.drivePIDinit();
-    	setTimeout(.75);
+    	setTimeout(7);
     	Robot.chassis.autoShiftEnabled = false;
     	Robot.chassis.encoderReset();
     	
@@ -42,8 +42,8 @@ public class ChassisDriveUltrasonic extends Command {
     	
     double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches/12.0+targetFeet);
     Robot.chassis.drive(output, 0);
-	SmartDashboard.putNumber("DriveUltrasonic PID Output", output);
-    System.out.println("Ultrasonic drive running!!");
+//	  SmartDashboard.putNumber("DriveUltrasonic PID Output", output);
+//    System.out.println("Ultrasonic drive running!!");
 
     }
 
@@ -61,14 +61,14 @@ public class ChassisDriveUltrasonic extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("Ultrasonic drive exiting!!");
+//    	System.out.println("Ultrasonic drive exiting!!");
     	Robot.chassis.drive(0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	SmartDashboard.putString("Interrupted: ", "Command timed out!");
+//    	SmartDashboard.putString("Interrupted: ", "Command timed out!");
     }
         
 }

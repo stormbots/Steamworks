@@ -67,19 +67,21 @@ public class Chassis extends Subsystem {
 		private double driveMaxI;
 		private double driveSetPointRange;
 		private double driveMinimumOutputLimit;
+		private double toleranceInches;
 		
 		public void drivePIDinit(){
 			
 			ticksForwardRight = Util.getPreferencesDouble("TicksForwardRight", 38170.0);
 			ticksForwardLeft = Util.getPreferencesDouble("TicksForwardLeft", -37942.0);
 			feetForward = Util.getPreferencesDouble("FeetForward", 10.0);
-			
-	    	driveP = Util.getPreferencesDouble("DriveFeetPrportional", 0);
+	    	driveP = Util.getPreferencesDouble("DriveFeetProportional", 0);
 	    	driveI = Util.getPreferencesDouble("DriveFeetIntegral", 0);
 	    	driveD = Util.getPreferencesDouble("DriveFeetDerivative", 0);
 	    	driveMaxI=Util.getPreferencesDouble("DriveFeetMaxI", 0);
 	    	driveSetPointRange = Util.getPreferencesDouble("DriveFeetSetpointRange", 0);
 	    	driveMinimumOutputLimit = Util.getPreferencesDouble("DriveMinimumOutputLimit", 0.2);
+	    	toleranceInches = Util.getPreferencesDouble("TOLERANCE (inches)", 1.5);
+	    	
 	    	
 	    	minipidDrive.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
 	    	minipidDrive.setSetpointRange(driveSetPointRange);
@@ -89,6 +91,10 @@ public class Chassis extends Subsystem {
 		
 		public void minipidDriveReset(){
 			minipidDrive.reset();
+		}
+
+		public double getToleranceInches(){
+			return toleranceInches;
 		}
 		
 		public double minipidDriveGetOutput(double actual,double setPoint){
@@ -154,8 +160,13 @@ public class Chassis extends Subsystem {
 		}
 		
 		public double minipidTurnGetOutput(double actual, double setPoint){
-			return minipidTurn.getOutput(actual, setPoint);
-			//TODO: implement detailed getOuput turn behavior
+			double output = minipidTurn.getOutput(actual, setPoint);
+	    	if(output > 0){
+	    		output = output + turnMinimumOutputLimit;
+	    	}else{
+	    		output = output - turnMinimumOutputLimit;
+	    	}
+			return output;
 		}
 		
 	

@@ -36,9 +36,7 @@ public class ChassisAutoTurn extends Command {
 //    	Robot.chassis.drive(0, output);
     	
     	// Naive execute 
-    	if(!isFinished()){
-    		Robot.chassis.drive(0, 0.3);
-    	}
+//		Robot.chassis.drive(0, 0.7);
     	SmartDashboard.putNumber("ChassiAutoTurnROTATION: " , Robot.chassis.getRotation());
     }
 

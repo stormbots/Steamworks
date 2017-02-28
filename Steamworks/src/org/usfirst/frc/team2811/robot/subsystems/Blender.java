@@ -21,14 +21,14 @@ public class Blender extends Subsystem {
     
     public Blender(){
     	motor = new CANTalon(4);
-    	motor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	//motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	//motor.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
         motor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	motor.clearStickyFaults();
 	 	motor.enable();
 	 	
 	 	//Reverse is true on comp bot
-	 	motor.reverseOutput(true);
+	 	motor.reverseOutput(false);
 	 	motor.set(0);
 	 	updateValFromFlash();
     }
@@ -38,8 +38,8 @@ public class Blender extends Subsystem {
     }
     
     public void updateValFromFlash(){
-    	speed = prefs.getDouble("Blender Speed", 350);
-    	if(!prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 350);
+    	speed = prefs.getDouble("Blender Speed", 0.5);
+    	if(!prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.5);
     }
     
     public boolean isBlenderOn(){

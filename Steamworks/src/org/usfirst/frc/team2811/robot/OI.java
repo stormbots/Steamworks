@@ -11,6 +11,7 @@ import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
 import org.usfirst.frc.team2811.robot.commands.ShiftGears;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
+import org.usfirst.frc.team2811.robot.commands.ToggleAutoShift;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
@@ -28,30 +29,36 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
 ////////TWO STICK
-	public Joystick leftStick;
-    public JoystickButton leftTrigger;
+	private Joystick leftStick;
+    private JoystickButton leftTrigger;
+    private JoystickButton left2;
     
-    public Joystick rightStick;
-    public JoystickButton rightTrigger;
+    private Joystick rightStick;
+    private JoystickButton rightTrigger;
+    
+    private boolean austinDefaultAutoShift = true;
 
 ////////XBOX    
-    public XboxController xBox;
-    public JoystickButton x2;
+    private XboxController xBox;
+    private JoystickButton x2;
+    private JoystickButton x3;
+    
+    private boolean connorDefaultAutoShift = true;
 	
 ////////THREE AXIS    
-    public Joystick threeAxis;
-    public JoystickButton threeAxisButton1;
-    public JoystickButton threeAxisButton2;
-    public JoystickButton threeAxisButton3;
-    public JoystickButton threeAxisButton4;
-    public JoystickButton threeAxisButton5;
-    public JoystickButton threeAxisButton6;
-    public JoystickButton threeAxisButton7;
-    public JoystickButton threeAxisButton8;
-    public JoystickButton threeAxisButton9;
-    public JoystickButton threeAxisButton10;
-	public JoystickButton threeAxisButton11;
-	public JoystickButton threeAxisButton12;
+    private Joystick threeAxis;
+    private JoystickButton threeAxisButton1;
+    private JoystickButton threeAxisButton2;
+    private JoystickButton threeAxisButton3;
+    private JoystickButton threeAxisButton4;
+    private JoystickButton threeAxisButton5;
+    private JoystickButton threeAxisButton6;
+    private JoystickButton threeAxisButton7;
+    private JoystickButton threeAxisButton8;
+    private JoystickButton threeAxisButton9;
+    private JoystickButton threeAxisButton10;
+	private JoystickButton threeAxisButton11;
+	private JoystickButton threeAxisButton12;
 
 	public OI(){
 ////////TWO STICK    	
@@ -59,6 +66,10 @@ public class OI {
     	
     	leftTrigger = new JoystickButton(leftStick,1);
     	leftTrigger.whenPressed(new ShiftGears());
+    	
+    	left2 = new JoystickButton(leftStick,2);
+    	left2.whenPressed(new ToggleAutoShift());
+    	
 
     	rightStick = new Joystick(1);
     	
@@ -70,6 +81,9 @@ public class OI {
     	
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());
+    	
+    	x3 = new JoystickButton(xBox,3);
+    	x3.whenPressed(new ToggleAutoShift());
     	
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
@@ -131,9 +145,15 @@ public class OI {
     }
 
     private double triggerMath(){
-    	double output = Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3); 
-    	xBox.setRumble(output>0?RumbleType.kLeftRumble:RumbleType.kRightRumble, Math.abs(output));
-    	return output;
+    	return Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3); 
+    }
+    
+    public void setAutoShiftDefault(){
+    	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
+    		Robot.chassis.autoShiftDefault = connorDefaultAutoShift;	
+    	} else {
+    		Robot.chassis.autoShiftDefault = austinDefaultAutoShift;
+    	}
     }
     
     public boolean isOperatorControl(){

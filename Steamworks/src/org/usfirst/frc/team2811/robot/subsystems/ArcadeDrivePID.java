@@ -113,7 +113,7 @@ public class ArcadeDrivePID extends RobotDrive {
 		      kArcadeStandard_Reported = true;
 		}
 		
-		if(Robot.chassis.autoShiftEnabled){
+		if(Robot.chassis.autoShiftCurrentlyEnabled){
 			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>2600){
 				Robot.chassis.setGear(true);
 			}

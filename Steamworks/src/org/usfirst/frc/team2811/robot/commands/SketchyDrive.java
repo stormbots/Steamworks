@@ -25,7 +25,7 @@ public class SketchyDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.chassis.autoShiftEnabled=true;
+    	Robot.chassis.autoShiftCurrentlyEnabled=true;
     
     }
 

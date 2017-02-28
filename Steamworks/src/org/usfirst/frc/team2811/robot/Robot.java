@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearTurn;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
@@ -91,6 +94,9 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
 		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
 		chooser.addObject("Blender off", new BlenderOff() );
+		chooser.addObject("GearDropOnPeg", new GearDropOnPeg());
+		chooser.addObject("AutoGearStraightForward", new AutoGearStraightForward());
+		chooser.addObject("AutoGearTurn", new AutoGearTurn());
 //		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );

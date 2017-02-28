@@ -51,7 +51,7 @@ public class ChassisDriveUltrasonic extends Command {
     protected boolean isFinished() {
 
     	//return false;
-     	if(isTimedOut())cancel();
+     	//if(isTimedOut())cancel();
     	double distance = Math.abs(Robot.gear.distanceRightSideInches());
     	double target = Math.abs(targetFeet*12.0 + targetInches);
         return Util.difference(distance,target) < toleranceInches;

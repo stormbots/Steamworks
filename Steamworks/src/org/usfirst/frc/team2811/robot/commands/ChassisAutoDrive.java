@@ -37,7 +37,7 @@ public class ChassisAutoDrive extends Command {
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
     	Robot.chassis.drivePIDinit();
-    	setTimeout(8);
+//    	setTimeout(8);
     	Robot.chassis.encoderReset();
     	
     }
@@ -58,7 +58,8 @@ public class ChassisAutoDrive extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if(isTimedOut())cancel();
+//    	if(isTimedOut())cancel();
+    	System.out.println(Util.difference(Robot.chassis.getFeetLeft()*12.0, targetFeet*12.0) < toleranceInches);
         return Util.difference(Robot.chassis.getFeetLeft()*12.0, targetFeet*12.0) < toleranceInches;
     }
 

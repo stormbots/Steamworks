@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 
@@ -40,7 +42,7 @@ public class Shooter extends Subsystem{
     	//Change the motor into speed mode (closed-loop velocity[]\)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-        shooterMotor.reverseSensor(true);
+        shooterMotor.reverseSensor(false);
     	shooterMotor.enableBrakeMode(false);
     	shooterMotor.enableLimitSwitch(false, false);
     	shooterMotor.enable();
@@ -51,7 +53,7 @@ public class Shooter extends Subsystem{
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
-    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
+    	//shooterMotor.setPID(0.0tghn  5, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
     	
     	updateValFromFlash();
     }
@@ -63,15 +65,17 @@ public class Shooter extends Subsystem{
     
     
     public void updateValFromFlash(){
-    	speed = prefs.getDouble("Shooter Speed", 4200);
-    	if(!prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 4200);
+    	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }
     
     public void pidTuneSetRPM(){
-    	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	shooterMotor.set(speed);
+    	
+//    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
+		shooterMotor.set(speed);
+    	//shooterMotor.set(Robot.oi.getJoystickAngle());
+    	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
     
     //**************************

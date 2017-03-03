@@ -110,10 +110,9 @@ public class OI {
         threeAxisButton7 = new JoystickButton(threeAxis, 7);
         threeAxisButton7.whileHeld(new ClimbDown());
         
-      //  threeAxisButton8 = new JoystickButton(threeAxis,8);
-      //  threeAxisButton8.whenPressed(new TurretOneWayHoming());
-        
-//        //TODO Put back turretCalButton if not manual turn!
+//      TODO Put back turretCalButton if not manual turn!
+//      threeAxisButton8 = new JoystickButton(threeAxis,8);
+//      threeAxisButton8.whenPressed(new TurretOneWayHoming());
         threeAxisButton8 = new JoystickButton(threeAxis,8);
         threeAxisButton8.whileHeld(new TurretManualTurn());
         
@@ -167,6 +166,7 @@ public class OI {
     }
     
     public double getJoystickAngle(){
+
     	//TODO change this back so that it works with the turret control
     	return threeAxis.getRawAxis(3);
     	//return ((3+threeAxis.getRawAxis(3))*1800);

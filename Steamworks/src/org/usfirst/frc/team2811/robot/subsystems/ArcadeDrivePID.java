@@ -22,15 +22,15 @@ public class ArcadeDrivePID extends RobotDrive {
 	private CANTalon rightMotor;
 	
 	private MiniPID drivePIDLeft;
-	private double leftP = 0;
-	private double leftI = 0;
-	private double leftD = 0;
+	private double leftP = .5;
+	private double leftI = .005;
+	private double leftD = .001;
 	private double leftF = 1;
 		
 	private MiniPID drivePIDRight;
-	private double rightP = 0;
-	private double rightI = 0;
-	private double rightD = 0;
+	private double rightP = .5;
+	private double rightI = .005;
+	private double rightD = .001;
 	private double rightF = 1;
 	
 	private double 	maxTickRate = 4350; //Tuned for comp bot
@@ -176,28 +176,28 @@ public class ArcadeDrivePID extends RobotDrive {
 	}
 	
 	public void updateValFromFlash(){
-		leftP = prefs.getDouble("Chassis leftP", 0);
-		leftI = prefs.getDouble("Chassis leftI",	 0);
-		leftD = prefs.getDouble("Chassis leftD",	 0);
+		leftP = prefs.getDouble("Chassis leftP", 0.5);
+		leftI = prefs.getDouble("Chassis leftI", 0.005);
+		leftD = prefs.getDouble("Chassis leftD", 0.001);
 		leftF = prefs.getDouble("Chassis leftF", 1);
 		
-		rightP = prefs.getDouble("Chassis rightP", 0);
-		rightI = prefs.getDouble("Chassis rightI", 	   0);
-		rightD = prefs.getDouble("Chassis rightD",   0);
+		rightP = prefs.getDouble("Chassis rightP", 0.5);
+		rightI = prefs.getDouble("Chassis rightI", 0.005);
+		rightD = prefs.getDouble("Chassis rightD", 0.001);
 		rightF = prefs.getDouble("Chassis rightF", 1);
 		
 		maxTickRate = prefs.getDouble("Chassis maxTickRate", 4350);  //Tuned for comp bot
 		maxIOutput 	= prefs.getDouble("Chassis maxIOutput",  .1);	//TODO tune later?
 		
-		checkKeys("Chassis leftP", 	 leftP);
-		checkKeys("Chassis leftI", 		 leftI);
-		checkKeys("Chassis leftD", 	 leftD);
-		checkKeys("Chassis leftF", 	 leftF);
+		checkKeys("Chassis leftP", leftP);
+		checkKeys("Chassis leftI", leftI);
+		checkKeys("Chassis leftD", leftD);
+		checkKeys("Chassis leftF", leftF);
 		
 		checkKeys("Chassis rightP", rightP);
-		checkKeys("Chassis rightI",		 rightI);
-		checkKeys("Chassis rightD", 	 rightD);
-		checkKeys("Chassis rightF",	 rightF);
+		checkKeys("Chassis rightI", rightI);
+		checkKeys("Chassis rightD", rightD);
+		checkKeys("Chassis rightF", rightF);
 		
 		checkKeys("Chassis maxTickRate", maxTickRate);
 		checkKeys("Chassis maxIOutput",  maxIOutput);

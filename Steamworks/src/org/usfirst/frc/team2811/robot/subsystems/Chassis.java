@@ -4,7 +4,7 @@ import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 
 import com.ctre.CANTalon;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -35,7 +35,7 @@ public class Chassis extends Subsystem {
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
     
-    private AHRS navxGyro;
+    //private AHRS navxGyro;
     
     private boolean startingGear;
     public boolean autoShiftCurrentlyEnabled;
@@ -203,8 +203,8 @@ public class Chassis extends Subsystem {
     	minipidDrive = new MiniPID(0,0,0);
     	minipidTurn = new MiniPID(0,0,0);
         
-    	navxGyro = new AHRS(SerialPort.Port.kMXP);
-    	navxGyro.reset();
+    	//navxGyro = new AHRS(SerialPort.Port.kMXP);
+    	//navxGyro.reset();
     	
         updateValFromFlash();    	
      }
@@ -217,14 +217,14 @@ public class Chassis extends Subsystem {
     	robotDrive.newArcadeDrive(move, rotate);
     }
             
-    public double getYaw(){
+    /*public double getYaw(){
     	return navxGyro.getYaw();
-    }
+    }*/
     
     //MAKE SURE YOU KNOW WHAT YOU ARE DOING WHEN YOU CALL THIS
-    public void resetGyro(){
+    /*public void resetGyro(){
     	navxGyro.reset();
-    }
+    }*/
     
     public void shiftGears(){
     	gearShifter.set(!gearShifter.get());
@@ -339,7 +339,7 @@ public class Chassis extends Subsystem {
       
     //Runs constantly in the background.
     public void updateDashboard(){
-    	SmartDashboard.putData("navX-MXP", navxGyro);
+    	//SmartDashboard.putData("navX-MXP", navxGyro);
     	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
     	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
     	SmartDashboard.putNumber("Left Encoder (feet)", getFeetLeft());

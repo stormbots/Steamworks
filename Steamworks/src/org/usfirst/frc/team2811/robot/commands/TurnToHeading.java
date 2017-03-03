@@ -27,17 +27,18 @@ public class TurnToHeading extends Command {
     	headingPID.setSetpointRange(30);
     	headingPID.setMaxIOutput(.1);
     	
-    	Robot.chassis.resetGyro();    	
+    	//Robot.chassis.resetGyro();    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.chassis.drive(0, headingPID.getOutput(Robot.chassis.getYaw(), targetHeading));
+    	//Robot.chassis.drive(0, headingPID.getOutput(Robot.chassis.getYaw(), targetHeading));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished(){
-    	return Math.abs(Robot.chassis.getYaw()-targetHeading)<2;
+    	//return Math.abs(Robot.chassis.getYaw()-targetHeading)<2;
+    	return true;
     }
 
     // Called once after isFinished returns true

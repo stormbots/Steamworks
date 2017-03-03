@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 
@@ -70,8 +71,9 @@ public class Shooter extends Subsystem{
     }
     
     public void pidTuneSetRPM(){
-    	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	shooterMotor.set(speed);
+    //	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	//shooterMotor.set(speed);
+    	shooterMotor.set(Robot.oi.getJoystickAngle());
     }
     
     //**************************

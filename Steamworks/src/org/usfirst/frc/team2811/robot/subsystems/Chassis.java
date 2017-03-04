@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 
@@ -102,13 +103,16 @@ public class Chassis extends Subsystem {
 		public double minipidDriveGetOutput(double actual,double setPoint){
 			
 			double output = minipidDrive.getOutput(actual, setPoint);
-	    	if(output > 0){
-	    		output = output + driveMinimumOutputLimit;
-	    	}else{
-	    		output = output - driveMinimumOutputLimit;
-	    	}
+			if(output>-0.01  && output < 0.01){
+				output = 0.0;
+			}else if(output>0.0){
+				output = output + driveMinimumOutputLimit;
+			}else if(output < 0.0){
+				output = output - driveMinimumOutputLimit;
+			}
 			return output;
 		}
+		
 	
 	
 	
@@ -144,7 +148,7 @@ public class Chassis extends Subsystem {
 		public void TurnPIDinit(){
 			ticksRotateRight = Util.getPreferencesDouble("TicksRotateRight", -287506.0);
 			degreesForwardRight = Util.getPreferencesDouble("DeegresForwardRight", 360*10.0);
-			toleranceDegrees = Util.getPreferencesDouble("ChassisAutoTurn tolerance degrees", 3.0);
+			toleranceDegrees = Util.getPreferencesDouble("ChassisAutoTurn tolerance degrees", 1);
 			
 	    	turnP = Util.getPreferencesDouble("TurnProportional", 0);
 	    	turnI = Util.getPreferencesDouble("TurnIntegral", 0);
@@ -168,11 +172,13 @@ public class Chassis extends Subsystem {
 		
 		public double minipidTurnGetOutput(double actual, double setPoint){
 			double output = minipidTurn.getOutput(actual, setPoint);
-	    	if(output > 0){
-	    		output = output + turnMinimumOutputLimit;
-	    	}else{
-	    		output = output - turnMinimumOutputLimit;
-	    	}
+			if(output>-0.01  && output < 0.01){
+				output = 0.0;
+			}else if(output>0.0){
+				output = output + driveMinimumOutputLimit;
+			}else if(output < 0.0){
+				output = output - driveMinimumOutputLimit;
+			}
 			return output;
 		}
 		
@@ -238,23 +244,11 @@ public class Chassis extends Subsystem {
     	robotDrive.setTuning(gear);
     }
     
-    
-    //*****************
-    //Utility functions
-    //*****************
-    
-    private void checkKeys(String key, boolean value){
-		if(!prefs.containsKey(key)) prefs.putBoolean(key, value);
-	}
-    
     public void updateValFromFlash(){
     	//robotDrive.updateValFromFlash();
     	
-    	autoShiftCurrentlyEnabled = prefs.getBoolean("Chassis Auto Shift", false);
-    	startingGear = prefs.getBoolean("Chassis Starting Gear", false);
-		
-		checkKeys("Chassis Auto Shift", autoShiftDefault);
-		checkKeys("Chassis Starting Gear", startingGear);
+    	autoShiftDefault = Util.getPreferencesBoolean("Chassis Auto Shift", false);
+    	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
 	}
     
     private void initTalons(){
@@ -295,18 +289,13 @@ public class Chassis extends Subsystem {
     	backRight.changeControlMode(CANTalon.TalonControlMode.Follower);
     	backRight.clearStickyFaults();
     	backRight.set(13);    	
-    }
-    
-    //TODO put in an utility class
-    
+    }    
     
     public double getRightPosition(){
-    	SmartDashboard.putNumber("RightTicks", frontRight.getEncPosition());
 		return frontRight.getEncPosition();
 	}
 	
 	public double getLeftPosition(){
-		SmartDashboard.putNumber("LeftTicks", frontLeft.getEncPosition());
 		return frontLeft.getEncPosition();
 	}
 	
@@ -324,7 +313,7 @@ public class Chassis extends Subsystem {
     public double getFeet(){
     	return (getFeetLeft()+getFeetRight())/2.0;
     }
-    
+
     public double getRotation(){
     	double degreesRight = Util.map(frontRight.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
     	return degreesRight;
@@ -351,6 +340,7 @@ public class Chassis extends Subsystem {
     	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
     	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
     	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity()+.00001)));
+    	SmartDashboard.putNumber("Rotation (frontRight)", Math.round(getRotation()));
     }
 }
 

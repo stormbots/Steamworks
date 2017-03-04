@@ -75,7 +75,7 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-        rightTrigger.whenPressed(new ChassisDriveUltrasonic(0,11.25,0.05001));	//TODO tune with compbot
+        rightTrigger.whileHeld(new ChassisDriveUltrasonic(0,11.25,.5));	//TODO tune with compbot
     	
 ////////XBOX    	
     	xBox = new XboxController(2);

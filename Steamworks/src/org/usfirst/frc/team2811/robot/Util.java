@@ -13,7 +13,7 @@ public class Util {
 	 * Returns a difference between two numbers
 	 */
 	public static double difference(double a,double b){
-		return  Math.abs(Math.abs(a)-Math.abs(b));
+		return Math.abs(a-b);
 		
 		
 	}
@@ -33,7 +33,7 @@ public class Util {
 		}
 	}
 	
-	public static boolean getPreferncesBoolean(String key, boolean backup){
+	public static boolean getPreferencesBoolean(String key, boolean backup){
 		if(prefs.containsKey(key)){
 			return prefs.getBoolean(key, backup);
 		}else{

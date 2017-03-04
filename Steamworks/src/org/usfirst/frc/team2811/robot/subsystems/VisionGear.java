@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
-import org.usfirst.frc.team2811.robot.commands.UpdateVision;
+import org.usfirst.frc.team2811.robot.Util;
+import org.usfirst.frc.team2811.robot.commands.UpdateVisionBoiler;
+import org.usfirst.frc.team2811.robot.commands.UpdateVisionGear;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
@@ -11,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Vision extends Subsystem {
+public class VisionGear extends Subsystem {
 
 	private NetworkTable networkTable;
 	private Preferences prefs;
@@ -22,35 +24,28 @@ public class Vision extends Subsystem {
 	private boolean isEnabled;
 	private double visionValidTargetTimeout;
 
-    public Vision() {
+    public VisionGear() {
     	networkTable=NetworkTable.getTable("vision");
     	prefs = Preferences.getInstance();
     	visionValidTargetTimeout=0;
 	}
 
     public void updateValFromFlash(){
-    	visionValidTargetTimeout=getFlashValue("visionValidTargetTimeout",0.25);
+    	visionValidTargetTimeout=Util.getPreferencesDouble("visionValidTargetTimeout",0.1);
     }
    
-	private double getFlashValue(String key, double default_value){
-		if(!prefs.containsKey(key)) prefs.putDouble(key, default_value);
-		return prefs.getDouble(key, default_value);		
-	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new UpdateVision());
+//		setDefaultCommand(new UpdateVisionGear());
     }
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-    public double getDistanceTarget() {
-		return distanceTarget;
-	}
 
-	public double getAngleTargetHorizontal() {
+	public double getAngleHorizontal() {
 		return angleTargetHorizontal;
 	}
 	
@@ -62,27 +57,30 @@ public class Vision extends Subsystem {
 		networkTable.putBoolean("enabled", false);
 	}
 	
-	public boolean haveValidTarget(){
+	public boolean haveValidTargetGear(){
 		double now = Timer.getFPGATimestamp();
 		
 		// See how old our robot data is
 		// If it's real old, assume it's invalid
+		
 		if (now-robotTimestamp<visionValidTargetTimeout){
+			SmartDashboard.putNumber("TimeStamp", now-robotTimestamp);
 			return true;
 		}else{
 			return false;
 		}
+		
 	}
 	public void update(){
 		//connect to network tables
 		//update our internal values
 		//should be run constantly from a defaultcommand
-		double time=networkTable.getNumber("frame",0);
+		double time=networkTable.getNumber("gear_frame_number",0);
 
 		if(visionTimestamp!=time){
 			//have new data!
-			distanceTarget=networkTable.getNumber("distanceTarget", 0);
-			angleTargetHorizontal = networkTable.getNumber("angleTargetHorizontal",0);
+			///distanceTarget=networkTable.getNumber("distanceTarget", 0);
+			angleTargetHorizontal = networkTable.getNumber("gear_error_angle",0);
 			visionTimestamp = time;
 			robotTimestamp=Timer.getFPGATimestamp();
 

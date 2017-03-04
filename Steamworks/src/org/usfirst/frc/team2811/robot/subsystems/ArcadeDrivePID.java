@@ -23,30 +23,30 @@ public class ArcadeDrivePID extends RobotDrive {
 	private CANTalon rightMotor;
 	
 	private MiniPID drivePIDLeft;
-	private double leftLowP =  0.0000;
+	private double leftLowP =  0.0004;
 	private double leftLowI =  0.0000;
 	private double leftLowD =  0.0000;
 	private double leftLowF =  0.0008;
 	
-	private double leftHighP = 0.00000;
+	private double leftHighP = 0.00011;
 	private double leftHighI = 0.00000;
 	private double leftHighD = 0.00000;
 	private double leftHighF = 0.00023;
 
 	private MiniPID drivePIDRight;
-	private double rightLowP = 0.0000;
+	private double rightLowP = 0.0004;
 	private double rightLowI = 0.0000;
 	private double rightLowD = 0.0000;
 	private double rightLowF = 0.0008;
 	
-	private double rightHighP = 0.00000;
+	private double rightHighP = 0.00011;
 	private double rightHighI = 0.00000;
 	private double rightHighD = 0.00000;
 	private double rightHighF = 0.00023;
 
 	private boolean currentGear; 
 
-	private double 	maxTickRateLow  = 1300;//Tuned for comp bot
+	private double 	maxTickRateLow  = 1400;//Tuned for comp bot
 	private double 	maxTickRateHigh = 4350; //Tuned for comp bot
 
 		
@@ -145,7 +145,7 @@ public class ArcadeDrivePID extends RobotDrive {
 				Robot.chassis.setGear(true);
 			}
 			
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<2400){
+			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<2000){
 				Robot.chassis.setGear(false);
 			}
 		}

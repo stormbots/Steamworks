@@ -134,9 +134,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		chassis.setGear(false);
 		autonomousCommand = chooser.getSelected();
-
 		if (autonomousCommand != null) autonomousCommand.start();
+		
 	}
 
 	/**
@@ -145,6 +146,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
 		chassis.updateDashboard();
 	}
 
@@ -155,6 +157,7 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
+		chassis.setGear(false);
 		oi.setAutoShiftDefault();
 	}
 

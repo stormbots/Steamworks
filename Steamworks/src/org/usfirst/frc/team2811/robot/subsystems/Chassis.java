@@ -229,11 +229,13 @@ public class Chassis extends Subsystem {
     public void shiftGears(){
     	gearShifter.set(!gearShifter.get());
     	opGearShifter.set(!opGearShifter.get());
+    	robotDrive.shiftTuning();
     }
     
     public void setGear(boolean gear){
     	gearShifter.set(gear);
     	opGearShifter.set(!gear);
+    	robotDrive.setTuning(gear);
     }
     
     
@@ -246,7 +248,7 @@ public class Chassis extends Subsystem {
 	}
     
     public void updateValFromFlash(){
-    	robotDrive.updateValFromFlash();
+    	//robotDrive.updateValFromFlash();
     	
     	autoShiftCurrentlyEnabled = prefs.getBoolean("Chassis Auto Shift", false);
     	startingGear = prefs.getBoolean("Chassis Starting Gear", false);

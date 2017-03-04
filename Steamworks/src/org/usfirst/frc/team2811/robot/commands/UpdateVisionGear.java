@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class UpdateVision extends Command {
+public class UpdateVisionGear extends Command {
 
-    public UpdateVision() {
+    public UpdateVisionGear() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.vision);
+    	requires(Robot.visionGear);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +21,7 @@ public class UpdateVision extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.vision.update();
+    	Robot.visionGear.update();
     }
 
     // Make this return true when this Command no longer needs to run execute()

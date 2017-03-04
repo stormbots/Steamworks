@@ -7,16 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Chassis auto turn command
+ * Chassis auto turn command from vision data
  */
-public class ChassisAutoTurn extends Command {
+public class ChassisAutoTurnVision extends Command {
 	
-	private double targetDegrees;
 	private double toleranceDegrees;
 	
-    public ChassisAutoTurn(double targetDegrees) {
+    public ChassisAutoTurnVision(double toleranceDegrees) {
         requires(Robot.chassis);
-        this.targetDegrees = targetDegrees;
+        requires(Robot.visionGear);
         this.toleranceDegrees = Robot.chassis.getToleranceDegrees();
     }
 
@@ -27,20 +26,26 @@ public class ChassisAutoTurn extends Command {
     	Robot.chassis.TurnPIDinit();
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.encoderReset();
+
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), targetDegrees);
-    	Robot.chassis.drive(0, output);
-
-    	SmartDashboard.putNumber("Chassis AutoTurnCommand rotation: " , Robot.chassis.getRotation());
+    	if (Robot.visionGear.haveValidTargetGear()) {
+    		double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), -Robot.visionGear.getAngleHorizontal());
+    		Robot.chassis.drive(0, output);
+    	} else {
+    		Robot.chassis.drive(0, 0);
+    	}
+    	System.out.println("ChassisAutoTurnVision running!");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
        double rotation = Robot.chassis.getRotation();
-       double target = targetDegrees;
+       double target = Robot.visionGear.getAngleHorizontal();
+       SmartDashboard.putNumber("Difference ChassisAutoTurnVision: ", Util.difference(rotation, target));
        return Util.difference(rotation, target) < toleranceDegrees;
     }
 
@@ -52,6 +57,6 @@ public class ChassisAutoTurn extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("ChassisAutoTurn interrupted!");
+    	System.out.println("ChassisAutoTurnVision interrupted!");
     }
 }

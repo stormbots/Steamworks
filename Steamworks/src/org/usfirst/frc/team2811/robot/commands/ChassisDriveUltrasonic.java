@@ -31,44 +31,34 @@ public class ChassisDriveUltrasonic extends Command {
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
     	Robot.chassis.drivePIDinit();
-    	setTimeout(9);
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.encoderReset();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	
-    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches/12.0+targetFeet);
+    protected void execute() {				//TODO ULTRASONIC
+    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.getDistanceFeet(), targetInches/12.0+targetFeet);
     Robot.chassis.drive(output, 0);
-//	  SmartDashboard.putNumber("DriveUltrasonic PID Output", output);
-//    System.out.println("Ultrasonic drive running!!");
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-
-    	//return false;
-     	//if(isTimedOut())cancel();
-    	double distance = Math.abs(Robot.gear.distanceRightSideInches());
+    	double distance = Math.abs(Robot.gear.getDistanceInches());	
+    	SmartDashboard.putNumber("GearDistanceIsFinished", Robot.gear.getDistanceInches());
     	double target = Math.abs(targetFeet*12.0 + targetInches);
         return Util.difference(distance,target) < toleranceInches;
-        		
-      
     }
 
     // Called once after isFinished returns true
     protected void end() {
-//    	System.out.println("Ultrasonic drive exiting!!");
     	Robot.chassis.drive(0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-//    	SmartDashboard.putString("Interrupted: ", "Command timed out!");
-    }
+    	System.out.println("ChassisDriveUltrasonic interrupted!");
+     }
         
 }

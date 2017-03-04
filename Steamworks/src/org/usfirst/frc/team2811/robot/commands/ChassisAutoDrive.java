@@ -16,51 +16,38 @@ public class ChassisAutoDrive extends Command {
 	private double targetFeet;
 	private double toleranceInches;
 	
-	/**
+	
+	/** Drive forward or backwards for a number of feet
 	 * 
 	 * @param feet
-	 * @param toleranceFeet
 	 */
     public ChassisAutoDrive(double feet) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.chassis);
         this.targetFeet = feet;
         this.toleranceInches = Robot.chassis.getToleranceInches();
-    	
-    
     }
-    
-    
-    
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
     	Robot.chassis.drivePIDinit();
-//    	setTimeout(8);
     	Robot.chassis.encoderReset();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double output = Robot.chassis.minipidDriveGetOutput(Robot.chassis.getFeetLeft(), targetFeet);
-    	
-//    	SmartDashboard.putNumber("OutputPIDAutoForward", output);
-    	
+    	double output = Robot.chassis.minipidDriveGetOutput(Robot.chassis.getFeet(), targetFeet);    	
     	output = - output; // FIXME: THIS SHOULDN'T BE HERE AND WE NEED TO FIX WHY IT IS
     	
 		Robot.chassis.drive(output, 0);
     	
-//		System.out.println("ChassisAutoDrive executing");
-//		SmartDashboard.putNumber("FeetDriven",Robot.chassis.getFeetLeft());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-//    	if(isTimedOut())cancel();
-    	System.out.println(Util.difference(Robot.chassis.getFeetLeft()*12.0, targetFeet*12.0) < toleranceInches);
-        return Util.difference(Robot.chassis.getFeetLeft()*12.0, targetFeet*12.0) < toleranceInches;
+        return Util.difference(Robot.chassis.getFeet()*12.0, targetFeet*12.0) < toleranceInches;
     }
 
     // Called once after isFinished returns true
@@ -71,7 +58,6 @@ public class ChassisAutoDrive extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-//    	SmartDashboard.putString("WARNING:", "Command timed out!");
     }
     
     

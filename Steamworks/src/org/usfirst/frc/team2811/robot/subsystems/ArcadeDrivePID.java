@@ -27,7 +27,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double leftLowI =  0.0000;
 	private double leftLowD =  0.0000;
 	private double leftLowF =  0.0008;
-		
+	
 	private double leftHighP = 0.00000;
 	private double leftHighI = 0.00000;
 	private double leftHighD = 0.00000;
@@ -38,7 +38,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double rightLowI = 0.0000;
 	private double rightLowD = 0.0000;
 	private double rightLowF = 0.0008;
-
+	
 	private double rightHighP = 0.00000;
 	private double rightHighI = 0.00000;
 	private double rightHighD = 0.00000;
@@ -82,7 +82,7 @@ public class ArcadeDrivePID extends RobotDrive {
     }
     
     public void setTuning(boolean gear){
-    	if(gear==true){
+    	if(gear==true) {
     		drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
     		drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
     	} else {
@@ -149,13 +149,12 @@ public class ArcadeDrivePID extends RobotDrive {
 				Robot.chassis.setGear(false);
 			}
 		}
-		/*
+		
 		//PREVENTS WEIRD TINY MOVEMENTS - DON'T TOUCH
 		if(leftMotorSpeed<.05&&rightMotorSpeed<.05){
 			drivePIDLeft.reset();
 			drivePIDRight.reset();
 		}
-		*/
 		//FIXME Find the correct # and placement of negative signs
 		double leftPIDWrite  = drivePIDLeft.getOutput( leftMotor.getEncVelocity(),   mapToTicks(leftMotorSpeed)*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(-rightMotor.getEncVelocity(), mapToTicks(rightMotorSpeed)*.9);
@@ -189,7 +188,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	
 	/** Maps Joystick values to motor ticks for comparing to actual speeds */
     public double mapToTicks(double inputValue){
-    	double maxTickRate=currentGear?maxTickRateHigh:maxTickRateLow;
+    	double maxTickRate=currentGear||Robot.chassis.autoShiftCurrentlyEnabled?maxTickRateHigh:maxTickRateLow;
     	double inputMax =  1;
     	double inputMin = -1;
     	double outputMax = maxTickRate;

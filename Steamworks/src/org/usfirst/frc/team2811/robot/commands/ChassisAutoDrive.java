@@ -30,6 +30,7 @@ public class ChassisAutoDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.minipidDriveReset();
     	Robot.chassis.drivePIDinit();
     	Robot.chassis.encoderReset();
@@ -53,6 +54,7 @@ public class ChassisAutoDrive extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassis.drive(0, 0);
+    	Robot.chassis.autoShiftCurrentlyEnabled=Robot.chassis.autoShiftDefault;
     }
 
     // Called when another command which requires one or more of the same

@@ -43,7 +43,8 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double rightHighI = 0.00000;
 	private double rightHighD = 0.00000;
 	private double rightHighF = 0.00023;
-
+	
+	
 	private boolean currentGear; 
 
 	private double 	maxTickRateLow  = 1400;//Tuned for comp bot
@@ -66,6 +67,29 @@ public class ArcadeDrivePID extends RobotDrive {
     	rightMotor = rightSideLeaderMotor;
 
     	//updateValFromFlash();
+    	
+    	
+    	//fixing it and improving things
+    	leftLowP =  0.0000;
+    	leftLowI =  0.0000;
+    	leftLowD =  0.0000;
+    	leftLowF =  0.0008;
+    	
+    	leftHighP = 0.0000;
+    	leftHighI = 0.00000;
+    	leftHighD = 0.00000;
+    	leftHighF = 0.00023;
+
+    	rightLowP = 0.0000;
+    	rightLowI = 0.0000;
+    	rightLowD = 0.0000;
+    	rightLowF = 0.0008;
+    	
+    	rightHighP = 0.0000;
+    	rightHighI = 0.00000;
+    	rightHighD = 0.00000;
+    	rightHighF = 0.00023;
+    	//end fixing things
     	
     	//drivePIDLeft = new MiniPID(.5,.005,.001,.94);
     	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);

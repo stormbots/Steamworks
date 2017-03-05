@@ -202,8 +202,8 @@ public class Chassis extends Subsystem {
     	gearShifter = new Solenoid(2);
     	opGearShifter = new Solenoid(3);
     	startingGear = false;
-    	autoShiftCurrentlyEnabled = false;
     	autoShiftDefault = true;
+    	autoShiftCurrentlyEnabled = autoShiftDefault;
     	setGear(startingGear);
     	
     	minipidDrive = new MiniPID(0,0,0);
@@ -245,8 +245,7 @@ public class Chassis extends Subsystem {
     }
     
     public void updateValFromFlash(){
-    	//robotDrive.updateValFromFlash();
-    	
+    	//robotDrive.updateValFromFlash();  	
     	autoShiftDefault = Util.getPreferencesBoolean("Chassis Auto Shift", false);
     	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
 	}
@@ -330,7 +329,6 @@ public class Chassis extends Subsystem {
       
     //Runs constantly in the background.
     public void updateDashboard(){
-    	//SmartDashboard.putData("navX-MXP", navxGyro);
     	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
     	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
     	SmartDashboard.putNumber("Left Encoder (feet)", getFeetLeft());

@@ -51,8 +51,8 @@ public class ArcadeDrivePID extends RobotDrive {
 
 		
 	// Local variables to hold the computed PWM values for the motors
-    private double leftMotorSpeed;
-    private double rightMotorSpeed;
+	private double leftMotorSpeed;
+	private double rightMotorSpeed;
 	
 	/**
 	 * New class to seamlessly integrate MiniPID functionality into a West-Coast or Tank Drive chassis using CANTalons
@@ -67,13 +67,8 @@ public class ArcadeDrivePID extends RobotDrive {
 
     	//updateValFromFlash();
     	
-    	//drivePIDLeft = new MiniPID(.5,.005,.001,.94);
-    	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);
-		//drivePIDLeft.setOutputLimits(-1,1);
-		
-		//drivePIDRight = new MiniPID(.5,.005,.001,1);
+    	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
-		//drivePIDRight.setOutputLimits(-1,1);
 	}
     
     public void shiftTuning(){
@@ -99,8 +94,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	  * @param rotateValue   The value to use for the rotate right/left
 	  */
 	public void newArcadeDrive(double moveValue, double rotateValue) {
-	    
-
 	    moveValue = limit(moveValue);
 	    rotateValue = limit(rotateValue);
 
@@ -123,10 +116,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	    }
 	    
 	    newLeftRightDrive(leftMotorSpeed,rightMotorSpeed);
-	    SmartDashboard.putNumber("Theoretical left write", leftMotorSpeed);
 	}
-	
-	
 	
 	/**
 	 * Directly writes values to the PID. Can be used for a tank drive setup, or for more advanced functions.
@@ -155,6 +145,7 @@ public class ArcadeDrivePID extends RobotDrive {
 			drivePIDLeft.reset();
 			drivePIDRight.reset();
 		}
+		
 		//FIXME Find the correct # and placement of negative signs
 		double leftPIDWrite  = drivePIDLeft.getOutput( leftMotor.getEncVelocity(),   mapToTicks(leftMotorSpeed)*.9);
 	    double rightPIDWrite = drivePIDRight.getOutput(-rightMotor.getEncVelocity(), mapToTicks(rightMotorSpeed)*.94);
@@ -164,15 +155,13 @@ public class ArcadeDrivePID extends RobotDrive {
 	    double leftPIDWrite  = leftMotorSpeed;
 	    double rightPIDWrite = rightMotorSpeed;
 	    */
-	    SmartDashboard.putNumber("leftPIDWrite before limit", leftPIDWrite);
 	    leftPIDWrite  = limit(leftPIDWrite);
 	    rightPIDWrite = limit(rightPIDWrite);
 	    
 	    //PRINT SPAM
 	    //System.out.println("Output for drive: "+ leftPIDWrite + " | "+ rightPIDWrite);
-	    SmartDashboard.putNumber("leftPIDWrite", leftPIDWrite);
+
 	    leftMotor.set(leftPIDWrite);
-	    
 	    rightMotor.set(-rightPIDWrite);
 	    
 	    //Stops "RobotDrive not updated often enough"

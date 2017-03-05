@@ -14,20 +14,16 @@ public class Util {
 	 */
 	public static double difference(double a,double b){
 		return Math.abs(a-b);
-		
-		
 	}
 	
 	public static double map(double inputTicks,double inMin, double inMax, double outputMin,double outputMax){
         return (inputTicks/(inMax-inMin)-inMin/(inMax-inMin))*(outputMax-outputMin)+outputMin;
     }
 	
-
 	public static double getPreferencesDouble(String key, double backup){
 		if(prefs.containsKey(key)){
 			return prefs.getDouble(key, backup);
-		}
-		else{
+		} else {
 			prefs.putDouble(key, backup);
 			return backup;
 		}
@@ -36,15 +32,9 @@ public class Util {
 	public static boolean getPreferencesBoolean(String key, boolean backup){
 		if(prefs.containsKey(key)){
 			return prefs.getBoolean(key, backup);
-		}else{
+		} else {
 			prefs.putBoolean(key, backup);
 			return backup;
 		}
 	}
-	
-
-
-	
-	
-	
 }

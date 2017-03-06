@@ -31,7 +31,7 @@ public class ChassisAutoDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
-    	Robot.chassis.drivePIDinit();
+    	Robot.chassis.initDrivePID();
     	Robot.chassis.encoderReset();
     	
     }

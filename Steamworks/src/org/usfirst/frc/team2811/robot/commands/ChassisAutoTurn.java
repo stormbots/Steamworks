@@ -24,7 +24,7 @@ public class ChassisAutoTurn extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.minipidTurnReset();
-    	Robot.chassis.TurnPIDinit();
+    	Robot.chassis.initTurnPID();
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.encoderReset();
     }

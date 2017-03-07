@@ -166,7 +166,6 @@ public class OI {
     }
     
     public double getJoystickAngle(){
-
     	//TODO change this back so that it works with the turret control
     	return threeAxis.getRawAxis(3);
     	//return ((3+threeAxis.getRawAxis(3))*1800);

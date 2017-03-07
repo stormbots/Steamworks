@@ -74,6 +74,7 @@ public class Gear extends Subsystem {
 //    	}
 //    	else if(leftValid){
 //    		return distanceLeftSideInches();
+//    	}
 //    	else if(rightValid){
 //    		return distanceRightSideInches();
 //    	}

@@ -135,6 +135,8 @@ public class Robot extends IterativeRobot {
 		Robot.chassis.updateValFromFlash();
 		Robot.visionBoiler.updateValFromFlash();
 		Robot.visionGear.updateValFromFlash();
+		
+		visionGear.heartbeat();
 	}
 	
 	
@@ -169,6 +171,8 @@ public class Robot extends IterativeRobot {
 		chassis.updateDashboard();
 		visionBoiler.update();
 		visionGear.update();
+		visionGear.heartbeat();
+
 		SmartDashboard.putNumber("Vision Gear Angle", Robot.visionGear.getAngleHorizontal());
 	}
 
@@ -194,6 +198,7 @@ public class Robot extends IterativeRobot {
 		// Important! This talks to the RasPi so our vision works
 		visionBoiler.update();
 		visionGear.update();
+		visionGear.heartbeat();
 
 		chassis.updateDashboard();
 		// Update the line graph on SmartDashboard *Still don't know how it updates

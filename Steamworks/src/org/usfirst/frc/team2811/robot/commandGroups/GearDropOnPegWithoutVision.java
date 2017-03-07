@@ -36,6 +36,6 @@ public class GearDropOnPegWithoutVision extends CommandGroup {
     	
     	
     	addSequential(new ChassisDriveUltrasonic(0,9,0.3),2);
-    	addSequential(new ChassisDriveUltrasonic(0,11,0.3),2);
+//    	addSequential(new ChassisDriveUltrasonic(0,11,0.3),2);
     }
 }

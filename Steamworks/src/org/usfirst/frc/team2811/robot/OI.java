@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithoutVision;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
@@ -43,6 +44,7 @@ public class OI {
 
 ////////XBOX    
     private XboxController xBox;
+    private JoystickButton x0;
     private JoystickButton x2;
     private JoystickButton x3;
     
@@ -77,15 +79,19 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-    	rightTrigger.whileHeld(new GearDropOnPeg());
+    	rightTrigger.whileHeld(new GearDropOnPegWithoutVision());
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
+    	x0 = new JoystickButton(xBox,0);
+    	x0.whileHeld(new GearDropOnPegWithoutVision());
+
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());
     	
     	x3 = new JoystickButton(xBox,3);
     	x3.whenPressed(new ToggleAutoShift());
+
     	
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
@@ -171,8 +177,8 @@ public class OI {
     
     public double getJoystickAngle(){
     	//TODO change this back so that it works with the turret control
-    	return threeAxis.getRawAxis(3);
-    	//return ((3+threeAxis.getRawAxis(3))*1800);
+    	//return threeAxis.getRawAxis(3);
+    	return ((3+threeAxis.getRawAxis(3))*1500);
     }
 
     public boolean isTurningClock(){

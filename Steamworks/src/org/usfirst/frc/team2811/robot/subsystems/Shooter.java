@@ -73,8 +73,8 @@ public class Shooter extends Subsystem{
     
     public void pidTuneSetRPM(){
 //    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
-		shooterMotor.set(speed);
-    	//shooterMotor.set(Robot.oi.getJoystickAngle());
+		//shooterMotor.set(speed);
+    	shooterMotor.set(Robot.oi.getJoystickAngle());
     	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
     

@@ -1,7 +1,8 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoGearTurnVision;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngleFromVision;
 import org.usfirst.frc.team2811.robot.commands.TurretTwoWayHoming;
+import org.usfirst.frc.team2811.robot.commands.Wait;
 import org.usfirst.frc.team2811.robot.subsystems.Blender;
 import org.usfirst.frc.team2811.robot.subsystems.Chassis;
 import org.usfirst.frc.team2811.robot.subsystems.Climber;
@@ -90,6 +92,11 @@ public class Robot extends IterativeRobot {
 		joystickDrive = new JoystickDrive();
 		
 		chooser = new SendableChooser<Command>();
+		chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
+		chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
+		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
+		
+		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
 		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
 		chooser.addObject("climb", new Climb());
 		chooser.addObject("Shoot", new ShooterRateUpdate());
@@ -98,8 +105,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
 		chooser.addObject("Blender off", new BlenderOff() );
 		chooser.addObject("GearDropOnPeg", new GearDropOnPeg());
-		chooser.addObject("AutoGearStraightForward", new AutoGearStraightForward());
-		chooser.addObject("AutoGearTurnVision", new AutoGearTurnVision());
+		chooser.addObject("AutoGearTurnVision", new AutoGearBlueLeftSide());
 //		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Wait;
 
@@ -32,9 +33,8 @@ public class GearDropOnPeg extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-//    	addSequential(new ChassisDriveUltrasonic(0,9,0.3),2);
-//    	addSequential(new Wait(1));
+    	addSequential(new ChassisAutoTurnVision(0.5),1.5);
+    	addSequential(new ChassisDriveUltrasonic(0,9,0.3),2);
     	addSequential(new ChassisDriveUltrasonic(0,11,0.3));
     }
 }

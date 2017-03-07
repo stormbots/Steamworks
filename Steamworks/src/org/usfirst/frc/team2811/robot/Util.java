@@ -37,4 +37,15 @@ public class Util {
 			return backup;
 		}
 	}
+	
+	public static void updateFlash(){
+		Robot.blender.updateValFromFlash();
+		Robot.chassis.updateValFromFlash();
+		Robot.climber.updateValFromFlash();
+		Robot.elevator.updateValFromFlash();
+		Robot.shooter.updateValFromFlash();
+		Robot.turret.updateValFromFlash();
+		Robot.visionBoiler.updateValFromFlash();
+		Robot.visionGear.updateValFromFlash();
+	}
 }

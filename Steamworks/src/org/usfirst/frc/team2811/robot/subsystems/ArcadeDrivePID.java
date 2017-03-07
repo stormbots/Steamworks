@@ -155,6 +155,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	    double leftPIDWrite  = leftMotorSpeed;
 	    double rightPIDWrite = rightMotorSpeed;
 	    */
+	    
 	    leftPIDWrite  = limit(leftPIDWrite);
 	    rightPIDWrite = limit(rightPIDWrite);
 	    
@@ -170,7 +171,6 @@ public class ArcadeDrivePID extends RobotDrive {
 		}
 	}
 
-
 	//*****************
 	//Utility functions
 	//*****************
@@ -182,8 +182,7 @@ public class ArcadeDrivePID extends RobotDrive {
     	double inputMin = -1;
     	double outputMax = maxTickRate;
     	double outputMin = -maxTickRate; 
-        return (inputValue/(inputMax-inputMin)-inputMin/(inputMax-inputMin))*(outputMax-outputMin)+outputMin;
-         
+        return (inputValue/(inputMax-inputMin)-inputMin/(inputMax-inputMin))*(outputMax-outputMin)+outputMin;        
     }
     
     private void checkKeys(String key, double value){
@@ -191,22 +190,22 @@ public class ArcadeDrivePID extends RobotDrive {
 	}
 	
 	public void updateValFromFlash(){
-		leftLowP = prefs.getDouble("Chassis leftLowP", 0.0008);
+		leftLowP = prefs.getDouble("Chassis leftLowP", 0.0004);
 		leftLowI = prefs.getDouble("Chassis leftLowI", 0.0000);
 		leftLowD = prefs.getDouble("Chassis leftLowD", 0.0000);
 		leftLowF = prefs.getDouble("Chassis leftLowF", 0.0008);
 		
-		rightLowP = prefs.getDouble("Chassis rightLowP", 0.0008);
+		rightLowP = prefs.getDouble("Chassis rightLowP", 0.0004);
 		rightLowI = prefs.getDouble("Chassis rightLowI", 0.0000);
 		rightLowD = prefs.getDouble("Chassis rightLowD", 0.0000);
 		rightLowF = prefs.getDouble("Chassis rightLowF", 0.0008);
 		
-		leftHighP = prefs.getDouble("Chassis leftHighP", 0.00023);
+		leftHighP = prefs.getDouble("Chassis leftHighP", 0.00011);
 		leftHighI = prefs.getDouble("Chassis leftHighI", 0.00000);
 		leftHighD = prefs.getDouble("Chassis leftHighD", 0.00000);
 		leftHighF = prefs.getDouble("Chassis leftHighF", 0.00023);
 		
-		rightHighP = prefs.getDouble("Chassis rightHighP", 0.00023);
+		rightHighP = prefs.getDouble("Chassis rightHighP", 0.00011);
 		rightHighI = prefs.getDouble("Chassis rightHighI", 0.00000);
 		rightHighD = prefs.getDouble("Chassis rightHighD", 0.00000);
 		rightHighF = prefs.getDouble("Chassis rightHighF", 0.00023);

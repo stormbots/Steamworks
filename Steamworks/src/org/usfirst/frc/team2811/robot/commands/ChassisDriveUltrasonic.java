@@ -30,7 +30,6 @@ public class ChassisDriveUltrasonic extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
-    	Robot.chassis.initDrivePID();
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.encoderReset();
     	

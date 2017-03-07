@@ -136,12 +136,11 @@ public class Chassis extends Subsystem {
 			return output;
 		}
 	    
-	public void minipidDriveReset(){
-		minipidDrive.reset();
-	}
-
 	public double getToleranceInches(){
 		return chassisAutoDriveToleranceInches;
+	}
+	public void minipidDriveReset(){
+		minipidDrive.reset();
 	}
 		
 //TURN PID ---------------------------------------------------------------------------------------------------------------//
@@ -240,7 +239,7 @@ public class Chassis extends Subsystem {
     	backRight.set(13);    	
     }    
         
-	public void initDrivePID(){
+	private void initDrivePID(){
 			
 			ticksForwardRight = Util.getPreferencesDouble("TicksForwardRight", 38170.0);
 			ticksForwardLeft = Util.getPreferencesDouble("TicksForwardLeft", -37942.0);
@@ -260,7 +259,7 @@ public class Chassis extends Subsystem {
 			minipidDrive.setPID(driveP, driveI, driveD);
 	    }
 	
-    public void initTurnPID(){
+    private void initTurnPID(){
 		ticksRotateRight = Util.getPreferencesDouble("TicksRotateRight", -287506.0);
 		degreesForwardRight = Util.getPreferencesDouble("DeegresForwardRight", 360*10.0);
 		toleranceDegrees = Util.getPreferencesDouble("ChassisAutoTurn tolerance degrees", 1);
@@ -279,7 +278,7 @@ public class Chassis extends Subsystem {
 	}
 	
     public void updateValFromFlash(){
-    	//robotDrive.updateValFromFlash();  	
+    	robotDrive.updateValFromFlash();  	
     	autoShiftDefault = Util.getPreferencesBoolean("Chassis Auto Shift", false);
     	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
     	

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -133,6 +134,7 @@ public class OI {
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
     		return triggerMath();
     	} else {
+    		SmartDashboard.putNumber("Left Stick Move value", leftStick.getRawAxis(1));
     		return leftStick.getRawAxis(1);
     	}
     }
@@ -141,7 +143,9 @@ public class OI {
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
     		return xBox.getRawAxis(0);	
     	} else {
+    		SmartDashboard.putNumber("Right stick Rotate value", rightStick.getRawAxis(0));
     		return rightStick.getRawAxis(0);
+    		
     	}
     }
 
@@ -166,7 +170,6 @@ public class OI {
     }
     
     public double getJoystickAngle(){
-
     	//TODO change this back so that it works with the turret control
     	return threeAxis.getRawAxis(3);
     	//return ((3+threeAxis.getRawAxis(3))*1800);

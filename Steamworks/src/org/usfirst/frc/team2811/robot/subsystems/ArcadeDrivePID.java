@@ -44,7 +44,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double rightHighD = 0.00000;
 	private double rightHighF = 0.00023;
 
-	private boolean currentGear; 
+	private boolean currentGear = Robot.chassis.startingGear; 
 
 	private double 	maxTickRateLow  = 1400;//Tuned for comp bot
 	private double 	maxTickRateHigh = 4350; //Tuned for comp bot
@@ -65,8 +65,6 @@ public class ArcadeDrivePID extends RobotDrive {
     	leftMotor = leftSideLeaderMotor;
     	rightMotor = rightSideLeaderMotor;
 
-    	//updateValFromFlash();
-    	
     	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
 	}
@@ -177,7 +175,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	
 	/** Maps Joystick values to motor ticks for comparing to actual speeds */
     public double mapToTicks(double inputValue){
-    	double maxTickRate=currentGear||Robot.chassis.autoShiftCurrentlyEnabled?maxTickRateHigh:maxTickRateLow;
+    	double maxTickRate=(currentGear||Robot.chassis.autoShiftCurrentlyEnabled)?maxTickRateHigh:maxTickRateLow;
     	double inputMax =  1;
     	double inputMin = -1;
     	double outputMax = maxTickRate;

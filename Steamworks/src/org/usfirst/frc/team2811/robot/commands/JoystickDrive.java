@@ -20,7 +20,8 @@ public class JoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.chassis.drive(Robot.oi.getMoveValue(), Robot.oi.getRotateValue());
+    	Robot.chassis.drive(Math.abs(Robot.oi.getMoveValue())>.05?Robot.oi.getMoveValue():0, 
+    						Math.abs(Robot.oi.getRotateValue())>.05?Robot.oi.getRotateValue():0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -34,7 +34,7 @@ public class Chassis extends Subsystem {
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
     
-    public boolean startingGear;
+    public static boolean startingGear = false;
     public boolean autoShiftCurrentlyEnabled;
     public boolean autoShiftDefault;
     

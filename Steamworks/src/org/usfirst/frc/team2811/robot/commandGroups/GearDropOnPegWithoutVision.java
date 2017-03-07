@@ -1,22 +1,27 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
-import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Wait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *	Drive 7ft, GearDropOnPeg
+ * Stub class! 
+ * 
+ * This is useful for dropping the peg onto the gear assuming the robot is 
+ * roughly located where the peg is.
+ * \
+ *
  */
-public class AutoGearStraightForward extends CommandGroup {
+public class GearDropOnPegWithoutVision extends CommandGroup {
 
-    public AutoGearStraightForward() {
+    public GearDropOnPegWithoutVision() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-
+    	
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
@@ -28,10 +33,9 @@ public class AutoGearStraightForward extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(0,88),7.7);
-//    	addSequential(new Wait(0.5));
-    	addSequential(new GearDropOnPegWithoutVision());
-    
-    
+    	
+    	
+    	addSequential(new ChassisDriveUltrasonic(0,9,0.3),2);
+    	addSequential(new ChassisDriveUltrasonic(0,11,0.3),2);
     }
 }

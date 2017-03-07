@@ -52,8 +52,8 @@ public class ArcadeDrivePID extends RobotDrive {
 
 		
 	// Local variables to hold the computed PWM values for the motors
-    private double leftMotorSpeed;
-    private double rightMotorSpeed;
+	private double leftMotorSpeed;
+	private double rightMotorSpeed;
 	
 	/**
 	 * New class to seamlessly integrate MiniPID functionality into a West-Coast or Tank Drive chassis using CANTalons
@@ -66,38 +66,8 @@ public class ArcadeDrivePID extends RobotDrive {
     	leftMotor = leftSideLeaderMotor;
     	rightMotor = rightSideLeaderMotor;
 
-    	//updateValFromFlash();
-    	
-    	
-    	//fixing it and improving things
-    	leftLowP =  0.0000;
-    	leftLowI =  0.0000;
-    	leftLowD =  0.0000;
-    	leftLowF =  0.0008;
-    	
-    	leftHighP = 0.0000;
-    	leftHighI = 0.00000;
-    	leftHighD = 0.00000;
-    	leftHighF = 0.00023;
-
-    	rightLowP = 0.0000;
-    	rightLowI = 0.0000;
-    	rightLowD = 0.0000;
-    	rightLowF = 0.0008;
-    	
-    	rightHighP = 0.0000;
-    	rightHighI = 0.00000;
-    	rightHighD = 0.00000;
-    	rightHighF = 0.00023;
-    	//end fixing things
-    	
-    	//drivePIDLeft = new MiniPID(.5,.005,.001,.94);
-    	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);
-		//drivePIDLeft.setOutputLimits(-1,1);
-		
-		//drivePIDRight = new MiniPID(.5,.005,.001,1);
+    	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
-		//drivePIDRight.setOutputLimits(-1,1);
 	}
     
     public void shiftTuning(){
@@ -123,8 +93,6 @@ public class ArcadeDrivePID extends RobotDrive {
 	  * @param rotateValue   The value to use for the rotate right/left
 	  */
 	public void newArcadeDrive(double moveValue, double rotateValue) {
-	    
-
 	    moveValue = limit(moveValue);
 	    rotateValue = limit(rotateValue);
 
@@ -147,10 +115,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	    }
 	    
 	    newLeftRightDrive(leftMotorSpeed,rightMotorSpeed);
-	    SmartDashboard.putNumber("Theoretical left write", leftMotorSpeed);
 	}
-	
-	
 	
 	/**
 	 * Directly writes values to the PID. Can be used for a tank drive setup, or for more advanced functions.
@@ -179,24 +144,24 @@ public class ArcadeDrivePID extends RobotDrive {
 			drivePIDLeft.reset();
 			drivePIDRight.reset();
 		}
+		
 		//FIXME Find the correct # and placement of negative signs
 		double leftPIDWrite  = drivePIDLeft.getOutput( leftMotor.getEncVelocity(),   mapToTicks(leftMotorSpeed)*.9);
-	    double rightPIDWrite = drivePIDRight.getOutput(-rightMotor.getEncVelocity(), mapToTicks(rightMotorSpeed)*.9);
+	    double rightPIDWrite = drivePIDRight.getOutput(-rightMotor.getEncVelocity(), mapToTicks(rightMotorSpeed)*.94);
 	    
 	    //Use these to force non-PID control 
 	    /*
 	    double leftPIDWrite  = leftMotorSpeed;
 	    double rightPIDWrite = rightMotorSpeed;
 	    */
-	    SmartDashboard.putNumber("leftPIDWrite before limit", leftPIDWrite);
+	    
 	    leftPIDWrite  = limit(leftPIDWrite);
 	    rightPIDWrite = limit(rightPIDWrite);
 	    
 	    //PRINT SPAM
 	    //System.out.println("Output for drive: "+ leftPIDWrite + " | "+ rightPIDWrite);
-	    SmartDashboard.putNumber("leftPIDWrite", leftPIDWrite);
+
 	    leftMotor.set(leftPIDWrite);
-	    
 	    rightMotor.set(-rightPIDWrite);
 	    
 	    //Stops "RobotDrive not updated often enough"
@@ -204,7 +169,6 @@ public class ArcadeDrivePID extends RobotDrive {
 		      m_safetyHelper.feed();
 		}
 	}
-
 
 	//*****************
 	//Utility functions
@@ -217,8 +181,7 @@ public class ArcadeDrivePID extends RobotDrive {
     	double inputMin = -1;
     	double outputMax = maxTickRate;
     	double outputMin = -maxTickRate; 
-        return (inputValue/(inputMax-inputMin)-inputMin/(inputMax-inputMin))*(outputMax-outputMin)+outputMin;
-         
+        return (inputValue/(inputMax-inputMin)-inputMin/(inputMax-inputMin))*(outputMax-outputMin)+outputMin;        
     }
     
     private void checkKeys(String key, double value){
@@ -226,22 +189,22 @@ public class ArcadeDrivePID extends RobotDrive {
 	}
 	
 	public void updateValFromFlash(){
-		leftLowP = prefs.getDouble("Chassis leftLowP", 0.0008);
+		leftLowP = prefs.getDouble("Chassis leftLowP", 0.0004);
 		leftLowI = prefs.getDouble("Chassis leftLowI", 0.0000);
 		leftLowD = prefs.getDouble("Chassis leftLowD", 0.0000);
 		leftLowF = prefs.getDouble("Chassis leftLowF", 0.0008);
 		
-		rightLowP = prefs.getDouble("Chassis rightLowP", 0.0008);
+		rightLowP = prefs.getDouble("Chassis rightLowP", 0.0004);
 		rightLowI = prefs.getDouble("Chassis rightLowI", 0.0000);
 		rightLowD = prefs.getDouble("Chassis rightLowD", 0.0000);
 		rightLowF = prefs.getDouble("Chassis rightLowF", 0.0008);
 		
-		leftHighP = prefs.getDouble("Chassis leftHighP", 0.00023);
+		leftHighP = prefs.getDouble("Chassis leftHighP", 0.00011);
 		leftHighI = prefs.getDouble("Chassis leftHighI", 0.00000);
 		leftHighD = prefs.getDouble("Chassis leftHighD", 0.00000);
 		leftHighF = prefs.getDouble("Chassis leftHighF", 0.00023);
 		
-		rightHighP = prefs.getDouble("Chassis rightHighP", 0.00023);
+		rightHighP = prefs.getDouble("Chassis rightHighP", 0.00011);
 		rightHighI = prefs.getDouble("Chassis rightHighI", 0.00000);
 		rightHighD = prefs.getDouble("Chassis rightHighD", 0.00000);
 		rightHighF = prefs.getDouble("Chassis rightHighF", 0.00023);

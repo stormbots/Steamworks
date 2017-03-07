@@ -151,6 +151,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Util.updateFlash();
 		chassis.setGear(false);
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
@@ -178,8 +179,10 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
+		Util.updateFlash();
 		chassis.setGear(false);
 		oi.setAutoShiftDefault();
+		
 	}
 
 	/**
@@ -192,6 +195,7 @@ public class Robot extends IterativeRobot {
 		visionBoiler.update();
 		visionGear.update();
 
+		chassis.updateDashboard();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
@@ -202,7 +206,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putNumber("Vision distance boiler", visionBoiler.getDistanceTargetBoiler());
 		SmartDashboard.putNumber("Vision angle to boiler", visionBoiler.getAngleTargetHorizontalBoiler());
-        chassis.updateDashboard();
+        
 	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.distanceRightSideInches()/12.0);
 	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.distanceRightSideInches());
 	    
@@ -221,8 +225,6 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 
-		//System.out.println("left : "+gear.distanceLeftSide());
-		//System.out.println("Right: "+gear.distanceRightSide());
 	}
 	
 }

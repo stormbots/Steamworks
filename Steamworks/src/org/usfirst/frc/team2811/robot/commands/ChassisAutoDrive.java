@@ -32,7 +32,6 @@ public class ChassisAutoDrive extends Command {
     protected void initialize() {
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.minipidDriveReset();
-    	Robot.chassis.drivePIDinit();
     	Robot.chassis.encoderReset();
     	
     }

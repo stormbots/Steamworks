@@ -34,10 +34,10 @@ public class Climber extends Subsystem {
 		climberMotor2.enable();
 		climberMotor2.set(climberMotor.getDeviceID());
 		
-		updateValuesFromFlash();
+		updateValFromFlash();
 	}
 	
-	public void updateValuesFromFlash(){
+	public void updateValFromFlash(){
 		currentLimit = prefs.getDouble("climberCurrentLimit", 10);
 		if(!prefs.containsKey("climberCurrentLimit")){
 			prefs.putDouble("climberCurrentLimit", currentLimit);

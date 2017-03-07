@@ -37,7 +37,7 @@ public class ChassisAutoTurnVision extends Command {
     	} else {
     		Robot.chassis.drive(0, 0);
     	}
-    	System.out.println("ChassisAutoTurnVision running!");
+    	System.out.println("ChassisAutoTurnVision executing!");
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -32,7 +32,7 @@ public class ChassisAutoTurn extends Command {
     protected void execute() {
     	double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), targetDegrees);
     	Robot.chassis.drive(0, output);
-
+    	System.out.println("ChassisAutoTurn executing!");
     	SmartDashboard.putNumber("Chassis AutoTurnCommand rotation: " , Robot.chassis.getRotation());
     }
 

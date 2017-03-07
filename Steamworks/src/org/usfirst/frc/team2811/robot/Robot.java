@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForwardPassBaseLine;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
@@ -95,17 +96,16 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
 		chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
 		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
+		chooser.addObject("Drive Forward 10 feet", new AutoDriveForwardPassBaseLine());
 		
-		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
-		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
-		chooser.addObject("climb", new Climb());
-		chooser.addObject("Shoot", new ShooterRateUpdate());
-		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
-		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
-		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
-		chooser.addObject("Blender off", new BlenderOff() );
-		chooser.addObject("GearDropOnPeg", new GearDropOnPeg());
-		chooser.addObject("AutoGearTurnVision", new AutoGearBlueLeftSide());
+//		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
+//		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
+//		chooser.addObject("climb", new Climb());
+//		chooser.addObject("Shoot", new ShooterRateUpdate());
+//		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
+//		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
+//		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
+//		chooser.addObject("Blender off", new BlenderOff() );
 //		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );

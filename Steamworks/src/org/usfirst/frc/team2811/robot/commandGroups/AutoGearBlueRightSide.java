@@ -27,7 +27,7 @@ public class AutoGearBlueRightSide extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(7.0),3);
+    	addSequential(new ChassisAutoDrive(0,112),5);
     	addSequential(new ChassisAutoTurn(-60.0),2);
     	addSequential(new GearDropOnPeg());
     }

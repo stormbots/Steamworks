@@ -39,6 +39,7 @@ public class ChassisDriveUltrasonic extends Command {
     protected void execute() {				//TODO ULTRASONIC
     double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.getDistanceFeet(), targetInches/12.0+targetFeet);
     Robot.chassis.drive(output, 0);
+    System.out.println("ChassisDriveUltrasonic executing!");
     }
 
     // Make this return true when this Command no longer needs to run execute()

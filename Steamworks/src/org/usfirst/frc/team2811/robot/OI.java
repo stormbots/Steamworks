@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
@@ -76,8 +77,7 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-        rightTrigger.whileHeld(new ChassisDriveUltrasonic(0,11.25,.5));	//TODO tune with compbot
-    	
+    	rightTrigger.whileHeld(new GearDropOnPeg());
 ////////XBOX    	
     	xBox = new XboxController(2);
     	

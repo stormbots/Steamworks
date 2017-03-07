@@ -27,6 +27,20 @@ public class ChassisAutoDrive extends Command {
         this.targetFeet = feet;
         this.toleranceInches = Robot.chassis.getToleranceInches();
     }
+    
+    /**
+     * 
+     * @param feet
+     * @param inches
+     */
+    public ChassisAutoDrive(double feet, double inches) {
+        // Use requires() here to declare subsystem dependencies
+        requires(Robot.chassis);
+        this.targetFeet = feet + (inches/12.0);
+        this.toleranceInches = Robot.chassis.getToleranceInches();
+    }
+    
+    
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -40,7 +54,7 @@ public class ChassisAutoDrive extends Command {
     protected void execute() {
     	double output = Robot.chassis.minipidDriveGetOutput(Robot.chassis.getFeet(), targetFeet);    	
     	output = - output; // FIXME: THIS SHOULDN'T BE HERE AND WE NEED TO FIX WHY IT IS
-    	
+    	System.out.println("ChassisAutoDrive executing!");
 		Robot.chassis.drive(output, 0);
     	
     }

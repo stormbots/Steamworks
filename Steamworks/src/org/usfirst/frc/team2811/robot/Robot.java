@@ -1,7 +1,11 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForwardPassBaseLine;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftSideShootDriveForwardPastBaseLine;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearLeftSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearRightSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearStraightForward;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForwardPastBaseLine;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
@@ -96,8 +100,11 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
 		chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
 		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
-		chooser.addObject("Drive Forward 10 feet", new AutoDriveForwardPassBaseLine());
-		
+		chooser.addObject("Drive Forward 10 feet", new AutoDriveForwardPastBaseLine());
+		chooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
+		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
+		chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
+		chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
 //		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
 //		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
 //		chooser.addObject("climb", new Climb());
@@ -166,6 +173,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
+		gear.updateDashboard();
 		chassis.updateDashboard();
 		visionBoiler.update();
 		visionGear.update();

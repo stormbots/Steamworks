@@ -5,6 +5,7 @@ import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorPowerOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.Wait;
@@ -16,7 +17,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class ShooterSequence extends CommandGroup {
 
-    public ShooterSequence() {
+    public ShooterSequence(double rpm) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -39,8 +40,8 @@ public class ShooterSequence extends CommandGroup {
     	
     	//addSequential(new TurretSetTargetAngle());
     	//addSequential(new Wait(0.5));
-    	addSequential(new ShooterTuning(), 0.75);
-    	addParallel(new ShooterTuning());
+    	//addSequential(new ShooterTuning(), 0.75);
+    	addParallel(new ShooterSetRPM(rpm));
     	//addParallel(new IntakeBallIn());
 //    	addSequential(new Wait(0.5));
     	//Both blender and elevator are set to a hard coded value

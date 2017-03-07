@@ -5,6 +5,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** 
  *
@@ -84,6 +85,10 @@ public class Gear extends Subsystem {
     
     public double getDistanceFeet(){
     	return getDistanceInches()/12.0;
+    }
+    
+    public void updateDashboard(){
+    	SmartDashboard.putNumber("Left Ultrasonic (inches)", getDistanceInches());	
     }
     
     

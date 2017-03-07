@@ -1,17 +1,19 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
-import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
-import org.usfirst.frc.team2811.robot.commands.Wait;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *	Drive 7ft, GearDropOnPeg
+ *
  */
-public class AutoGearStraightForward extends CommandGroup {
+public class AutoBlueLeftSideShootDriveForwardPastBaseLine extends CommandGroup {
 
-    public AutoGearStraightForward() {
+    public AutoBlueLeftSideShootDriveForwardPastBaseLine() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,9 +30,12 @@ public class AutoGearStraightForward extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(7.33),4);
-    	addSequential(new GearDropOnPeg());
-    
-    
+    	addSequential(new ShooterTuning(), 1.5);
+    	addSequential(new ShooterSequence(3650), 7);
+    	addSequential(new ShooterSetRPM(0), 0);
+    	addSequential(new BlenderOff(), 0);
+    	addSequential(new ElevatorOff(), 0);
+
+    	addSequential(new ChassisAutoDrive(10), 8);
     }
 }

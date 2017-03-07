@@ -34,7 +34,7 @@ public class Chassis extends Subsystem {
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
     
-    private boolean startingGear;
+    public boolean startingGear;
     public boolean autoShiftCurrentlyEnabled;
     public boolean autoShiftDefault;
     
@@ -87,10 +87,11 @@ public class Chassis extends Subsystem {
     	gearShifter = new Solenoid(2);
     	opGearShifter = new Solenoid(3);
     	
-    	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);
-    	
     	initTalons();
     	updateValFromFlash();
+    	
+    	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);
+    	robotDrive.updateValFromFlash();
     	
     	autoShiftCurrentlyEnabled = autoShiftDefault;
     	
@@ -278,7 +279,7 @@ public class Chassis extends Subsystem {
 	}
 	
     public void updateValFromFlash(){
-    	robotDrive.updateValFromFlash();  	
+    	  	
     	autoShiftDefault = Util.getPreferencesBoolean("Chassis Auto Shift", false);
     	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
     	

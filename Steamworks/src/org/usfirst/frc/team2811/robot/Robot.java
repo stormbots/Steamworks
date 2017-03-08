@@ -8,6 +8,8 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearStraightFor
 import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForwardPastBaseLine;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedLeftSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedRightSide;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
@@ -107,6 +109,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
 		chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
 		chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
+		chooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
+		chooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
 		
 //		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
 //		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
@@ -162,7 +166,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		Util.updateFlash();
-		chassis.setGear(false);
+		chassis.setGearLow();
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
 		chassis.encoderReset();
@@ -191,7 +195,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
 		Util.updateFlash();
-		chassis.setGear(false);
+		chassis.setGearLow();
 		oi.setAutoShiftDefault();
 		
 	}

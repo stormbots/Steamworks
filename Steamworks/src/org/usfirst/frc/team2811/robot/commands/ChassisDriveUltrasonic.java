@@ -31,6 +31,7 @@ public class ChassisDriveUltrasonic extends Command {
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
+    	Robot.chassis.setGearLow();
     	Robot.chassis.encoderReset();
     	
     }

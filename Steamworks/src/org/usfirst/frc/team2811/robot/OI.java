@@ -44,7 +44,7 @@ public class OI {
 
 ////////XBOX    
     private XboxController xBox;
-    private JoystickButton x0;
+    private JoystickButton x1;
     private JoystickButton x2;
     private JoystickButton x3;
     
@@ -83,8 +83,9 @@ public class OI {
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
-    	x0 = new JoystickButton(xBox,0);
-    	x0.whileHeld(new GearDropOnPegWithoutVision());
+    	//USE IT!		(please don't delete me when you merge :3 )
+    	x1 = new JoystickButton(xBox,1);
+    	x1.whileHeld(new GearDropOnPegWithoutVision());
 
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());

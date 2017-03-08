@@ -34,15 +34,14 @@ public class Chassis extends Subsystem {
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
     
-    public static boolean startingGear = false;
     public boolean autoShiftCurrentlyEnabled;
     public boolean autoShiftDefault;
     
 //DRIVE PID ---------------------------------------------------------------------------------------------------------------//   
 	//Comp bot drivefwd map values
-	private double ticksForwardLeft = 38170;
-	private double ticksForwardRight = -37942;
-	private double feetForward = 10.0;
+	private double ticksForwardLeft;
+	private double ticksForwardRight;;
+	private double feetForward;
 	
 	private MiniPID minipidDrive;
 	private double driveP;
@@ -55,8 +54,8 @@ public class Chassis extends Subsystem {
 		
 //ROTATION PID ---------------------------------------------------------------------------------------------------------------//
 	//Comp bot map turn values
-	private double ticksRotateRight = -29186.0;
-	private double degreesForwardRight = 360.0;
+	private double ticksRotateRight;
+	private double degreesForwardRight;
 	
 	
 	private MiniPID minipidTurn;
@@ -91,7 +90,7 @@ public class Chassis extends Subsystem {
     	
     	autoShiftCurrentlyEnabled = autoShiftDefault;
     	
-    	setGear(startingGear);
+    	setGearLow();
      }
 
 	public void initDefaultCommand() {
@@ -109,10 +108,16 @@ public class Chassis extends Subsystem {
     	robotDrive.shiftTuning();
     }
     
-    public void setGear(boolean gear){
-    	gearShifter.set(gear);
-    	opGearShifter.set(!gear);
-    	robotDrive.setTuning(gear);
+    public void setGearLow(){
+    	gearShifter.set(false);
+    	opGearShifter.set(true);
+    	robotDrive.setTuning(false);
+    }
+    
+    public void setGearHigh(){
+    	gearShifter.set(true);
+    	opGearShifter.set(false);
+    	robotDrive.setTuning(true);
     }
     
     public void toggleAutoShiftDefault(){
@@ -280,7 +285,7 @@ public class Chassis extends Subsystem {
     public void updateValFromFlash(){
     	  	
     	autoShiftDefault = Util.getPreferencesBoolean("Chassis Auto Shift", false);
-    	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
+//    	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
     	
     	initDrivePID();
     	initTurnPID();

@@ -44,7 +44,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double rightHighD = 0.00000;
 	private double rightHighF = 0.00023;
 
-	private boolean currentGear = Robot.chassis.startingGear; 
+	private boolean currentGear = false;
 
 	private double 	maxTickRateLow  = 1400;//Tuned for comp bot
 	private double 	maxTickRateHigh = 4350; //Tuned for comp bot
@@ -130,11 +130,11 @@ public class ArcadeDrivePID extends RobotDrive {
 		
 		if(Robot.chassis.autoShiftCurrentlyEnabled){
 			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>2600){
-				Robot.chassis.setGear(true);
+				Robot.chassis.setGearHigh();
 			}
 			
 			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<1800){
-				Robot.chassis.setGear(false);
+				Robot.chassis.setGearLow();
 			}
 		}
 		

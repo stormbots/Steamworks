@@ -32,7 +32,7 @@ public class JoystickDrive extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
-    	Robot.chassis.setGear(false);
+    	Robot.chassis.setGearLow();
     	Robot.chassis.drive(0, 0);
     	
     	System.err.println("Something is borked. Should never happen");
@@ -42,7 +42,7 @@ public class JoystickDrive extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
-    	Robot.chassis.setGear(false);
+    	Robot.chassis.setGearLow();
     	Robot.chassis.drive(0, 0);
     	
     	System.err.println("JoystickDrive cancelled. Restart to drive.");

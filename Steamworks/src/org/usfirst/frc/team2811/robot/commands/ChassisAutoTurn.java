@@ -25,6 +25,7 @@ public class ChassisAutoTurn extends Command {
     protected void initialize() {
     	Robot.chassis.minipidTurnReset();
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
+    	Robot.chassis.setGearLow();
     	Robot.chassis.encoderReset();
     }
 

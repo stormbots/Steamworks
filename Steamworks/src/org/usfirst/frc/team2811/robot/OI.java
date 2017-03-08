@@ -48,7 +48,7 @@ public class OI {
     private JoystickButton x2;
     private JoystickButton x3;
     
-    private boolean connorDefaultAutoShift = true;
+    private boolean connorDefaultAutoShift = false;
 	
 ////////THREE AXIS    
     private Joystick threeAxis;
@@ -97,7 +97,7 @@ public class OI {
 		threeAxis = new Joystick(3);
 		
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
-    	//threeAxisButton1.whileHeld(new ShooterSequence());
+    	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
         threeAxisButton2 = new JoystickButton(threeAxis,2);
         threeAxisButton2.whileHeld(new TurretSetTargetAngle());
@@ -118,10 +118,10 @@ public class OI {
         threeAxisButton7.whileHeld(new ClimbDown());
         
 //      TODO Put back turretCalButton if not manual turn!
-//      threeAxisButton8 = new JoystickButton(threeAxis,8);
-//      threeAxisButton8.whenPressed(new TurretOneWayHoming());
-        threeAxisButton8 = new JoystickButton(threeAxis,8);
-        threeAxisButton8.whileHeld(new TurretManualTurn());
+      threeAxisButton8 = new JoystickButton(threeAxis,8);
+      threeAxisButton8.whenPressed(new TurretOneWayHoming());
+//        threeAxisButton8 = new JoystickButton(threeAxis,8);
+//        threeAxisButton8.whileHeld(new TurretManualTurn());
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
 //		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
@@ -138,7 +138,7 @@ public class OI {
 	
 	public double getMoveValue(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		return triggerMath();
+    		return Math.signum(triggerMath()) * (Math.pow(triggerMath(), 2.0));
     	} else {
     		SmartDashboard.putNumber("Left Stick Move value", leftStick.getRawAxis(1));
     		return leftStick.getRawAxis(1);
@@ -150,7 +150,7 @@ public class OI {
     		return xBox.getRawAxis(0);	
     	} else {
     		SmartDashboard.putNumber("Right stick Rotate value", rightStick.getRawAxis(0));
-    		return rightStick.getRawAxis(0);
+    		return rightStick.getRawAxis(0) * (Robot.chassis.gearState()?.75:1.0);
     		
     	}
     }

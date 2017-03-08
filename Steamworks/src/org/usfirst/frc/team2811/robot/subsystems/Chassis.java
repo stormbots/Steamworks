@@ -39,10 +39,10 @@ public class Chassis extends Subsystem {
     public boolean autoShiftDefault;
     
 //DRIVE PID ---------------------------------------------------------------------------------------------------------------//   
-	//Practice bot drivefwd map values
-	private double ticksForwardLeft = -35005;
-	private double ticksForwardRight = 33491;
-	private double feetForward = 8.0;
+	//Comp bot drivefwd map values
+	private double ticksForwardLeft = 38170;
+	private double ticksForwardRight = -37942;
+	private double feetForward = 10.0;
 	
 	private MiniPID minipidDrive;
 	private double driveP;
@@ -54,14 +54,10 @@ public class Chassis extends Subsystem {
 	private double chassisAutoDriveToleranceInches;
 		
 //ROTATION PID ---------------------------------------------------------------------------------------------------------------//
-	//Practice bot map turn values
+	//Comp bot map turn values
 	private double ticksRotateRight = -29186.0;
 	private double degreesForwardRight = 360.0;
 	
-	//Competion bot map turn values
-	//private double ticksRotateLeft = -282630.0; 
-	//private double ticksRotateRight;
-	//private double degreesForwardRight; 
 	
 	private MiniPID minipidTurn;
 	private double turnP;
@@ -123,6 +119,9 @@ public class Chassis extends Subsystem {
     	autoShiftDefault = !autoShiftDefault;
     }
     
+    public boolean gearState(){
+    	return gearShifter.get();
+    }
 //DRIVE PID ---------------------------------------------------------------------------------------------------------------//
 	public double minipidDriveGetOutput(double actual,double setPoint){
 			
@@ -289,15 +288,17 @@ public class Chassis extends Subsystem {
     
     //Runs constantly in the background.
     public void updateDashboard(){
-    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
-    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
+//    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
+//    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
+    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getPosition()));
+    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getPosition()));
     	SmartDashboard.putNumber("Left Encoder (feet)", getFeetLeft());
     	SmartDashboard.putNumber("Right Encoder (feet)", getFeetRight());
-    	SmartDashboard.putNumber("Left Write", frontLeft.get());
-    	SmartDashboard.putNumber("Right Write", frontRight.get());
+//    	SmartDashboard.putNumber("Left Write", frontLeft.get());
+//    	SmartDashboard.putNumber("Right Write", frontRight.get());
     	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
-    	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
-    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity()+.00001)));
+//    	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
+//    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity()+.00001)));
     	SmartDashboard.putNumber("Rotation (frontRight)", Math.round(getRotation()));
     }
 }

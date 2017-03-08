@@ -62,29 +62,29 @@ public class Gear extends Subsystem {
     }
     
     public double getDistanceInches(){
-//    	boolean leftValid = true;
-//    	boolean rightValid = true;
-//    	if(distanceLeftSideInches()>=120)leftValid=false;
-//    	if(distanceRightSideInches()>=120)rightValid=false;
-//    	
-//    	if(leftValid && rightValid){
-//    		
-//    		//NOTE: We would expect to divide by 2 here. 
-//    		//We're not sure why we have to divide by 2 again, but it apparently fixes things
-//        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0/2.0;
-//    	}
-//    	else if(leftValid){
-//    		return distanceLeftSideInches();
-//    	}
-//    	else if(rightValid){
-//    		return distanceRightSideInches();
-//    	}
-//    	else return 120;
-    	return distanceRightSideInches();
+    	boolean leftValid = true;
+    	boolean rightValid = true;
+    	if(distanceLeftSideInches()>=120)leftValid=false;
+    	if(distanceRightSideInches()>=120)rightValid=false;
+    	
+    	if(leftValid && rightValid){
+    		
+    		//NOTE: We would expect to divide by 2 here. 
+    		//We're not sure why we have to divide by 2 again, but it apparently fixes things
+        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0;
+    	}
+    	else if(leftValid){
+    		return distanceLeftSideInches();
+    	}
+    	else if(rightValid){
+    		return distanceRightSideInches();
+    	}
+    	else return 120;
+//    	return distanceRightSideInches();
     }
     
     public double getDistanceFeet(){
-    	return getDistanceInches()/12.0;
+    	return (getDistanceInches()/12.0);
     }
     
     public void updateDashboard(){

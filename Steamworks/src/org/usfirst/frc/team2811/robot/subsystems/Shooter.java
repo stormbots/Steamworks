@@ -43,14 +43,14 @@ public class Shooter extends Subsystem{
     	//Change the motor into speed mode (closed-loop velocity[]\)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-        shooterMotor.reverseSensor(false);
+        shooterMotor.reverseSensor(true);
     	shooterMotor.enableBrakeMode(false);
     	shooterMotor.enableLimitSwitch(false, false);
     	shooterMotor.enable();
     	shooterMotor.set(0);
     	
     	//Reverse is false on comp bot
-    	shooterMotor.reverseOutput(true);
+    	shooterMotor.reverseOutput(false);
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
@@ -73,8 +73,8 @@ public class Shooter extends Subsystem{
     
     public void pidTuneSetRPM(){
 //    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
-		//shooterMotor.set(speed);
-    	shooterMotor.set(Robot.oi.getJoystickAngle());
+		shooterMotor.set(speed);
+    	//shooterMotor.set(Robot.oi.getJoystickAngle());
     	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
     

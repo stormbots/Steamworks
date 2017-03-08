@@ -98,6 +98,8 @@ public class Robot extends IterativeRobot {
 		
 		chooser = new SendableChooser<Command>();
 		chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
+		chooser.addObject("climb", new Climb());
+
 		chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
 		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
 		chooser.addObject("Drive Forward 10 feet", new AutoDriveForwardPastBaseLine());
@@ -105,6 +107,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
 		chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
 		chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
+		
 //		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
 //		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
 //		chooser.addObject("climb", new Climb());
@@ -219,6 +222,7 @@ public class Robot extends IterativeRobot {
 	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.distanceRightSideInches());
 	    
 	    SmartDashboard.putNumber("Shooter speed error", -Robot.shooter.getPIDError());
+
 		}
 
 	

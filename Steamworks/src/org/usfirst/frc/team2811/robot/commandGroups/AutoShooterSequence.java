@@ -1,27 +1,22 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
-import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
-import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
-import org.usfirst.frc.team2811.robot.commands.Wait;
+import org.usfirst.frc.team2811.robot.commands.BlenderOn;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetRPM;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Stub class! 
- * 
- * This is useful for dropping the peg onto the gear assuming the robot is 
- * roughly located where the peg is.
- * \
  *
  */
-public class GearDropOnPegWithoutVision extends CommandGroup {
+public class AutoShooterSequence extends CommandGroup {
 
-    public GearDropOnPegWithoutVision() {
+    public AutoShooterSequence(double rpm) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	
+
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
@@ -34,8 +29,12 @@ public class GearDropOnPegWithoutVision extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	
-    	addSequential(new ChassisDriveUltrasonic(0,10.5,0.3),5);
-//    	addSequential(new ChassisDriveUltrasonic(0,11,0.3),2);
+    	addParallel(new ShooterSetRPM(rpm));
+    	//addParallel(new IntakeBallIn());
+//    	addSequential(new Wait(0.5));
+    	//Both blender and elevator are set to a hard coded value
+    	//addParallel(new ElevatorOn());
+    	addParallel(new ElevatorOn());
+    	addSequential(new BlenderOn());
     }
 }

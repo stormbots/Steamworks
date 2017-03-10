@@ -30,12 +30,12 @@ public class AutoBlueLeftSideShootDriveForwardPastBaseLine extends CommandGroup 
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterTuning(), 1.5);
-    	addSequential(new ShooterSequence(3650), 7);
+    	addSequential(new ShooterSetRPM(3650), 1.5);
+    	addSequential(new AutoShooterSequence(3650), 7);
     	addSequential(new ShooterSetRPM(0), 0);
     	addSequential(new BlenderOff(), 0);
     	addSequential(new ElevatorOff(), 0);
 
-    	addSequential(new ChassisAutoDrive(10), 8);
+    	addSequential(new ChassisAutoDrive(0,100), 8);
     }
 }

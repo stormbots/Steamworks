@@ -111,8 +111,8 @@ public class Chassis extends Subsystem {
     public void setGearLow(){
     	gearShifter.set(false);
     	opGearShifter.set(true);
-    	robotDrive.setTuning(false);
-    }
+    	robotDrive.setTuning(autoShiftCurrentlyEnabled);
+    	}
     
     public void setGearHigh(){
     	gearShifter.set(true);

@@ -28,7 +28,7 @@ public class AutoBlueShootGearLeftSide extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ShooterSetRPM(3750), 1.5);
-    	addSequential(new ShooterSequence(3750), 4.0);
-    	addSequential(new AutoGearBlueLeftSide(), 10.0);
+    	addSequential(new AutoShooterSequence(3750), 4.0);
+    	addSequential(new AutoGearBlueLeftSide(), 15.0);
     }
 }

@@ -1,7 +1,8 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterSequence;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
-import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithoutVision;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithVision;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
@@ -79,13 +80,13 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-    	rightTrigger.whileHeld(new GearDropOnPegWithoutVision());
+    	rightTrigger.whileHeld(new GearDropOnPegWithVision());
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
     	//USE IT!		(please don't delete me when you merge :3 )
     	x1 = new JoystickButton(xBox,1);
-    	x1.whileHeld(new GearDropOnPegWithoutVision());
+    	x1.whileHeld(new GearDropOnPegWithVision());
 
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());
@@ -116,7 +117,7 @@ public class OI {
         threeAxisButton6.whileHeld(new Climb()); 
         
         threeAxisButton7 = new JoystickButton(threeAxis, 7);
-        threeAxisButton7.whileHeld(new ClimbDown());
+        threeAxisButton7.whileHeld(new AutoShooterSequence(2000));
         
 //      TODO Put back turretCalButton if not manual turn!
       threeAxisButton8 = new JoystickButton(threeAxis,8);

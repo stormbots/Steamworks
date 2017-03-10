@@ -29,8 +29,8 @@ public class AutoBlueShootGearStraightForward extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterSetRPM(4250), 0.5);
-    	addSequential(new ShooterSequence(4250), 3.75);
+    	addSequential(new ShooterSetRPM(4250), 0.1);
+    	addSequential(new AutoShooterSequence(4250), 2.75);
     	addSequential(new ShooterSetRPM(0),0);
     	addSequential(new BlenderOff(),0);
     	addSequential(new ElevatorOff(),0);

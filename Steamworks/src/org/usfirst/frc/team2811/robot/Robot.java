@@ -5,7 +5,8 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftSideShootDriveFo
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearLeftSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearRightSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearStraightForward;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForwardPastBaseLine;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForward10ft;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForward60inches;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedLeftSide;
@@ -104,7 +105,8 @@ public class Robot extends IterativeRobot {
 
 		chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
 		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
-		chooser.addObject("Drive Forward 10 feet", new AutoDriveForwardPastBaseLine());
+		chooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
+		chooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
 		chooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
 		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
 		chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
@@ -125,7 +127,7 @@ public class Robot extends IterativeRobot {
 		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
 		//chooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", chooser);
-		
+		Robot.intake.intakeIn();
 		}
 
 	/**
@@ -135,7 +137,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		Robot.intake.intakeIn();
 	}
 
 	@Override
@@ -170,6 +172,7 @@ public class Robot extends IterativeRobot {
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
 		chassis.encoderReset();
+		Robot.intake.intakeOut();
 
 	}
 
@@ -197,6 +200,7 @@ public class Robot extends IterativeRobot {
 		Util.updateFlash();
 		chassis.setGearLow();
 		oi.setAutoShiftDefault();
+		Robot.intake.intakeOut();
 		
 	}
 

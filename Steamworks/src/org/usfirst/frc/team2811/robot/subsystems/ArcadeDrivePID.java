@@ -78,9 +78,11 @@ public class ArcadeDrivePID extends RobotDrive {
     	if(gear==true) {
     		drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
     		drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
+    		SmartDashboard.putString("Tuning", "HIGH");
     	} else {
     		drivePIDLeft.setPID(leftLowP, leftLowI, leftLowD, leftLowF);
-    		drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);	
+    		drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);
+    		SmartDashboard.putString("Tuning", "LOW");
     	}
     }
     
@@ -127,6 +129,8 @@ public class ArcadeDrivePID extends RobotDrive {
 		          tInstances.kRobotDrive_ArcadeStandard);
 		      kArcadeStandard_Reported = true;
 		}
+		
+		SmartDashboard.putBoolean("Autoshift Enabled", Robot.chassis.autoShiftCurrentlyEnabled);
 		
 		if(Robot.chassis.autoShiftCurrentlyEnabled){
 			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>2600){

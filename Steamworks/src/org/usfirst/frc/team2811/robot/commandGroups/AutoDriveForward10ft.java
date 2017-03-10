@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoDriveForwardPastBaseLine extends CommandGroup {
+public class AutoDriveForward10ft extends CommandGroup {
 
-    public AutoDriveForwardPastBaseLine() {
+    public AutoDriveForward10ft() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,6 +26,6 @@ public class AutoDriveForwardPastBaseLine extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(10.0),8);
+    	addSequential(new ChassisAutoDrive(10.0),20);
     }
 }

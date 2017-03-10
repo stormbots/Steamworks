@@ -14,7 +14,7 @@ public class Intake extends Subsystem {
 
 	private CANTalon intakeMotor;
 	private Solenoid intakeSolenoid;
-	private boolean out = false;
+	private boolean out = true;
 	private boolean in = !out;
 	private boolean opOut =!out;
 	private boolean opIn = !in;
@@ -31,7 +31,7 @@ public class Intake extends Subsystem {
 		intakeMotor.clearStickyFaults();
 		intakeMotor.enable();
 		intakeMotor.set(0);
-		intakeOut();
+		intakeIn();
 		
 	}
 	

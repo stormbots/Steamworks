@@ -69,7 +69,12 @@ public class ArcadeDrivePID extends RobotDrive {
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
 	}
     
+    public void setCurrentGear(boolean trueIsHigh){
+    	currentGear=trueIsHigh;
+    }
     public void shiftTuning(){
+    	//TODO THIS IS THE BUG
+    	//THIS IS NEVER SET AND AS A RESULT ALWAYS SETS FOR LOW GEAR TUNING
     	currentGear = !currentGear;
     	setTuning(currentGear);
     }

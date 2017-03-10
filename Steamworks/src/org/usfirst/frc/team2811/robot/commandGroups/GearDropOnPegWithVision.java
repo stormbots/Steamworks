@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class GearDropOnPegWithVision extends CommandGroup {
 
-    public GearDropOnPegWithVision() {
+    public GearDropOnPegWithVision(double inches) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -36,7 +36,8 @@ public class GearDropOnPegWithVision extends CommandGroup {
     	
     	
 //    	addSequential(new ChassisAutoTurnVision(0.5),1.5);
-    	addSequential(new ChassisDriveUltrasonic(0,15,0.3),2.5);
+    	
+    	addSequential(new ChassisDriveUltrasonic(0,inches,0.2),3);
 //    	addSequential(new ChassisDriveUltrasonic(0,9,0.3),2);
 //    	addSequential(new ChassisDriveUltrasonic(0,11,0.3),2);
     }

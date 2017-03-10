@@ -36,7 +36,7 @@ public class AutoGearBlueLeftSide extends CommandGroup {
     	addSequential(new ChassisAutoTurn(-60.0),2);
     	addSequential(new ChassisAutoDrive(0,12),4);
 //    	addSequential(new ChassisAutoTurnVision(0.5),2);
-    	addSequential(new GearDropOnPegWithVision());
+    	addSequential(new GearDropOnPegWithVision(15.0));
     	
     }
 }

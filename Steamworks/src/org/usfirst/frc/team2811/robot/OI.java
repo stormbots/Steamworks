@@ -80,13 +80,13 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-    	rightTrigger.whileHeld(new GearDropOnPegWithVision());
+    	rightTrigger.whileHeld(new GearDropOnPegWithVision(15.0));
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
     	//USE IT!		(please don't delete me when you merge :3 )
     	x1 = new JoystickButton(xBox,1);
-    	x1.whileHeld(new GearDropOnPegWithVision());
+    	x1.whileHeld(new GearDropOnPegWithVision(15.0));
 
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());
@@ -111,7 +111,7 @@ public class OI {
         threeAxisButton4.whenPressed(new IntakeToggle());
 
         threeAxisButton5 = new JoystickButton(threeAxis,5);
-        threeAxisButton5.whileHeld(new BlenderOn());
+        threeAxisButton5.whileHeld(new GearDropOnPegWithVision(14.0));
 
         threeAxisButton6 = new JoystickButton(threeAxis,6);
         threeAxisButton6.whileHeld(new Climb()); 
@@ -132,10 +132,13 @@ public class OI {
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
     	threeAxisButton11 = new JoystickButton(threeAxis, 11);
-    	threeAxisButton11.whileHeld(new ShooterTuning());
+    	threeAxisButton11.whileHeld(new GearDropOnPegWithVision(15.5));
+    
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new ElevatorOn());        
+        threeAxisButton12.whileHeld(new GearDropOnPegWithVision(16));
+        
+        
 	}
 	
 	public double getMoveValue(){
@@ -149,7 +152,7 @@ public class OI {
     
     public double getRotateValue(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		return xBox.getRawAxis(0);	
+    		return xBox.getRawAxis(0)/2.0;	
     	} else {
     		SmartDashboard.putNumber("Right stick Rotate value", rightStick.getRawAxis(0));
     		return rightStick.getRawAxis(0) * (Robot.chassis.gearState()?.75:1.0);

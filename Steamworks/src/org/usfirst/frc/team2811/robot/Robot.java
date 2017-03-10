@@ -100,19 +100,19 @@ public class Robot extends IterativeRobot {
 		joystickDrive = new JoystickDrive();
 		
 		chooser = new SendableChooser<Command>();
-		chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
-		chooser.addObject("climb", new Climb());
+		//chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
+		//chooser.addObject("climb", new Climb());
 
-		chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
+		//chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
 		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
 		chooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
 		chooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
 		chooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
 		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
-		chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
-		chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
-		chooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
-		chooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
+		//chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
+		//chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
+		//chooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
+		//chooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
 		
 //		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
 //		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
@@ -213,7 +213,7 @@ public class Robot extends IterativeRobot {
 		// Important! This talks to the RasPi so our vision works
 		visionBoiler.update();
 		visionGear.update();
-
+		gear.updateDashboard();
 		chassis.updateDashboard();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());

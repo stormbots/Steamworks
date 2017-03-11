@@ -56,7 +56,7 @@ public class ChassisAutoDrive extends Command {
     	double output = Robot.chassis.minipidDriveGetOutput(Robot.chassis.getFeet(), targetFeet);    	
     	output = - output; // FIXME: THIS SHOULDN'T BE HERE AND WE NEED TO FIX WHY IT IS
     	System.out.println("ChassisAutoDrive executing!");
-		Robot.chassis.drive(output, 0);
+		Robot.chassis.drive(output, -.2);
     	
     }
 

@@ -3,6 +3,7 @@ package org.usfirst.frc.team2811.robot;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterPrefSequence;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithVision;
+import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
@@ -112,7 +113,7 @@ public class OI {
         threeAxisButton4.whenPressed(new IntakeToggle());
 
         threeAxisButton5 = new JoystickButton(threeAxis,5);
-        threeAxisButton5.whileHeld(new GearDropOnPegWithVision(14.0));
+        threeAxisButton5.whileHeld(new GearVisionAlignment());
 
         threeAxisButton6 = new JoystickButton(threeAxis,6);
         threeAxisButton6.whileHeld(new ClimbDown()); 

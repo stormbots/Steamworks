@@ -53,6 +53,9 @@ public class Climber extends Subsystem {
     		climberMotor.set(-speed);
     	}
     }
+    public void climbUpSlow(){
+    	climberMotor.set(-speed/2);
+    }
     
     public double getCurrent(){
     	return climberMotor.getOutputCurrent();

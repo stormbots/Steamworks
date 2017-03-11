@@ -10,6 +10,7 @@ import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ClimbDown;
+import org.usfirst.frc.team2811.robot.commands.ClimbSlow;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
@@ -101,8 +102,8 @@ public class OI {
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
     	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
-        threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whileHeld(new TurretSetTargetAngle());
+        threeAxisButton11 = new JoystickButton(threeAxis,11);
+        threeAxisButton11.whileHeld(new TurretSetTargetAngle());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -114,16 +115,15 @@ public class OI {
         threeAxisButton5.whileHeld(new GearDropOnPegWithVision(14.0));
 
         threeAxisButton6 = new JoystickButton(threeAxis,6);
-        threeAxisButton6.whileHeld(new Climb()); 
+        threeAxisButton6.whileHeld(new ClimbDown()); 
         
         threeAxisButton7 = new JoystickButton(threeAxis, 7);
-        threeAxisButton7.whileHeld(new AutoShooterSequence(2000));
+        threeAxisButton7.whileHeld(new Climb());
         
+    	threeAxisButton8 = new JoystickButton(threeAxis, 8);
+    	threeAxisButton8.whileHeld(new ClimbSlow());        
 //      TODO Put back turretCalButton if not manual turn!
-      threeAxisButton8 = new JoystickButton(threeAxis,8);
-      threeAxisButton8.whenPressed(new TurretOneWayHoming());
-//        threeAxisButton8 = new JoystickButton(threeAxis,8);
-//        threeAxisButton8.whileHeld(new TurretManualTurn());
+    
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
 //		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
@@ -131,9 +131,11 @@ public class OI {
 		threeAxisButton10 = new JoystickButton(threeAxis,10);
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
-    	threeAxisButton11 = new JoystickButton(threeAxis, 11);
-    	threeAxisButton11.whileHeld(new GearDropOnPegWithVision(15.5));
-    
+
+        threeAxisButton2 = new JoystickButton(threeAxis,2);
+        threeAxisButton2.whenPressed(new TurretOneWayHoming());
+//        threeAxisButton8 = new JoystickButton(threeAxis,8);
+//        threeAxisButton8.whileHeld(new TurretManualTurn());    
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
         threeAxisButton12.whileHeld(new GearDropOnPegWithVision(16));
@@ -152,12 +154,13 @@ public class OI {
     
     public double getRotateValue(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		return xBox.getRawAxis(0)/2.0;	
+    		return Robot.chassis.gearState()?(Math.signum(xBox.getRawAxis(0))*Math.pow(xBox.getRawAxis(0), 2)):xBox.getRawAxis(0);	
     	} else {
     		SmartDashboard.putNumber("Right stick Rotate value", rightStick.getRawAxis(0));
     		return rightStick.getRawAxis(0) * (Robot.chassis.gearState()?.75:1.0);
     		
     	}
+    	
     }
 
     private double triggerMath(){

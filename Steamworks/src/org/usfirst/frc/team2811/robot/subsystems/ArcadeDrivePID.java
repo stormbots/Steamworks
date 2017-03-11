@@ -155,7 +155,7 @@ public class ArcadeDrivePID extends RobotDrive {
 		
 		//FIXME Find the correct # and placement of negative signs
 		double leftPIDWrite  = drivePIDLeft.getOutput( leftMotor.getEncVelocity(),   mapToTicks(leftMotorSpeed)*.9);
-	    double rightPIDWrite = drivePIDRight.getOutput(-rightMotor.getEncVelocity(), mapToTicks(rightMotorSpeed)*.95);
+	    double rightPIDWrite = drivePIDRight.getOutput(-rightMotor.getEncVelocity(), mapToTicks(rightMotorSpeed)*.9475);
 	    
 	    //Use these to force non-PID control 
 	    /*

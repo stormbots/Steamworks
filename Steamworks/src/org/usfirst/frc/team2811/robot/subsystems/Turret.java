@@ -45,6 +45,8 @@ public class Turret extends Subsystem {
     private double currentAngle;
     private double targetAngle;
     private double motorOutputManual;
+    
+    
 
 	private boolean SWITCH_CLOSED = false;
     

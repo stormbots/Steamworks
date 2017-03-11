@@ -116,7 +116,7 @@ public class Robot extends IterativeRobot {
 		
 //		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
 //		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
-//		chooser.addObject("climb", new Climb());
+		chooser.addObject("climb", new Climb());
 //		chooser.addObject("Shoot", new ShooterRateUpdate());
 //		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
 //		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
@@ -200,6 +200,7 @@ public class Robot extends IterativeRobot {
 		Util.updateFlash();
 		chassis.setGearLow();
 		oi.setAutoShiftDefault();
+	//.homeCW();
 		Robot.intake.intakeOut();
 		
 	}
@@ -226,8 +227,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Vision distance boiler", visionBoiler.getDistanceTargetBoiler());
 		SmartDashboard.putNumber("Vision angle to boiler", visionBoiler.getAngleTargetHorizontalBoiler());
         
-	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.distanceRightSideInches()/12.0);
-	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.distanceRightSideInches());
+	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.getDistanceFeet());
+	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.getDistanceInches());
 	    
 	    SmartDashboard.putNumber("Shooter speed error", -Robot.shooter.getPIDError());
 

@@ -35,7 +35,6 @@ public class AutoBlueLeftSideShootDriveForwardPastBaseLine extends CommandGroup 
     	addSequential(new ShooterSetRPM(0), 0);
     	addSequential(new BlenderOff(), 0);
     	addSequential(new ElevatorOff(), 0);
-
     	addSequential(new ChassisAutoDrive(0,100), 8);
     }
 }

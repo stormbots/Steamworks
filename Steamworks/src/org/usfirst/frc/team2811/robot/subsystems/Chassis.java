@@ -265,6 +265,7 @@ public class Chassis extends Subsystem {
 	    	minipidDrive.setSetpointRange(driveSetPointRange);
 			minipidDrive.setMaxIOutput(driveMaxI);
 			minipidDrive.setPID(driveP, driveI, driveD);
+			
 	    }
 	
     private void initTurnPID(){

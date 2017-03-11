@@ -67,6 +67,11 @@ public class ArcadeDrivePID extends RobotDrive {
 
     	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
+		
+		//voltage per second
+		double ramp = 0.04 ;
+		drivePIDLeft.setOutputRampRate(ramp);
+		drivePIDRight.setOutputRampRate(ramp);
 	}
     
     public void setCurrentGear(boolean trueIsHigh){

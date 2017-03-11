@@ -28,8 +28,8 @@ public class AutoGearStraightForward extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(0,60),20);
-    	addSequential(new GearDropOnPegWithVision(15.0));
+    	addSequential(new ChassisAutoDrive(0,60),3.5);
+    	addSequential(new GearDropOnPegWithVision(15.0),3);
     
     
     }

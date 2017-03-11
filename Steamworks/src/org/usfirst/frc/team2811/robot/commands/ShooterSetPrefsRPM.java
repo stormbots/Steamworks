@@ -4,14 +4,14 @@ import org.usfirst.frc.team2811.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
+/**THis is when the Auto set RPM needs testing
  *
  */
-public class ShooterSetRPM extends Command {
+public class ShooterSetPrefsRPM extends Command {
 
 	double rpm;
 	
-    public ShooterSetRPM(double rpm) {
+    public ShooterSetPrefsRPM(double rpm) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.shooter);
         this.rpm=rpm;
@@ -23,7 +23,7 @@ public class ShooterSetRPM extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.setRPM(rpm);
+    	Robot.shooter.setPrefRPM(rpm);
     	
     	//Robot.shooter.shooterFullPower();
     }

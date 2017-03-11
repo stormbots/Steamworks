@@ -2,16 +2,17 @@ package org.usfirst.frc.team2811.robot.commandGroups;
 
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
-import org.usfirst.frc.team2811.robot.commands.ShooterSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoShooterSequence extends CommandGroup {
+public class AutoShooterSequenceWithKnownRPM extends CommandGroup {
 
-    public AutoShooterSequence(double rpm) {
+    public AutoShooterSequenceWithKnownRPM(double rpm) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,8 +29,7 @@ public class AutoShooterSequence extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	addParallel(new ShooterSetRPM(rpm));
+    	addParallel(new ShooterAutoSetRPM(rpm));
     	//addParallel(new IntakeBallIn());
 //    	addSequential(new Wait(0.5));
     	//Both blender and elevator are set to a hard coded value

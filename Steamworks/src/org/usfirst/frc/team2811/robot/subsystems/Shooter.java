@@ -70,11 +70,11 @@ public class Shooter extends Subsystem{
     	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }
-    
+//This is for manual control during teleop of a match
     public void pidTuneSetRPM(){
 //    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
-		//shooterMotor.set(speed);
-    	shooterMotor.set(Robot.oi.getJoystickAngle());
+		//setRPM(speed);
+    	setRPM(Robot.oi.getJoystickAngle());
     	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
     
@@ -85,13 +85,19 @@ public class Shooter extends Subsystem{
     	targetDistance = distance;
     	setRPM(0);
     }
-
-    public void setRPM(double targetRPM){
-    	shooterMotor.set(speed);
+//THis is for preference set during Auto testing
+    public void setPrefRPM(double targetRPM){
+    	setRPM(speed);
     	System.out.println("PID Target Setpoint " + targetRPM);
     	System.out.println("PID Output " + shooterMotor.pidGet());	
     }
-    
+//THis is a hard coded value for Auto shooting
+    public void setAutoRPM(double targetRPM){
+    	setRPM(targetRPM);
+    }
+    public void setRPM(double rpm){
+    	shooterMotor.set(rpm);
+    }
     public double getTargetDistance(){
     	return targetDistance;
     }
@@ -108,11 +114,7 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     }
     
-    public void shooterFullPower(){
-    	shooterMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-    	shooterMotor.set(-1);
-    }
-    
+
     //**************************
     // Debug functions 
     //*************************

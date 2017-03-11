@@ -5,12 +5,16 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ *THis is for auto command groups with known set RPM
  */
-public class ShooterOff extends Command {
+public class ShooterAutoSetRPM extends Command {
 
-    public ShooterOff() {
-        requires(Robot.shooter);
+	private int rpm;
+    public ShooterAutoSetRPM(double rpm) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.shooter);
+    	this.rpm = (int) rpm;
     }
 
     // Called just before this Command runs the first time
@@ -19,12 +23,13 @@ public class ShooterOff extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shooterOff();
+    	Robot.shooter.setAutoRPM(rpm);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

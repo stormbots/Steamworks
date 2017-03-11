@@ -3,7 +3,8 @@ package org.usfirst.frc.team2811.robot.commandGroups;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
-import org.usfirst.frc.team2811.robot.commands.ShooterSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,9 +31,9 @@ public class AutoBlueLeftSideShootDriveForwardPastBaseLine extends CommandGroup 
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterSetRPM(3650), 1.5);
-    	addSequential(new AutoShooterSequence(3650), 7);
-    	addSequential(new ShooterSetRPM(0), 0);
+    	addSequential(new ShooterAutoSetRPM(3300), 1.5);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3300), 7);
+    	addSequential(new ShooterSetPrefsRPM(0), 0);
     	addSequential(new BlenderOff(), 0);
     	addSequential(new ElevatorOff(), 0);
     	addSequential(new ChassisAutoDrive(0,100), 8);

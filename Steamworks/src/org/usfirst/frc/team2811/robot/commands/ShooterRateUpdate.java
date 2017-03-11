@@ -20,7 +20,7 @@ public class ShooterRateUpdate extends Command {
 	protected void execute() {
 		//Use the joystick to control the shooter rpm, for now
 		double targetRate = Robot.shooter.joystickToVelocity(Robot.oi.getShootTargetRate());
-		Robot.shooter.setRPM(2000);
+		Robot.shooter.setPrefRPM(2000);
 		
 		
 		//double distance = Robot.vision.getDistance();

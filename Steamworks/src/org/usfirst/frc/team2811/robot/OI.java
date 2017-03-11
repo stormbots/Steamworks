@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2811.robot;
 
-import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterSequence;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterPrefSequence;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithVision;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;

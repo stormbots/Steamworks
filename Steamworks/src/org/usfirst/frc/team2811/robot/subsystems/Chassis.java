@@ -6,6 +6,7 @@ import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -82,17 +83,18 @@ public class Chassis extends Subsystem {
     	gearShifter = new Solenoid(2);
     	opGearShifter = new Solenoid(3);
     	
+    	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);
+    	robotDrive.updateValFromFlash();
+    	
     	initTalons();
     	updateValFromFlash();
     	
-    	robotDrive = new ArcadeDrivePID(frontLeft,frontRight);
-    	robotDrive.updateValFromFlash();
     	
     	autoShiftCurrentlyEnabled = autoShiftDefault;
     	
     	setGearLow();
      }
-
+	
 	public void initDefaultCommand() {
 		setDefaultCommand(new JoystickDrive());
     }
@@ -291,6 +293,7 @@ public class Chassis extends Subsystem {
     	autoShiftDefault = Util.getPreferencesBoolean("Chassis Auto Shift", false);
 //    	startingGear = Util.getPreferencesBoolean("Chassis Starting Gear", false);
     	
+    	robotDrive.updateValFromFlash();
     	initDrivePID();
     	initTurnPID();
 	}

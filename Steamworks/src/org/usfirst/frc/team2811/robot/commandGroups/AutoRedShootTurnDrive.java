@@ -2,19 +2,19 @@ package org.usfirst.frc.team2811.robot.commandGroups;
 
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
-import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoBlueLeftSideShootDriveForwardPastBaseLine extends CommandGroup {
+public class AutoRedShootTurnDrive extends CommandGroup {
 
-    public AutoBlueLeftSideShootDriveForwardPastBaseLine() {
+    public AutoRedShootTurnDrive() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -36,6 +36,7 @@ public class AutoBlueLeftSideShootDriveForwardPastBaseLine extends CommandGroup 
     	addSequential(new ShooterSetPrefsRPM(0), 0);
     	addSequential(new BlenderOff(), 0);
     	addSequential(new ElevatorOff(), 0);
-    	addSequential(new ChassisAutoDrive(0,100), 8);
+    	addSequential(new ChassisAutoTurn(-70),3);
+    	addSequential(new ChassisAutoDrive(10),8);
     }
 }

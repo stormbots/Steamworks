@@ -27,7 +27,7 @@ public class GearBlueStraightForwardVision extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ChassisAutoDrive(60),5);
-    	addSequential(new GearVisionAlignment(),2.5);
+//    	addSequential(new GearVisionAlignment(),2.5);
     	addSequential(new GearDropOnPegWithVision(15),3);
     }
 }

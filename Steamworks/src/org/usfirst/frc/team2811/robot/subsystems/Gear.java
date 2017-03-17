@@ -54,7 +54,7 @@ public class Gear extends Subsystem {
     }
     
     public double distanceRightSideInches(){
-    	if(sonarRight.getRangeInches() < 2){
+    	if(sonarRight.getRangeInches() < 2 || sonarRight.getRangeInches() > 120){
     		return 120;
     	}else{
     		return sonarRight.getRangeInches();
@@ -62,25 +62,23 @@ public class Gear extends Subsystem {
     }
     
     public double getDistanceInches(){
-    	boolean leftValid = true;
-    	boolean rightValid = true;
-    	if(distanceLeftSideInches()>=120)leftValid=false;
-    	if(distanceRightSideInches()>=120)rightValid=false;
-    	
-    	if(leftValid && rightValid){
-    		
-    		//NOTE: We would expect to divide by 2 here. 
-    		//We're not sure why we have to divide by 2 again, but it apparently fixes things
-        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0;
-    	}
-    	else if(leftValid){
-    		return distanceLeftSideInches();
-    	}
-    	else if(rightValid){
-    		return distanceRightSideInches();
-    	}
-    	else return 120;
-//    	return distanceRightSideInches();
+//    	boolean leftValid = true;
+//    	boolean rightValid = true;
+//    	if(distanceLeftSideInches()>=120)leftValid=false;
+//    	if(distanceRightSideInches()>=120)rightValid=false;
+//    	
+//    	if(leftValid && rightValid){
+//    		
+//        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0;
+//    	}
+//    	else if(leftValid){
+//    		return distanceLeftSideInches();
+//    	}
+//    	else if(rightValid){
+//    		return distanceRightSideInches();
+//    	}
+//    	else return 120;
+    	return distanceRightSideInches();
     }
     
     public double getDistanceFeet(){

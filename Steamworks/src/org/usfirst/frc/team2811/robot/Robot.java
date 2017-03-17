@@ -216,6 +216,8 @@ public class Robot extends IterativeRobot {
 		// Important! This talks to the RasPi so our vision works
 		visionBoiler.update();
 		visionGear.update();
+		//visionGear.heartbeat();
+		
 		gear.updateDashboard();
 		chassis.updateDashboard();
 		// Update the line graph on SmartDashboard *Still don't know how it updates

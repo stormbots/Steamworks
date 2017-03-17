@@ -146,6 +146,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 
+		visionGear.heartbeat();
+		
 		Robot.turret.updateValFromFlash();
 		Robot.shooter.updateValFromFlash();
 		Robot.blender.updateValFromFlash();
@@ -185,6 +187,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
+		visionGear.heartbeat();
 		gear.updateDashboard();
 		chassis.updateDashboard();
 		visionBoiler.update();
@@ -216,7 +219,7 @@ public class Robot extends IterativeRobot {
 		// Important! This talks to the RasPi so our vision works
 		visionBoiler.update();
 		visionGear.update();
-		//visionGear.heartbeat();
+		visionGear.heartbeat();
 		
 		gear.updateDashboard();
 		chassis.updateDashboard();

@@ -84,6 +84,12 @@ public class ArcadeDrivePID extends RobotDrive {
     	setTuning(currentGear);
     }
     
+    //setHighHearTuning
+    //setLowGearTuning
+ 
+    
+    //
+    
     public void setTuning(boolean gear){
     	if(gear==true) {
     		drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);

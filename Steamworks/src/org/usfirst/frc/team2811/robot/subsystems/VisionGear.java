@@ -106,11 +106,14 @@ public class VisionGear extends Subsystem {
 			if (this.numNtFaults > 0) {
 				this.numNtFaults = 0;
 				this.enable();
+				System.out.println("Vision reset faults and reenabled");
 			}
+			System.out.println("Vision: Raspi heartbeat good");
 			this.lastHeartbeatTime = System.currentTimeMillis();
 		} else if (piHeartbeat == this.lastHeartbeat) {
 			// something may be wrong or we may just be checking too often
 			this.numNtFaults++;
+			System.out.println("Vision possibly connected...");
 		} else {
 			// something's almost certainly wrong, since the pi's heartbeat counter decreased
 			this.numNtFaults++;
@@ -118,11 +121,14 @@ public class VisionGear extends Subsystem {
 			// reset the pi counter since it seems like it potentially came back online
 			// and, at any rate, if it increases from here, everything is okay
 			this.lastHeartbeat = piHeartbeat;
+			
+			System.out.println("Vision: Something's wrong");
+			
 		}
 		
 		if (System.currentTimeMillis() - 1000 > this.lastHeartbeatTime) {
 			// something's seriously wrong here
-			System.err.println("[VISION]: Raspi heartbeat gone for > 1 second... Disabling.")
+			System.err.println("[VISION]: Raspi heartbeat gone for > 1 second... Disabling.");
 			System.err.println("\t---> NetworkTables fault count: " + this.numNtFaults);
 			this.disable();
 		}

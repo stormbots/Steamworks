@@ -47,10 +47,15 @@ public class Climber extends Subsystem {
         // Set the default commansd for a subsystem here.
         setDefaultCommand(new ClimberOff());
     }
-    
+/**
+ * Set the motor to full power in counterclockwise direction    
+ */
     public void climbUp(){
     		climberMotor.set(speed);
     }
+    /**
+     * Set the motor to half power in counterclockwise direction
+     */
     public void climbUpSlow(){
     	climberMotor.set(speed/2);
     }
@@ -58,9 +63,15 @@ public class Climber extends Subsystem {
     public double getCurrent(){
     	return climberMotor.getOutputCurrent();
     }
+    /**
+     * Sets the power output of the climber to zero. This mean that the climber is turned off
+     */
     public void climberOff(){
     	climberMotor.set(0);
     }
+    /**
+     * This sets the climber to full power in the clockwise direction.
+     */
     public void climbDown(){
     	climberMotor.set(-speed);
     }

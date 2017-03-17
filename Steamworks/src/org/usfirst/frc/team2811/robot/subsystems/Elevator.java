@@ -21,7 +21,7 @@ public class Elevator extends Subsystem {
 
 	private double speed;
 	private double power;
-	
+	private boolean isCompBot;
 	public Elevator(){
 		elevatorMotor = new CANTalon(5);
 		
@@ -45,24 +45,44 @@ public class Elevator extends Subsystem {
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Elevator Speed", 500);
     	power = prefs.getDouble("Elevator Power", 0.4);
+    	isCompBot = prefs.getBoolean("Elevator Output isCompBot", true);
     	if(!prefs.containsKey("Elevator Speed")) prefs.putDouble("Elevator Speed", 500);
     	if(!prefs.containsKey("Elevator Power")) prefs.putDouble("Elevator Power", 0.4);
+    	if(!prefs.containsKey("Elevator Output isCompBot")) prefs.putBoolean("Elevator Output isCompBot", true);
+    	//We belive that the output is reversed on the comp bot
+    	elevatorMotor.reverseOutput(isCompBot);
 
     }
+    /**
+     * Changes the control mode to percent v bus and set the power to a variable in pref
+     */
     public void setPercentPower(){
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	elevatorMotor.enable();
     	
     	elevatorMotor.set(power);    	
     }
-    public void setRPM(double targetRate){
-    	elevatorMotor.set(targetRate);
-    }
-    
+//    /**
+//     * (In the control mode of speed)
+//     * Sets the RMP to a value specified in Preferences
+//     * NOTE: This system is not tuned (only running on P value)
+//     * @param targetRate
+//     */
+//    public void setRPM(double targetRate){
+//    	elevatorMotor.set(targetRate);
+//    }
+    /**
+     * (In the control mode of speed)
+     * Sets the RPM to a value specified in Preferences
+     * NOTE: This system is not tuned (only running on P value)
+     * 
+     */
     public void elevatorOn(){
     	elevatorMotor.set(speed);
     }
-    
+/**
+ * Sets the RPM of the elevator to 0. This mean that the elevator turns off    
+ */
     public void elevatorOff(){
     	elevatorMotor.set(0);
     }

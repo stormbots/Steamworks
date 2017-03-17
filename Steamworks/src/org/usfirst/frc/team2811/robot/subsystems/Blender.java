@@ -17,6 +17,7 @@ public class Blender extends Subsystem {
     private CANTalon motor;
     private double speed;
     private double blenderStalled;
+    private boolean isCompBot;
     
     
     public Blender(){
@@ -27,8 +28,7 @@ public class Blender extends Subsystem {
     	motor.clearStickyFaults();
 	 	motor.enable();
 	 	
-	 	//Reverse is true on comp bot
-	 	motor.reverseOutput(false);
+	 	motor.reverseOutput(!isCompBot);
 	 	motor.set(0);
 	 	updateValFromFlash();
     }
@@ -40,6 +40,10 @@ public class Blender extends Subsystem {
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Blender Speed", 0.5);
     	if(!prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.5);
+    	isCompBot = prefs.getBoolean("Blender Output isCompBot", true);
+    	if(!prefs.containsKey("Blender Output isCompBot")) prefs.putBoolean("Blender Output isCompBot", true);
+    	//We believe that the output is not reversed on the comp bot
+	 	motor.reverseOutput(!isCompBot);
     }
     
     public boolean isBlenderOn(){
@@ -49,15 +53,21 @@ public class Blender extends Subsystem {
 			return false;
 		}
     }
-    
+ /**
+  * Sets the blender on with power specified in Preferences
+  */
     public void setBlenderOn(){
     	motor.set(speed);
     }
-    
+ /**
+  * Sets the blender power to zero. This turns the blender off   
+  */
     public void setBlenderOff(){
     	motor.set(0);
     }
-    
+/**
+ * Sets the power to reverse of the preference blender speed. This means that it reverses the blender direction    
+ */
     public void setBlenderReverse(){
     	motor.set(-speed);
     }

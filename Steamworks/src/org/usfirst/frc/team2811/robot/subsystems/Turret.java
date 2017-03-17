@@ -59,8 +59,6 @@ public class Turret extends Subsystem {
     	turretMotor.clearStickyFaults();
     	turretMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	turretMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-    	//turretMotor.reverseOutput(true);
-    	//turretMotor.reverseSensor(true);
     	turretMotor.enable();
     	turretMotor.set(0);
     	turretMotor.enableForwardSoftLimit(false);
@@ -69,21 +67,20 @@ public class Turret extends Subsystem {
     	
         turretPID = new MiniPID(P,I,D);
         turretPID.setOutputLimits(-0.2, 0.2);
-        //Reverse is not working -> there's a "-" on CalculatePIDOutput()
         turretPID.setDirection(true);
         updateValFromFlash();
         
         switchClockwise = new DigitalInput(4);
         switchCounterClockwise  = new DigitalInput(5);
-      	}
+    }
 	
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TurretOff());
 	}
-
-	public void reversedHomed(){
-		homed = !homed;
-	}
+	
+	/**
+	 * Update all the values needed for turret from the preference, hopefully during disabled periodic
+	 */
 	public void updateValFromFlash(){
 		counterClockTicks = prefs.getInt("turretCounterClockTicks", 25029);
 		clockTicks = prefs.getInt("turretClockTicks", 13440);
@@ -104,23 +101,26 @@ public class Turret extends Subsystem {
 		checkKeys("turretManualOutputVal", motorOutputManual);
 	}
 
-	//Homing checking limit switch on one side, use the ticks recorded in preference
+	/**
+	 * Homing checking limit switch on one side, use the ticks recorded in preference
+	 * This goes in the clockwise orientation thing
+	 * @return Homed when completed and then stops the execution of the function if specified in the command
+	 */
     public boolean homeCW(){
     	turretMotor.set(-homingSpeed); 
     	if(switchClockwise.get()==SWITCH_CLOSED){
     		turretMotor.setEncPosition(clockTicks);
     		homed = true;
     		System.out.println("upTicks: "+counterClockTicks + ", downTicks: "+clockTicks);
-//        	turretMotor.enableForwardSoftLimit(true);
-//        	turretMotor.enableReverseSoftLimit(true);
-//    		turretMotor.setForwardSoftLimit(counterClockTicks);
-//    		turretMotor.setReverseSoftLimit(clockTicks);
     	}
     	return homed;
     }
     
 
-    //Homing counterClockwise and set the downTicks
+    /**
+     * Homing counterClockwise and set the downTicks (have to combine with the homeBothWays()
+     * @return downTicksSet 
+     */
 	public boolean homeCCW(){
 		//move motor
 		turretMotor.set(homingSpeed);
@@ -135,7 +135,10 @@ public class Turret extends Subsystem {
     	return downTicksSet;
     }
     
-	//Homing checking limit switches on both sides and record new up/downTicks in preference
+	/**
+	 * Homing checking limit switches on both sides and record new up/downTicks in preference
+	 * @return homed when completed and then stops the execution of the function if specified in the command
+	 */
 	public boolean homeBothWays(){
 		//homeCCW until downTicks is set
 		if(!downTicksSet){
@@ -168,6 +171,10 @@ public class Turret extends Subsystem {
     //******************
     // PID stuff
     //******************
+	
+	/**
+	 * Calculate the output of the turret using MiniPID, then set the output (turn the turret)
+	 */
     public void calculateTurretPIDOutput(){
     	currentAngle = getCurrentAngle();
 		currentOutput = turretPID.getOutput(currentAngle, targetAngle);
@@ -181,12 +188,21 @@ public class Turret extends Subsystem {
 
 	}
     
+    /**
+     * Set the target angle of the turret, have soft limits so that it won't turn out of range
+     * Caution: use this after homing!!!!!
+     * @param angle
+     */
 	public void setTargetAngle(double angle){
 		if(targetAngle>counterClockAngle) targetAngle = counterClockAngle;
 		else if(targetAngle<clockAngle) targetAngle = clockAngle;
 		else targetAngle = angle;
 	}
 	
+	/**
+	 * Get the current angle of the turret for PID to calculate
+	 * @return currentAngle
+	 */
 	public double getCurrentAngle(){
 		currentAngle = ticksToAngle(turretMotor.getEncPosition());
     	return currentAngle;
@@ -196,6 +212,11 @@ public class Turret extends Subsystem {
     //*****************
     //Utility functions
     //*****************
+	
+	public void reversedHomed(){
+		homed = !homed;
+	}
+	
 	private void checkKeys(String key, double value){
 		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
 	}

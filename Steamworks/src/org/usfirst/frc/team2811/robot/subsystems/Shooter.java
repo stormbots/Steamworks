@@ -70,7 +70,9 @@ public class Shooter extends Subsystem{
     	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }
-//This is for manual control during teleop of a match
+/**
+ * This is for manual control during teleop of a match using joystick flapper
+ **/
     public void pidTuneSetRPM(){
 //    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
 		//setRPM(speed);
@@ -85,16 +87,26 @@ public class Shooter extends Subsystem{
     	targetDistance = distance;
     	setRPM(0);
     }
-//THis is for preference set during Auto testing
+/**
+ * THis is for preference set during Auto testing
+ * @param targetRPM
+ */
     public void setPrefRPM(double targetRPM){
     	setRPM(speed);
     	System.out.println("PID Target Setpoint " + targetRPM);
     	System.out.println("PID Output " + shooterMotor.pidGet());	
     }
-//THis is a hard coded value for Auto shooting
+/**
+ * THis is a hard coded value for Auto shooting
+ * @param targetRPM
+ */
     public void setAutoRPM(double targetRPM){
     	setRPM(targetRPM);
     }
+    /**
+     * literally just sets the RPM....
+     * @param rpm
+     */
     public void setRPM(double rpm){
     	shooterMotor.set(rpm);
     }
@@ -109,7 +121,9 @@ public class Shooter extends Subsystem{
     public double getBias(){
     	return bias;
     }
-    
+/**
+ * turns shooter off    
+ */
     public void shooterOff(){
     	shooterMotor.set(0);
     }

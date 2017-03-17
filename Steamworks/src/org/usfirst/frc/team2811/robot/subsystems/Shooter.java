@@ -36,6 +36,7 @@ public class Shooter extends Subsystem{
 	 
 	 private double bias = 0.0;
 	 
+	 private boolean isCompBot = true;
     public Shooter(){
     	shooterMotor = new CANTalon(12);
         shooterMotor.reset();
@@ -67,6 +68,9 @@ public class Shooter extends Subsystem{
     
     public void updateValFromFlash(){
     	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
+    	isCompBot = prefs.getBoolean("Shooter Output isCompBot", true);
+    	if(!prefs.containsKey("Shooter Output isCompBot")) prefs.putBoolean("Shooter Output isCompBot", true);
+        shooterMotor.reverseOutput(!isCompBot);
     	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }

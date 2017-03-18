@@ -98,12 +98,11 @@ public class Robot extends IterativeRobot {
 		//oiChooser.addDefault("Driver OI", new OI());
 		oiChooser.addObject("Driver OI", new OI());
 		oiChooser.addObject("Debug OI", new DebugOI());
-		oiChooser = new SendableChooser<OI>();
 		SmartDashboard.putData("Operator Interface", oiChooser);
 
 		
 		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
-		SmartDashboard.putData("Auto mode", autonomousChooser);
+//		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
 		autonomousChooser = new SendableChooser<Command>();
 		//autonomousChooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());

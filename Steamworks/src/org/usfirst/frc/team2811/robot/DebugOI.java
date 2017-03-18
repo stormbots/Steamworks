@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterSequenceWithKnownRPM;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
@@ -26,66 +27,74 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class DebugOI extends OI{
 	
 ////////THREE AXIS    
-    public Joystick threeAxis;
-    public JoystickButton threeAxisButton1;
-    public JoystickButton threeAxisButton2;
-    public JoystickButton threeAxisButton3;
-    public JoystickButton threeAxisButton4;
-    public JoystickButton threeAxisButton5;
-    public JoystickButton threeAxisButton6;
-    public JoystickButton threeAxisButton7;
-    public JoystickButton threeAxisButton8;
-    public JoystickButton threeAxisButton9;
-    public JoystickButton threeAxisButton10;
-	public JoystickButton threeAxisButton11;
-	public JoystickButton threeAxisButton12;
+    public Joystick logitechJoystick;
+    public JoystickButton logitechJoystickButtonX;//button 1
+    public JoystickButton logitechJoystickButtonA;//button 2
+    public JoystickButton logitechJoystickButtonB;//button 3
+    public JoystickButton logitechJoystickButtonY;//button4
+    public JoystickButton logitechJoystickButtonLB;//button5
+    public JoystickButton logitechJoystickButtonRB;//button6
+    public JoystickButton logitechJoystickButtonLT;//button7
+    public JoystickButton logitechJoystickButtonRT;//button8
+    public JoystickButton logitechJoystickButtonBack;//button9
+    public JoystickButton logitechJoystickButtonStart;//button10
+	public JoystickButton logitechJoystickButtonRightAxis;//button11
+	public JoystickButton logitechJoystickButtonLeftAxis;//button12
 
 	public DebugOI(){    	
 ////////THREE AXIS    	
-		threeAxis = new Joystick(3);
+		logitechJoystick = new Joystick(5);
 		
-		threeAxisButton1 = new JoystickButton(threeAxis,1);
-    	threeAxisButton1.whileHeld(new ShooterSequence(3000));
+		logitechJoystickButtonX = new JoystickButton(logitechJoystick,1);
+    	logitechJoystickButtonX.whileHeld(new AutoShooterSequenceWithKnownRPM(3000));
 
-        threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whileHeld(new TurretSetTargetAngle());
+        logitechJoystickButtonA = new JoystickButton(logitechJoystick,2);
+        logitechJoystickButtonA.whileHeld(new TurretSetTargetAngle());
 
-        threeAxisButton3 = new JoystickButton(threeAxis, 3);
-        threeAxisButton3.whileHeld(new IntakeBallIn());
+//        logitechJoystickButton3 = new JoystickButton(logitechJoystick, 3);
+//        logitechJoystickButton3.whileHeld(new IntakeBallIn());
+//        
+//        logitechJoystickButton4 = new JoystickButton(logitechJoystick,4);
+//        logitechJoystickButton4.whenPressed(new IntakeToggle());
+//
+//        logitechJoystickButton5 = new JoystickButton(logitechJoystick,5);
+//        logitechJoystickButton5.whileHeld(new BlenderOn());
+//
+//        logitechJoystickButton6 = new JoystickButton(logitechJoystick,6);
+//        logitechJoystickButton6.whileHeld(new Climb()); 
+//        
+//        logitechJoystickButton7 = new JoystickButton(logitechJoystick, 7);
+//        logitechJoystickButton7.whileHeld(new ClimbDown());
+//        
+//        logitechJoystickButton8 = new JoystickButton(logitechJoystick,8);
+//        logitechJoystickButton8.whenPressed(new TurretOneWayHoming());
+//                
+        logitechJoystickButtonRB = new JoystickButton(logitechJoystick, 6);
+
+        logitechJoystickButtonLB = new JoystickButton(logitechJoystick, 5);
+//        
+//    	logitechJoystickButton11 = new JoystickButton(logitechJoystick, 11);
+//    	logitechJoystickButton11.whileHeld(new ShooterTuning());
+//    	
+//        logitechJoystickButton12 = new JoystickButton(logitechJoystick,12);
+//        logitechJoystickButton12.whileHeld(new ElevatorOn());
+//        
+        logitechJoystickButtonRT = new JoystickButton(logitechJoystick, 8);
+        logitechJoystickButtonRT.whenPressed(new ShiftGears());
         
-        threeAxisButton4 = new JoystickButton(threeAxis,4);
-        threeAxisButton4.whenPressed(new IntakeToggle());
-
-        threeAxisButton5 = new JoystickButton(threeAxis,5);
-        threeAxisButton5.whileHeld(new BlenderOn());
-
-        threeAxisButton6 = new JoystickButton(threeAxis,6);
-        threeAxisButton6.whileHeld(new Climb()); 
+        logitechJoystickButtonLT = new JoystickButton(logitechJoystick, 7);
+//        logitechJoystickButtonLT.whileHeld(new ChassisDriveUltrasonic())
         
-        threeAxisButton7 = new JoystickButton(threeAxis, 7);
-        threeAxisButton7.whileHeld(new ClimbDown());
         
-        threeAxisButton8 = new JoystickButton(threeAxis,8);
-        threeAxisButton8.whenPressed(new TurretOneWayHoming());
-                
-        threeAxisButton9 = new JoystickButton(threeAxis, 9);
-
-        threeAxisButton10 = new JoystickButton(threeAxis, 10);
-        
-    	threeAxisButton11 = new JoystickButton(threeAxis, 11);
-    	threeAxisButton11.whileHeld(new ShooterTuning());
-    	
-        threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new ElevatorOn());
         
 	}
 	
 	public double getMoveValue(){
-		return threeAxis.getRawAxis(0);
+		return logitechJoystick.getRawAxis(0);
     }
     
     public double getRotateValue(){
-    	return threeAxis.getRawAxis(1);
+    	return logitechJoystick.getRawAxis(1);
     }
 
     private double triggerMath(){
@@ -97,7 +106,7 @@ public class DebugOI extends OI{
     }
     
     public double getShootTargetRate(){
-    	return (threeAxis.getRawAxis(3)+1)/2;
+    	return (logitechJoystick.getRawAxis(3)+1)/2;
     }
     
     public double getJoystickAngle(){
@@ -105,10 +114,39 @@ public class DebugOI extends OI{
     }
 
     public boolean isTurningClock(){
-        return threeAxisButton9.get();
+        return logitechJoystickButtonRB.get();
     }
     
     public boolean isTurningCounterClock(){
-        return threeAxisButton10.get();
+        return logitechJoystickButtonLB.get();
     } 
+    
+    public void climbUp(){
+    	if(logitechJoystick.getPOV() == 0){
+    		 Robot.climber.climbUp();	
+    	}
+    	
+    	else if(!(logitechJoystick.getPOV() == 0)){
+    		Robot.climber.climberOff();
+  	
+    	}
+    }
+    
+    public void intakeOnOff(){
+    	if(logitechJoystick.getPOV() == 45 ){
+    		Robot.intake.setIntakeOff();
+  
+    	}
+    	else if(!(logitechJoystick.getPOV() == 45)){  
+    		Robot.intake.setIntakeOff();
+    	}
+    }
+    
+    
+    
+    public void povButtonAssignment(double POV ){
+    	if(logitechJoystick.getPOV() == POV){
+    		   		
+    	}
+    }
 }

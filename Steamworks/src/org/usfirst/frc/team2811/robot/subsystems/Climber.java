@@ -34,10 +34,10 @@ public class Climber extends Subsystem {
 		climberMotor2.enable();
 		climberMotor2.set(climberMotor.getDeviceID());
 		
-		updateValuesFromFlash();
+		updateValFromFlash();
 	}
 	
-	public void updateValuesFromFlash(){
+	public void updateValFromFlash(){
 		currentLimit = prefs.getDouble("climberCurrentLimit", 10);
 		if(!prefs.containsKey("climberCurrentLimit")){
 			prefs.putDouble("climberCurrentLimit", currentLimit);
@@ -49,9 +49,10 @@ public class Climber extends Subsystem {
     }
     
     public void climbUp(){
-    	if(climberMotor.getOutputCurrent()<currentLimit){
-    		climberMotor.set(-speed);
-    	}
+    		climberMotor.set(speed);
+    }
+    public void climbUpSlow(){
+    	climberMotor.set(speed/2);
     }
     
     public double getCurrent(){
@@ -61,7 +62,7 @@ public class Climber extends Subsystem {
     	climberMotor.set(0);
     }
     public void climbDown(){
-    	climberMotor.set(speed);
+    	climberMotor.set(-speed);
     }
 }
 

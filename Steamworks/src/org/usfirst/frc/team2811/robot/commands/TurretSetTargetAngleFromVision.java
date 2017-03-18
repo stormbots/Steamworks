@@ -16,15 +16,15 @@ public class TurretSetTargetAngleFromVision extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.vision.enable();
+    	Robot.visionBoiler.enable();
     	//setTimeout(1);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double target;
-    	if(Robot.vision.haveValidTarget()){
-    		target = Robot.turret.getTargetAngle()-Robot.vision.getAngleTargetHorizontal();
+    	if(Robot.visionBoiler.haveValidTargetBoiler()){
+    		target = Robot.turret.getTargetAngle()-Robot.visionBoiler.getAngleTargetHorizontalBoiler();
     		Robot.turret.setTargetAngle(target);
     		//setTimeout(1);
     	}
@@ -40,12 +40,12 @@ public class TurretSetTargetAngleFromVision extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.vision.disable();
+    	Robot.visionBoiler.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.vision.disable();
+    	Robot.visionBoiler.disable();
     }
 }

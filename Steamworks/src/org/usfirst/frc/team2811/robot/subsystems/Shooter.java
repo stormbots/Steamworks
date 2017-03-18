@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
+import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 
@@ -47,11 +50,11 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     	
     	//Reverse is false on comp bot
-    	shooterMotor.reverseOutput(true);
+    	shooterMotor.reverseOutput(false);
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
-    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
+    	//shooterMotor.setPID(0.0tghn  5, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
     	
     	updateValFromFlash();
     }
@@ -63,14 +66,16 @@ public class Shooter extends Subsystem{
     
     
     public void updateValFromFlash(){
-    	speed = prefs.getDouble("Shooter Speed", 4200);
-    	if(!prefs.containsKey("Shooter Speed")) prefs.putDouble("Shooter Speed", 4200);
+    	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
     	//shooterMotor.set(speed);
     }
-    
+//This is for manual control during teleop of a match
     public void pidTuneSetRPM(){
-    	shooterMotor.set(speed);
+//    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
+		//setRPM(speed);
+    	setRPM(Robot.oi.getJoystickAngle());
+    	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
     
     //**************************
@@ -80,13 +85,19 @@ public class Shooter extends Subsystem{
     	targetDistance = distance;
     	setRPM(0);
     }
-
-    public void setRPM(double targetRPM){
-    	shooterMotor.set(targetRPM);
+//THis is for preference set during Auto testing
+    public void setPrefRPM(double targetRPM){
+    	setRPM(speed);
     	System.out.println("PID Target Setpoint " + targetRPM);
     	System.out.println("PID Output " + shooterMotor.pidGet());	
     }
-    
+//THis is a hard coded value for Auto shooting
+    public void setAutoRPM(double targetRPM){
+    	setRPM(targetRPM);
+    }
+    public void setRPM(double rpm){
+    	shooterMotor.set(rpm);
+    }
     public double getTargetDistance(){
     	return targetDistance;
     }
@@ -103,8 +114,7 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     }
     
-    
-    
+
     //**************************
     // Debug functions 
     //*************************

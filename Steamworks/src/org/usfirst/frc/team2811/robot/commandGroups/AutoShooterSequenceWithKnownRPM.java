@@ -2,22 +2,17 @@ package org.usfirst.frc.team2811.robot.commandGroups;
 
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
-import org.usfirst.frc.team2811.robot.commands.ElevatorPowerOn;
-import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
-import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
+import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
-import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
-import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
-import org.usfirst.frc.team2811.robot.commands.Wait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class ShooterSequence extends CommandGroup {
+public class AutoShooterSequenceWithKnownRPM extends CommandGroup {
 
-    public ShooterSequence(double rpm) {
+    public AutoShooterSequenceWithKnownRPM(double rpm) {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -31,17 +26,10 @@ public class ShooterSequence extends CommandGroup {
 
         // A command group will require all of the subsystems that each member
         // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm, 
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	//TODO: map a button to whileHeld()
-    	//TODO: Need to add vision to this EX: Turn to target(chassis)
-    	
-    	//addSequential(new TurretSetTargetAngle());
-    	//addSequential(new Wait(0.5));
-    	//addSequential(new ShooterTuning(), 0.75);
-    	addParallel(new ShooterTuning());
+    	addParallel(new ShooterAutoSetRPM(rpm));
     	//addParallel(new IntakeBallIn());
 //    	addSequential(new Wait(0.5));
     	//Both blender and elevator are set to a hard coded value

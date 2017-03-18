@@ -4,16 +4,18 @@ import org.usfirst.frc.team2811.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
+/**THis is when the Auto set RPM needs testing
  *
  */
-public class UpdateVision extends Command {
+public class ShooterSetPrefsRPM extends Command {
 
-    public UpdateVision() {
+	double rpm;
+	
+    public ShooterSetPrefsRPM(double rpm) {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.vision);
-    }
+        requires(Robot.shooter);
+        this.rpm=rpm;
+        }
 
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -21,7 +23,9 @@ public class UpdateVision extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.vision.update();
+    	Robot.shooter.setPrefRPM(rpm);
+    	
+    	//Robot.shooter.shooterFullPower();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,6 +40,5 @@ public class UpdateVision extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("Vision interrupted!!!");
     }
 }

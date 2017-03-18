@@ -5,6 +5,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** 
  *
@@ -44,7 +45,7 @@ public class Gear extends Subsystem {
     }
     
     public double distanceLeftSideInches(){
-    	if(sonarLeft.getRangeInches() < 1){
+    	if(sonarLeft.getRangeInches() < 2){
     		return 120;
     	}else{
     		return sonarLeft.getRangeInches();
@@ -53,13 +54,45 @@ public class Gear extends Subsystem {
     }
     
     public double distanceRightSideInches(){
-    	if(sonarRight.getRangeInches() < 1){
+    	if(sonarRight.getRangeInches() < 2){
     		return 120;
     	}else{
     		return sonarRight.getRangeInches();
     	}
     }
     
+    public double getDistanceInches(){
+    	boolean leftValid = true;
+    	boolean rightValid = true;
+    	if(distanceLeftSideInches()>=120)leftValid=false;
+    	if(distanceRightSideInches()>=120)rightValid=false;
+    	
+    	if(leftValid && rightValid){
+    		
+    		//NOTE: We would expect to divide by 2 here. 
+    		//We're not sure why we have to divide by 2 again, but it apparently fixes things
+        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0;
+    	}
+    	else if(leftValid){
+    		return distanceLeftSideInches();
+    	}
+    	else if(rightValid){
+    		return distanceRightSideInches();
+    	}
+    	else return 120;
+//    	return distanceRightSideInches();
+    }
+    
+    public double getDistanceFeet(){
+    	return (getDistanceInches()/12.0);
+    }
+    
+    public void updateDashboard(){
+    	SmartDashboard.putNumber("Right Ultrasonic (inches)", distanceRightSideInches());	
+    	SmartDashboard.putNumber("Left Ultrasonic", distanceLeftSideInches());
+    	SmartDashboard.putNumber("Ultrasonic (inches)", getDistanceInches());	
+    }
+   
     
 }
 

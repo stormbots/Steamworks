@@ -14,11 +14,11 @@ public class Intake extends Subsystem {
 
 	private CANTalon intakeMotor;
 	private Solenoid intakeSolenoid;
-	private boolean out = false;
+	private boolean out = true;
 	private boolean in = !out;
 	private boolean opOut =!out;
 	private boolean opIn = !in;
-	private double speed = -0.95;
+	private double speed = 0.95;
 	private Solenoid intakeOpSolenoid; 
 	
 	public Intake(){
@@ -27,10 +27,11 @@ public class Intake extends Subsystem {
 		
 		intakeMotor = new CANTalon(3);
 		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		intakeMotor.reverseOutput(true);
 		intakeMotor.clearStickyFaults();
 		intakeMotor.enable();
 		intakeMotor.set(0);
-		intakeOut();
+		intakeIn();
 		
 	}
 	

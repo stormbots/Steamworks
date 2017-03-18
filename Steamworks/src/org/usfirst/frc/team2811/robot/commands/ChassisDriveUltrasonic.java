@@ -30,45 +30,38 @@ public class ChassisDriveUltrasonic extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
-    	Robot.chassis.drivePIDinit();
-    	setTimeout(9);
     	Robot.chassis.autoShiftCurrentlyEnabled = false;
+    	Robot.chassis.setGearLow();
     	Robot.chassis.encoderReset();
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	
-    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.distanceRightSideInches()/12.0, targetInches/12.0+targetFeet);
+    protected void execute() {				//TODO ULTRASONIC
+    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.getDistanceFeet(), targetInches/12.0+targetFeet);
     Robot.chassis.drive(output, 0);
-//	  SmartDashboard.putNumber("DriveUltrasonic PID Output", output);
-//    System.out.println("Ultrasonic drive running!!");
-
+    System.out.println("ChassisDriveUltrasonic executing!");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-
-    	//return false;
-     	if(isTimedOut())cancel();
-    	double distance = Math.abs(Robot.gear.distanceRightSideInches());
+    	double distance = Math.abs(Robot.gear.getDistanceInches());	
+    	SmartDashboard.putNumber("GearDistanceIsFinished", Robot.gear.getDistanceInches());
     	double target = Math.abs(targetFeet*12.0 + targetInches);
         return Util.difference(distance,target) < toleranceInches;
-        		
-      
     }
 
     // Called once after isFinished returns true
     protected void end() {
-//    	System.out.println("Ultrasonic drive exiting!!");
     	Robot.chassis.drive(0, 0);
+    	Robot.chassis.autoShiftCurrentlyEnabled=Robot.chassis.autoShiftDefault;
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-//    	SmartDashboard.putString("Interrupted: ", "Command timed out!");
-    }
+    	Robot.chassis.drive(0, 0);
+    	System.out.println("ChassisDriveUltrasonic interrupted!");
+     }
         
 }

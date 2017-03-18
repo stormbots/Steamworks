@@ -45,7 +45,7 @@ public class DebugOI extends OI{
 		threeAxis = new Joystick(3);
 		
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
-    	threeAxisButton1.whileHeld(new ShooterSequence());
+    	threeAxisButton1.whileHeld(new ShooterSequence(3000));
 
         threeAxisButton2 = new JoystickButton(threeAxis,2);
         threeAxisButton2.whileHeld(new TurretSetTargetAngle());

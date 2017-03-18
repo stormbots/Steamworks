@@ -30,7 +30,7 @@ public class Elevator extends Subsystem {
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
     	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	//Reverse is true on comp bot
-    	elevatorMotor.reverseOutput(false);
+    	elevatorMotor.reverseOutput(true);
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	

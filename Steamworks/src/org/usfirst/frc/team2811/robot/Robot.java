@@ -1,5 +1,18 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
+//import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnDrive;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftSideShootDriveForwardPastBaseLine;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearLeftSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearRightSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearStraightForward;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForward10ft;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForward60inches;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedLeftSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedRightSide;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
@@ -19,7 +32,8 @@ import org.usfirst.frc.team2811.robot.subsystems.Gear;
 import org.usfirst.frc.team2811.robot.subsystems.Intake;
 import org.usfirst.frc.team2811.robot.subsystems.Shooter;
 import org.usfirst.frc.team2811.robot.subsystems.Turret;
-import org.usfirst.frc.team2811.robot.subsystems.Vision;
+import org.usfirst.frc.team2811.robot.subsystems.VisionBoiler;
+import org.usfirst.frc.team2811.robot.subsystems.VisionGear;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -39,7 +53,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 	//Declare subsystems
-	public static Vision vision;
+	public static VisionBoiler visionBoiler;
+	public static VisionGear visionGear;
 	public static Gear gear;
 	public static Climber climber;
 	public static Shooter shooter;
@@ -65,8 +80,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {		
 		//Initialize Subsystems
-		vision = new Vision ();
-		gear = new Gear ();
+		visionBoiler = new VisionBoiler();
+		visionGear = new VisionGear();
+		gear = new Gear();
 		climber = new Climber();
 		shooter = new Shooter();
 		turret = new Turret();
@@ -85,21 +101,40 @@ public class Robot extends IterativeRobot {
 		oiChooser = new SendableChooser<OI>();
 		SmartDashboard.putData("Operator Interface", oiChooser);
 
-	
-		autonomousChooser = new SendableChooser<Command>();
-		autonomousChooser.addDefault("Do Nothing", new Wait(0));
-		autonomousChooser.addObject("Turret Calibration", new TurretOneWayHoming());
-		autonomousChooser.addObject("climb", new Climb());
-		autonomousChooser.addObject("Shoot", new ShooterRateUpdate());
-		autonomousChooser.addObject("Turret Home One way", new TurretOneWayHoming());
-		autonomousChooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
-		autonomousChooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
-		autonomousChooser.addObject("Blender off", new BlenderOff() );
-		autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
 		
 		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
 		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
+		autonomousChooser = new SendableChooser<Command>();
+		//autonomousChooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
+		//autonomousChooser.addObject("climb", new Climb());
+
+		//autonomousChooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
+		autonomousChooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
+		autonomousChooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
+		autonomousChooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
+		autonomousChooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
+		autonomousChooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
+		//autonomousChooser.addDefault("Red shoot and turn drive", new AutoRedShootTurnDrive());
+		//autonomousChooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
+		//autonomousChooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
+		//autonomousChooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
+		//autonomousChooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
+		
+//		autonomousChooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
+//		autonomousChooser.addObject("Turret Calibration", new TurretOneWayHoming());
+		autonomousChooser.addObject("climb", new Climb());
+//		autonomousChooser.addObject("Shoot", new ShooterRateUpdate());
+//		autonomousChooser.addObject("Turret Home One way", new TurretOneWayHoming());
+//		autonomousChooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
+//		autonomousChooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
+//		autonomousChooser.addObject("Blender off", new BlenderOff() );
+//		autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
+		//autonomousChooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
+		//autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
+		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
+		SmartDashboard.putData("Auto mode", autonomousChooser);
+		Robot.intake.intakeIn();
 		}
 
 	/**
@@ -109,7 +144,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		Robot.intake.intakeIn();
 	}
 
 	@Override
@@ -121,7 +156,8 @@ public class Robot extends IterativeRobot {
 		Robot.blender.updateValFromFlash();
 		Robot.elevator.updateValFromFlash();
 		Robot.chassis.updateValFromFlash();
-		Robot.vision.updateValFromFlash();
+		Robot.visionBoiler.updateValFromFlash();
+		Robot.visionGear.updateValFromFlash();
 	}
 	
 	
@@ -138,9 +174,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Util.updateFlash();
+		chassis.setGearLow();
 		autonomousCommand = autonomousChooser.getSelected();
 
 		if (autonomousCommand != null) autonomousCommand.start();
+		chassis.encoderReset();
+		Robot.intake.intakeOut();
+
 	}
 
 	/**
@@ -149,7 +190,12 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		gear.updateDashboard();
 		chassis.updateDashboard();
+		visionBoiler.update();
+		visionGear.update();
+		SmartDashboard.putNumber("Vision Gear Angle", Robot.visionGear.getAngleHorizontal());
 	}
 
 	@Override
@@ -163,7 +209,13 @@ public class Robot extends IterativeRobot {
 		OI newOI=oiChooser.getSelected();
 		if(newOI != null) oi = newOI;
 
+		Util.updateFlash();
+		chassis.setGearLow();
+
 		oi.setAutoShiftDefault();
+	//.homeCW();
+		Robot.intake.intakeOut();
+		
 	}
 
 	/**
@@ -173,8 +225,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		// Important! This talks to the RasPi so our vision works
-		vision.update();		
-
+		visionBoiler.update();
+		visionGear.update();
+		gear.updateDashboard();
+		chassis.updateDashboard();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
@@ -183,11 +237,14 @@ public class Robot extends IterativeRobot {
         //SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
 		//SmartDashboard.putNumber("Turret output", Robot.turret.getOutput());
         
-        SmartDashboard.putNumber("Vision distanceTarget", vision.getDistanceTarget());
-		SmartDashboard.putNumber("Vision angleTargetHorizontal", vision.getAngleTargetHorizontal());
-        chassis.updateDashboard();
-	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.distanceRightSideInches()/12.0);
-	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.distanceRightSideInches());
+        SmartDashboard.putNumber("Vision distance boiler", visionBoiler.getDistanceTargetBoiler());
+		SmartDashboard.putNumber("Vision angle to boiler", visionBoiler.getAngleTargetHorizontalBoiler());
+        
+	    SmartDashboard.putNumber("Distance from wall (right,feet): ", Robot.gear.getDistanceFeet());
+	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.getDistanceInches());
+	    
+	    SmartDashboard.putNumber("Shooter speed error", -Robot.shooter.getPIDError());
+
 		}
 
 	
@@ -202,8 +259,6 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 
-		//System.out.println("left : "+gear.distanceLeftSide());
-		//System.out.println("Right: "+gear.distanceRightSide());
 	}
 	
 }

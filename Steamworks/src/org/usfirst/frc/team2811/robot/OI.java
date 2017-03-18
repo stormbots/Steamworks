@@ -1,5 +1,9 @@
 package org.usfirst.frc.team2811.robot;
 
+import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterPrefSequence;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithVision;
+import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
@@ -7,6 +11,7 @@ import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.ClimbDown;
+import org.usfirst.frc.team2811.robot.commands.ClimbSlow;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
@@ -22,6 +27,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -41,10 +47,11 @@ public class OI {
 
 ////////XBOX    
     private XboxController xBox;
+    private JoystickButton x1;
     private JoystickButton x2;
     private JoystickButton x3;
     
-    private boolean connorDefaultAutoShift = true;
+    private boolean connorDefaultAutoShift = false;
 	
 ////////THREE AXIS    
     private Joystick threeAxis;
@@ -75,25 +82,29 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-        rightTrigger.whenPressed(new ChassisDriveUltrasonic(0,11.25,0.05001));	//TODO tune with compbot
-    	
+    	rightTrigger.whileHeld(new GearDropOnPegWithVision(15.0));
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
+    	//USE IT!		(please don't delete me when you merge :3 )
+    	x1 = new JoystickButton(xBox,1);
+    	x1.whileHeld(new GearDropOnPegWithVision(15.0));
+
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());
     	
     	x3 = new JoystickButton(xBox,3);
     	x3.whenPressed(new ToggleAutoShift());
+
     	
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
 		
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
-    	threeAxisButton1.whileHeld(new ShooterSequence());
+    	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
-        threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whileHeld(new TurretSetTargetAngle());
+        threeAxisButton11 = new JoystickButton(threeAxis,11);
+        threeAxisButton11.whileHeld(new TurretSetTargetAngle());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -102,48 +113,55 @@ public class OI {
         threeAxisButton4.whenPressed(new IntakeToggle());
 
         threeAxisButton5 = new JoystickButton(threeAxis,5);
-        threeAxisButton5.whileHeld(new BlenderOn());
+        threeAxisButton5.whileHeld(new GearVisionAlignment());
 
         threeAxisButton6 = new JoystickButton(threeAxis,6);
-        threeAxisButton6.whileHeld(new Climb()); 
+        threeAxisButton6.whileHeld(new ClimbDown()); 
         
         threeAxisButton7 = new JoystickButton(threeAxis, 7);
-        threeAxisButton7.whileHeld(new ClimbDown());
+        threeAxisButton7.whileHeld(new Climb());
         
-        threeAxisButton8 = new JoystickButton(threeAxis,8);
-        threeAxisButton8.whenPressed(new TurretOneWayHoming());
-        
-//        //Put back turretCalButton if not manual turn!
-//        threeAxisButton8 = new JoystickButton(threeAxis,8);
-//        threeAxisButton8.whileHeld(new TurretManualTurn());
+    	threeAxisButton8 = new JoystickButton(threeAxis, 8);
+    	threeAxisButton8.whileHeld(new ClimbSlow());        
+//      TODO Put back turretCalButton if not manual turn!
+    
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
-		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
-
+//		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
+//
 		threeAxisButton10 = new JoystickButton(threeAxis,10);
-		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
+//		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
-    	threeAxisButton11 = new JoystickButton(threeAxis, 11);
-    	threeAxisButton11.whileHeld(new ShooterTuning());
+
+        threeAxisButton2 = new JoystickButton(threeAxis,2);
+        threeAxisButton2.whenPressed(new TurretOneWayHoming());
+//        threeAxisButton8 = new JoystickButton(threeAxis,8);
+//        threeAxisButton8.whileHeld(new TurretManualTurn());    
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new ElevatorOn());        
+        threeAxisButton12.whileHeld(new GearDropOnPegWithVision(16));
+        
+        
 	}
 	
 	public double getMoveValue(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		return triggerMath();
+    		return Math.signum(triggerMath()) * (Math.pow(triggerMath(), 2.0));
     	} else {
+    		SmartDashboard.putNumber("Left Stick Move value", leftStick.getRawAxis(1));
     		return leftStick.getRawAxis(1);
     	}
     }
     
     public double getRotateValue(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		return xBox.getRawAxis(0);	
+    		return Robot.chassis.gearState()?(Math.signum(xBox.getRawAxis(0))*Math.pow(xBox.getRawAxis(0), 2)):xBox.getRawAxis(0);	
     	} else {
-    		return rightStick.getRawAxis(0);
+    		SmartDashboard.putNumber("Right stick Rotate value", rightStick.getRawAxis(0));
+    		return rightStick.getRawAxis(0) * (Robot.chassis.gearState()?.75:1.0);
+    		
     	}
+    	
     }
 
     private double triggerMath(){
@@ -167,7 +185,9 @@ public class OI {
     }
     
     public double getJoystickAngle(){
-    	return threeAxis.getRawAxis(3);
+    	//TODO change this back so that it works with the turret control
+    	//return threeAxis.getRawAxis(3);
+    	return ((3+threeAxis.getRawAxis(3))*1500);
     }
 
     public boolean isTurningClock(){

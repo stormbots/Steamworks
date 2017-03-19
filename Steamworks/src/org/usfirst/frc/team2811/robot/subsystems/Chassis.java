@@ -271,7 +271,12 @@ public class Chassis extends Subsystem {
 	    }
 	
     private void initTurnPID(){
-		ticksRotateRight = Util.getPreferencesDouble("TicksRotateRight", -287506.0);
+    	
+    	//DONT DELETE NEVER NEVER NEVER
+    	// Ticks: -314866.0
+    	// rotations: 3600
+    	
+		ticksRotateRight = Util.getPreferencesDouble("TicksRotateRight", -314866.0);
 		degreesForwardRight = Util.getPreferencesDouble("DeegresForwardRight", 360*10.0);
 		toleranceDegrees = Util.getPreferencesDouble("ChassisAutoTurn tolerance degrees", 1);
 		
@@ -309,6 +314,7 @@ public class Chassis extends Subsystem {
     	SmartDashboard.putNumber("Left Write", frontLeft.get());
     	SmartDashboard.putNumber("Right Write", frontRight.get());
     	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
+    	SmartDashboard.putNumber("LOOKATHERE DELETE ME LATER", frontRight.getEncPosition());
 //    	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
 //    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity()+.00001)));
     	SmartDashboard.putNumber("Rotation (frontRight)", Math.round(getRotation()));

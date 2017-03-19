@@ -88,7 +88,9 @@ public class OI {
     	
     	//USE IT!		(please don't delete me when you merge :3 )
     	x1 = new JoystickButton(xBox,1);
-    	x1.whileHeld(new GearDropOnPegWithVision(15.0));
+    	x1.whileHeld(new GearDropOnPegWithVision(12.5));
+//    	x1.whileHeld(new GearVisionAlignment());
+//    	x1.whenPressed(new ChassisAutoTurn(90.0));
 
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());

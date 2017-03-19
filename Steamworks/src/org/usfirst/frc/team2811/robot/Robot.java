@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
+import org.usfirst.frc.team2811.robot.commandGroups.GearBlueStraightForwardVision;
 //import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnDrive;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftSideShootDriveForwardPastBaseLine;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearLeftSide;
@@ -105,7 +106,7 @@ public class Robot extends IterativeRobot {
 		//chooser.addObject("climb", new Climb());
 
 		//chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
-		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
+		chooser.addObject("Blue Drop Gear Straight Forward", new GearBlueStraightForwardVision());
 		chooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
 		chooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
 		chooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
@@ -205,6 +206,7 @@ public class Robot extends IterativeRobot {
 		Util.updateFlash();
 		chassis.setGearLow();
 		oi.setAutoShiftDefault();
+		chassis.encoderReset();
 	//.homeCW();
 		Robot.intake.intakeOut();
 		

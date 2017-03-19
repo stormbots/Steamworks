@@ -157,24 +157,24 @@ public class OI {
     
     public double getRotateValue(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		return Robot.chassis.gearState()?(Math.signum(xBox.getRawAxis(0))*Math.pow(xBox.getRawAxis(0), 2)):xBox.getRawAxis(0);	
+    		return Robot.chassis.gearState() ? (Math.signum(xBox.getRawAxis(0)) * Math.pow(xBox.getRawAxis(0), 2)) : xBox.getRawAxis(0);	
     	} else {
-    		SmartDashboard.putNumber("Right stick Rotate value", rightStick.getRawAxis(0));
-    		return rightStick.getRawAxis(0) * (Robot.chassis.gearState()?.75:1.0);
-    		
+    		return rightStick.getRawAxis(0) * (Robot.chassis.gearState()?.75:1.0);  		
     	}
-    	
     }
-
+    
+    /**
+     * Allows Connor to drive with triggers. Makes 2 forwards and 3 backwards. 
+     */
     private double triggerMath(){
     	return Robot.oi.xBox.getRawAxis(2)-Robot.oi.xBox.getRawAxis(3); 
     }
     
     public void setAutoShiftDefault(){
     	if(!DriverStation.getInstance().getJoystickName(2).equals("")){
-    		Robot.chassis.autoShiftDefault = connorDefaultAutoShift;	
+    		Robot.chassis.setAutoShiftDefault(connorDefaultAutoShift);	
     	} else {
-    		Robot.chassis.autoShiftDefault = austinDefaultAutoShift;
+    		Robot.chassis.setAutoShiftDefault(austinDefaultAutoShift);	
     	}
     }
     

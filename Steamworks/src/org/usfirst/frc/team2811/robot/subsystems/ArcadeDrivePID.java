@@ -44,10 +44,9 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double rightHighD = 0.00000;
 	private double rightHighF = 0.00023;
 
-	private boolean currentGear = false;
-
 	private double 	maxTickRateLow  = 1400;//Tuned for comp bot
 	private double 	maxTickRateHigh = 4350; //Tuned for comp bot
+	private boolean mapScale;
 
 		
 	// Local variables to hold the computed PWM values for the motors
@@ -68,38 +67,36 @@ public class ArcadeDrivePID extends RobotDrive {
     	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
 		
-		//voltage per second
+		/* FIXME TEST WITH AUTOSHIFT
+		//Voltage per second 
 		double ramp = 0.04 ;
 		drivePIDLeft.setOutputRampRate(ramp);
 		drivePIDRight.setOutputRampRate(ramp);
+		*/
 	}
-    
-    public void setCurrentGear(boolean trueIsHigh){
-    	currentGear=trueIsHigh;
-    }
-    public void shiftTuning(){
-    	//TODO THIS IS THE BUG
-    	//THIS IS NEVER SET AND AS A RESULT ALWAYS SETS FOR LOW GEAR TUNING
-    	currentGear = !currentGear;
-    	setTuning(currentGear);
-    }
-    
-    //setHighHearTuning
-    //setLowGearTuning
  
+    public void setTuningHigh(){
+       	drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
+    	drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
+    	SmartDashboard.putString("Tuning", "HIGH");
+    }
     
-    //
+    public void setTuningLow(){
+    	drivePIDLeft.setPID(leftLowP, leftLowI, leftLowD, leftLowF);
+    	drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);
+    	SmartDashboard.putString("Tuning", "LOW");
+    }
     
-    public void setTuning(boolean gear){
-    	if(gear==true) {
-    		drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
-    		drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
-    		SmartDashboard.putString("Tuning", "HIGH");
-    	} else {
-    		drivePIDLeft.setPID(leftLowP, leftLowI, leftLowD, leftLowF);
-    		drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);
-    		SmartDashboard.putString("Tuning", "LOW");
-    	}
+    public void setMapHigh(){
+    	mapScale = true;
+    }
+    
+    public void setMapLow(){
+    	mapScale = false;
+    }
+    
+    public double getAbsoluteSpeed(){
+    	return Math.abs(leftMotor.getEncVelocity()) + Math.abs(rightMotor.getEncVelocity());
     }
     
 	/**
@@ -146,18 +143,6 @@ public class ArcadeDrivePID extends RobotDrive {
 		      kArcadeStandard_Reported = true;
 		}
 		
-		SmartDashboard.putBoolean("Autoshift Enabled", Robot.chassis.autoShiftCurrentlyEnabled);
-		
-		if(Robot.chassis.autoShiftCurrentlyEnabled){
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>2600){
-				Robot.chassis.setGearHigh();
-			}
-			
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<1800){
-				Robot.chassis.setGearLow();
-			}
-		}
-		
 		//PREVENTS WEIRD TINY MOVEMENTS - DON'T TOUCH
 		if(leftMotorSpeed<.05&&rightMotorSpeed<.05){
 			drivePIDLeft.reset();
@@ -199,7 +184,7 @@ public class ArcadeDrivePID extends RobotDrive {
 	
 	/** Maps Joystick values to motor ticks for comparing to actual speeds */
     public double mapToTicks(double inputValue){
-    	double maxTickRate=(currentGear||Robot.chassis.autoShiftCurrentlyEnabled)?maxTickRateHigh:maxTickRateLow;
+    	double maxTickRate = mapScale?maxTickRateHigh:maxTickRateLow;
     	double inputMax =  1;
     	double inputMin = -1;
     	double outputMax = maxTickRate;

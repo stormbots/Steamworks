@@ -30,8 +30,8 @@ public class ChassisDriveUltrasonic extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.minipidDriveReset();
-    	Robot.chassis.autoShiftCurrentlyEnabled = false;
     	Robot.chassis.setGearLow();
+    	Robot.chassis.setAutoShiftEnabled(false);    
     	Robot.chassis.encoderReset();
     	
     }
@@ -58,7 +58,6 @@ public class ChassisDriveUltrasonic extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassis.drive(0, 0);
-    	Robot.chassis.autoShiftCurrentlyEnabled=Robot.chassis.autoShiftDefault;
     }
 
     // Called when another command which requires one or more of the same

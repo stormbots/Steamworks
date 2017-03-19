@@ -64,13 +64,11 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Chassis chassis;
 	public static Blender blender;
-		
-	public static OI oi;
+	public static OI oi;	
+	SendableChooser<OI> oiChooser;
 
-	Command joystickDrive;
-	
 	Command autonomousCommand;
-	SendableChooser<Command> chooser;
+	SendableChooser<Command> autonomousChooser;
 
 	//Debug Commands
 
@@ -79,7 +77,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	
 	public void robotInit() {		
 		//Initialize Subsystems
 		visionBoiler = new VisionBoiler();
@@ -96,39 +93,45 @@ public class Robot extends IterativeRobot {
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
+		oiChooser = new SendableChooser<OI>();
+		//oiChooser.addDefault("Driver OI", new OI());
+		oiChooser.addObject("Driver OI", new OI());
+		oiChooser.addObject("Debug OI", new DebugOI());
+		SmartDashboard.putData("Operator Interface", oiChooser);
 
 		
-		joystickDrive = new JoystickDrive();
+		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
+//		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
-		chooser = new SendableChooser<Command>();
-		//chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
-		//chooser.addObject("climb", new Climb());
+		autonomousChooser = new SendableChooser<Command>();
+		//autonomousChooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
+		//autonomousChooser.addObject("climb", new Climb());
 
-		//chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
-		chooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
-		chooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
-		chooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
-		chooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
-		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
-		//chooser.addDefault("Red shoot and turn drive", new AutoRedShootTurnDrive());
-		//chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
-		//chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
-		//chooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
-		//chooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
+		//autonomousChooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
+		autonomousChooser.addObject("Blue Drop Gear Straight Forward", new AutoGearStraightForward());
+		autonomousChooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
+		autonomousChooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
+		autonomousChooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
+		autonomousChooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
+		//autonomousChooser.addDefault("Red shoot and turn drive", new AutoRedShootTurnDrive());
+		//autonomousChooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
+		//autonomousChooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
+		//autonomousChooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
+		//autonomousChooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
 		
-//		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
-//		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
-		chooser.addObject("climb", new Climb());
-//		chooser.addObject("Shoot", new ShooterRateUpdate());
-//		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
-//		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
-//		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
-//		chooser.addObject("Blender off", new BlenderOff() );
-//		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
-		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
-		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
-		//chooser.addObject("Manual Turn", new TurretManualTurn());
-		SmartDashboard.putData("Auto mode", chooser);
+//		autonomousChooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
+//		autonomousChooser.addObject("Turret Calibration", new TurretOneWayHoming());
+		autonomousChooser.addObject("climb", new Climb());
+//		autonomousChooser.addObject("Shoot", new ShooterRateUpdate());
+//		autonomousChooser.addObject("Turret Home One way", new TurretOneWayHoming());
+//		autonomousChooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
+//		autonomousChooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
+//		autonomousChooser.addObject("Blender off", new BlenderOff() );
+//		autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
+		//autonomousChooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
+		//autonomousChooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
+		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
+		SmartDashboard.putData("Auto mode", autonomousChooser);
 		Robot.intake.intakeIn();
 		}
 
@@ -173,7 +176,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Util.updateFlash();
 		chassis.setGearLow();
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autonomousChooser.getSelected();
+
 		if (autonomousCommand != null) autonomousCommand.start();
 		chassis.encoderReset();
 		Robot.intake.intakeOut();
@@ -202,10 +206,15 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
+
+		OI newOI=oiChooser.getSelected();
+		if(newOI != null) oi = newOI;
+
 		Util.updateFlash();
 		chassis.setGearLow();
+
 		oi.setAutoShiftDefault();
-	//.homeCW();
+
 		Robot.intake.intakeOut();
 		
 	}

@@ -197,4 +197,8 @@ public class OI {
     public boolean isTurningCounterClock(){
         return threeAxisButton10.get();
     } 
+    public double getShooterValue(){
+    	return 0;
+    }
+    
 }

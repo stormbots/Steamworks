@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class GearBlueStraightForwardVision extends CommandGroup {
+public class AutoCenterGear extends CommandGroup {
 
-    public GearBlueStraightForwardVision() {
+    public AutoCenterGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -27,7 +27,6 @@ public class GearBlueStraightForwardVision extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ChassisAutoDrive(0,60),1.8);
-//    	addSequential(new GearVisionAlignment(),2.5);
-    	addSequential(new GearDropOnPegWithVision(10.1),2);
+    	addSequential(new GearDropOnPeg(10.1),2);
     }
 }

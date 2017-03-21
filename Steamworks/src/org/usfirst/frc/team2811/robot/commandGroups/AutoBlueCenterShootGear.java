@@ -1,27 +1,25 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
-import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
-import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
-import org.usfirst.frc.team2811.robot.commands.Wait;
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
+import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterOff;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Stub class! 
- * 
- * This is useful for dropping the peg onto the gear assuming the robot is 
- * roughly located where the peg is.
- * \
  *
  */
-public class GearDropOnPegWithVision extends CommandGroup {
+public class AutoBlueCenterShootGear extends CommandGroup {
 
-    public GearDropOnPegWithVision(double inches) {
+    public AutoBlueCenterShootGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
         // these will run in order.
-    	
+
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
@@ -33,13 +31,11 @@ public class GearDropOnPegWithVision extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
-    	
-//    	addSequential(new ChassisAutoTurnVision(0.5),1.5);
-    	
-    	addSequential(new GearVisionAlignment(),1);
-    	addSequential(new ChassisDriveUltrasonic(0,inches,0.2),3);
-//    	addSequential(new ChassisDriveUltrasonic(0,9,0.3),2);
-//    	addSequential(new ChassisDriveUltrasonic(0,11,0.3),2);
+    	addSequential(new ShooterAutoSetRPM(4500), 0.1);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(4500), 2.75);
+    	addSequential(new ShooterOff());
+    	addSequential(new BlenderOff(),0);
+    	addSequential(new ElevatorOff(),0);
+    	addSequential(new AutoCenterGear(), 10);
     }
 }

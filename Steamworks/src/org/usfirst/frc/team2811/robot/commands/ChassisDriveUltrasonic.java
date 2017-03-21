@@ -15,17 +15,22 @@ public class ChassisDriveUltrasonic extends Command {
 	
 	
 	
-	private double targetFeet;
+//	private double targetFeet;
 	private double targetInches;
 	private double toleranceInches;
 	
 	
-    public ChassisDriveUltrasonic(double targetFeet,double targetInches, double toleranceInches){
+    public ChassisDriveUltrasonic(){
     	requires(Robot.chassis);
-    	this.targetFeet = targetFeet;
-    	this.targetInches = targetInches;
-    	this.toleranceInches = toleranceInches;
+    	targetInches = Util.getPreferencesDouble("ChassisUltraSonicDistanceInches", 10.1);
+    	toleranceInches = Util.getPreferencesDouble("ChassisUltrasonicToleranceInches", 0.2);
     }
+//    public ChassisDriveUltrasonic(double targetFeet,double targetInches, double toleranceInches){
+//    	requires(Robot.chassis);
+//    	this.targetFeet = targetFeet;
+//    	this.targetInches = targetInches;
+//    	this.toleranceInches = toleranceInches;
+//    }
     
     // Called just before this Command runs the first time
     protected void initialize() {
@@ -38,20 +43,20 @@ public class ChassisDriveUltrasonic extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.gear.getDistanceFeet()!=10.0){
-    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.getDistanceFeet(), targetInches/12.0+targetFeet);
-    Robot.chassis.drive(output, 0);
-    System.out.println("ChassisDriveUltrasonic executing!");
-    	}else{
-    		Robot.chassis.drive(0, 0);
-    	}
+		if(Robot.gear.getDistanceFeet()!=10.0){
+		    double output = Robot.chassis.minipidDriveGetOutput(Robot.gear.getDistanceFeet(), targetInches/12.0);
+		    Robot.chassis.drive(output, 0);
+		    System.out.println("ChassisDriveUltrasonic executing!");
+		}else{
+			Robot.chassis.drive(0, 0);
+		}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	double distance = Math.abs(Robot.gear.getDistanceInches());	
-    	SmartDashboard.putNumber("GearDistanceIsFinished", Robot.gear.getDistanceInches());
-    	double target = Math.abs(targetFeet*12.0 + targetInches);
+    	SmartDashboard.putNumber("UltrasonicDistanceIsFinished", Robot.gear.getDistanceInches());
+    	double target = Math.abs(targetInches);
         return Util.difference(distance,target) < toleranceInches;
     }
 

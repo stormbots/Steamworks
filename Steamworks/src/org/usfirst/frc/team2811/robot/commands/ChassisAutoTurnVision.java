@@ -34,7 +34,7 @@ public class ChassisAutoTurnVision extends Command {
     protected void execute() {
     	if (Robot.visionGear.haveValidTargetGear()) {
     		double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), -Robot.visionGear.getAngleHorizontal());
-    		SmartDashboard.putNumber("AngleToTurn output", output);
+//    		SmartDashboard.putNumber("AngleToTurn output", output);
     		Robot.chassis.drive(0, output);
     		
     	} else {

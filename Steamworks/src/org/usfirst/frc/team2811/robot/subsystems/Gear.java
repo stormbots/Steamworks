@@ -62,23 +62,23 @@ public class Gear extends Subsystem {
     }
     
     public double getDistanceInches(){
-//    	boolean leftValid = true;
-//    	boolean rightValid = true;
-//    	if(distanceLeftSideInches()>=120)leftValid=false;
-//    	if(distanceRightSideInches()>=120)rightValid=false;
-//    	
-//    	if(leftValid && rightValid){
-//    		
-//        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0;
-//    	}
-//    	else if(leftValid){
-//    		return distanceLeftSideInches();
-//    	}
-//    	else if(rightValid){
-//    		return distanceRightSideInches();
-//    	}
-//    	else return 120;
-    	return distanceRightSideInches();
+    	boolean leftValid = true;
+    	boolean rightValid = true;
+    	if(distanceLeftSideInches()>=120)leftValid=false;
+    	if(distanceRightSideInches()>=120)rightValid=false;
+    	
+    	if(leftValid && rightValid){
+    		
+        	return (distanceLeftSideInches()+distanceRightSideInches())/2.0;
+    	}
+    	else if(leftValid){
+    		return distanceLeftSideInches();
+    	}
+    	else if(rightValid){
+    		return distanceRightSideInches();
+    	}
+    	else return 120;
+//    	return distanceRightSideInches();
     }
     
     public double getDistanceFeet(){
@@ -86,9 +86,9 @@ public class Gear extends Subsystem {
     }
     
     public void updateDashboard(){
-    	SmartDashboard.putNumber("Right Ultrasonic (inches)", distanceRightSideInches());	
-    	SmartDashboard.putNumber("Left Ultrasonic", distanceLeftSideInches());
-    	SmartDashboard.putNumber("Ultrasonic (inches)", getDistanceInches());	
+    	SmartDashboard.putNumber("Right Ultrasonic (in)", distanceRightSideInches());	
+    	SmartDashboard.putNumber("Left Ultrasonic (in)", distanceLeftSideInches());
+    	SmartDashboard.putNumber("Ultrasonic (in)", getDistanceInches());	
     }
    
     

@@ -1,18 +1,20 @@
 package org.usfirst.frc.team2811.robot;
 
-import org.usfirst.frc.team2811.robot.commandGroups.AutoGearStraightForward;
-import org.usfirst.frc.team2811.robot.commandGroups.GearBlueStraightForwardVision;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnMobility;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGear;
 //import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnDrive;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftSideShootDriveForwardPastBaseLine;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearLeftSide;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearRightSide;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueShootGearStraightForward;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForward10ft;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoDriveForward60inches;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueLeftSide;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoGearBlueRightSide;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedLeftSide;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoGearRedRightSide;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftShootMobility;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftShootGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueRightShootGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueCenterShootGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoMobility10ft;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoMobility60inches;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueRightGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedLeftGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
@@ -102,34 +104,27 @@ public class Robot extends IterativeRobot {
 		joystickDrive = new JoystickDrive();
 		
 		chooser = new SendableChooser<Command>();
-		//chooser.addObject("Blue Drop Gear From Left Side", new AutoGearBlueLeftSide());
-		//chooser.addObject("climb", new Climb());
-
-		//chooser.addObject("Blue Drop Gear From Right Side", new AutoGearBlueRightSide());
-		chooser.addObject("Blue Drop Gear Straight Forward", new GearBlueStraightForwardVision());
-		chooser.addObject("Drive Forward 10 feet", new AutoDriveForward10ft());
-		chooser.addObject("Drive Forward 60inches", new AutoDriveForward60inches());
-		chooser.addObject("Blue Shoot Straight Forward", new AutoBlueLeftSideShootDriveForwardPastBaseLine());
-		chooser.addObject("Blue Shoot Drop Gear Straight Forward", new AutoBlueShootGearStraightForward());
-		//chooser.addDefault("Red shoot and turn drive", new AutoRedShootTurnDrive());
-		//chooser.addObject("Blue Shoot Drop Gear From Left Side", new AutoBlueShootGearLeftSide());
-		//chooser.addObject("Blue Shoot Drop Gear From Right Side", new AutoBlueShootGearRightSide());
-		//chooser.addObject("Red Drop Gear From Right Side", new AutoGearRedRightSide());
-		//chooser.addObject("Red Drop Gear From Left Side", new AutoGearRedLeftSide());
 		
-//		chooser.addObject("vvvv DEBUG COMMANDS vvv", new Wait(0));
-//		chooser.addObject("Turret Calibration", new TurretOneWayHoming());
+		//BLUE
+		chooser.addObject("Blue Right Gear", new AutoBlueRightGear());
+		chooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
+		chooser.addObject("Blue Center Shoot Gear", new AutoBlueCenterShootGear());
+		chooser.addObject("Blue Left Shoot Gear", new AutoBlueLeftShootGear());
+		
+		//RED
+		chooser.addObject("Red Right Shoot Turn Mobility", new AutoRedShootTurnMobility());
+		chooser.addObject("Red Right Shoot Turn Gear", new AutoRedRightShootGear());
+		chooser.addObject("Red Right Gear", new AutoRedRightGear());
+		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
+		
+		//NEUTRAL
+		chooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
+		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
+		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
 		chooser.addObject("climb", new Climb());
-//		chooser.addObject("Shoot", new ShooterRateUpdate());
-//		chooser.addObject("Turret Home One way", new TurretOneWayHoming());
-//		chooser.addObject("Turret Set Angle", new TurretSetTargetAngle());
-//		chooser.addObject("Turret Track object with vision", new TurretSetTargetAngleFromVision() );
-//		chooser.addObject("Blender off", new BlenderOff() );
-//		chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(0,11.3,0.5));
-		//chooser.addObject("Track object with turret", new TurretSetTargetAngleFromVision() );
-		//chooser.addObject("Drive to 3ft6in from wall", new ChassisDriveUltrasonic(3,6) );
-		//chooser.addObject("Manual Turn", new TurretManualTurn());
+		
 		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData(Scheduler.getInstance());
 		Robot.intake.intakeIn();
 		}
 

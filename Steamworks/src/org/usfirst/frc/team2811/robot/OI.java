@@ -2,7 +2,7 @@ package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoShooterPrefSequence;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
-import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegWithVision;
+import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPegNoVision;
 import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequence;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
@@ -82,22 +82,19 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-    	rightTrigger.whileHeld(new GearDropOnPegWithVision(15.0));
+    	rightTrigger.whileHeld(new GearDropOnPeg(15.0));
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
-    	//USE IT!		(please don't delete me when you merge :3 )
     	x1 = new JoystickButton(xBox,1);
-    	x1.whileHeld(new GearDropOnPegWithVision(12.5));
-//    	x1.whileHeld(new GearVisionAlignment());
-//    	x1.whenPressed(new ChassisAutoTurn(90.0));
+    	x1.whileHeld(new GearDropOnPegNoVision());
 
     	x2 = new JoystickButton(xBox,2);
     	x2.whenPressed(new ShiftGears());
     	
     	x3 = new JoystickButton(xBox,3);
     	x3.whenPressed(new ToggleAutoShift());
-
+    	
     	
 ////////THREE AXIS    	
 		threeAxis = new Joystick(3);
@@ -141,7 +138,7 @@ public class OI {
 //        threeAxisButton8.whileHeld(new TurretManualTurn());    
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new GearDropOnPegWithVision(16));
+        threeAxisButton12.whileHeld(new GearDropOnPeg(10.1));
         
         
 	}

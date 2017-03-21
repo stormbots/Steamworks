@@ -44,6 +44,7 @@ public class Chassis extends Subsystem {
 	private double ticksForwardRight;;
 	private double feetForward;
 	
+	
 	private MiniPID minipidDrive;
 	private double driveP;
 	private double driveI;
@@ -307,14 +308,14 @@ public class Chassis extends Subsystem {
     public void updateDashboard(){
 //    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getEncVelocity()));
 //    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getEncVelocity()));
-    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getPosition()));
-    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getPosition()));
+//    	SmartDashboard.putNumber("Left Encoder", Math.abs(frontLeft.getPosition()));
+//    	SmartDashboard.putNumber("Right Encoder", Math.abs(frontRight.getPosition()));
     	SmartDashboard.putNumber("Left Encoder (feet)", getFeetLeft());
     	SmartDashboard.putNumber("Right Encoder (feet)", getFeetRight());
-    	SmartDashboard.putNumber("Left Write", frontLeft.get());
-    	SmartDashboard.putNumber("Right Write", frontRight.get());
-    	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
-    	SmartDashboard.putNumber("LOOKATHERE DELETE ME LATER", frontRight.getEncPosition());
+//    	SmartDashboard.putNumber("Left Write", frontLeft.get());
+//    	SmartDashboard.putNumber("Right Write", frontRight.get());
+//    	SmartDashboard.putBoolean("Gear Shifter", gearShifter.get());
+    	SmartDashboard.putNumber("Encoder frontRight Position", frontRight.getEncPosition());
 //    	SmartDashboard.putNumber("Encoder Difference",Math.abs(Math.abs(frontLeft.getEncVelocity())-Math.abs(frontRight.getEncVelocity())));
 //    	SmartDashboard.putNumber("Encoder Proportion",Math.abs(Math.abs(frontLeft.getEncVelocity())/Math.abs(frontRight.getEncVelocity()+.00001)));
     	SmartDashboard.putNumber("Rotation (frontRight)", Math.round(getRotation()));

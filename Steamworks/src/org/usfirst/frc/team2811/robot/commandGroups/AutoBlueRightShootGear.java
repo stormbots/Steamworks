@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoBlueShootGearRightSide extends CommandGroup {
+public class AutoBlueRightShootGear extends CommandGroup {
 
-    public AutoBlueShootGearRightSide() {
+    public AutoBlueRightShootGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -29,6 +29,6 @@ public class AutoBlueShootGearRightSide extends CommandGroup {
         // arm.
     	addSequential(new ShooterSetPrefsRPM(4000), 1.5);
     	addSequential(new AutoShooterPrefSequence(4000), 4.0);
-    	addSequential(new AutoGearBlueRightSide(), 10.0);
+    	addSequential(new AutoBlueRightGear(), 10.0);
     }
 }

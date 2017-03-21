@@ -22,9 +22,11 @@ public class JoystickDrive extends Command {
     protected void execute() {
     	
     	if(Robot.chassis.isAutoShiftEnabled()){
+			if(Robot.chassis.getAbsoluteSpeed()>2550){
 				Robot.chassis.setGearHigh();
 			}
 			
+			if(Robot.chassis.getAbsoluteSpeed()<2000){
 				Robot.chassis.setGearLow();
 			}
 		}

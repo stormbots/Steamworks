@@ -78,17 +78,18 @@ public class Gear extends Subsystem {
     		return distanceRightSideInches();
     	}
     	else return 120;
-//    	return distanceRightSideInches();
+    	//return distanceRightSideInches();
     }
+    
     
     public double getDistanceFeet(){
     	return (getDistanceInches()/12.0);
     }
     
     public void updateDashboard(){
-    	SmartDashboard.putNumber("Right Ultrasonic (in)", distanceRightSideInches());	
-    	SmartDashboard.putNumber("Left Ultrasonic (in)", distanceLeftSideInches());
-    	SmartDashboard.putNumber("Ultrasonic (in)", getDistanceInches());	
+    	SmartDashboard.putNumber("Right Ultrasonic (inches)", distanceRightSideInches());	
+    	SmartDashboard.putNumber("Left Ultrasonic", distanceLeftSideInches());
+    	SmartDashboard.putNumber("Ultrasonic (inches)", getDistanceInches());	
     }
    
     

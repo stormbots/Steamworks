@@ -26,6 +26,6 @@ public class GearDropOnPegNoVision extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisDriveUltrasonic(),2);
+    	addSequential(new ChassisDriveUltrasonic(),2.5);
     }
 }

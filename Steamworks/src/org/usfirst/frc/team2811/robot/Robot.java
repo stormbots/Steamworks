@@ -104,7 +104,8 @@ public class Robot extends IterativeRobot {
 		joystickDrive = new JoystickDrive();
 		
 		chooser = new SendableChooser<Command>();
-		
+//		chooser.addDefault("climb", new Climb());
+
 		//BLUE
 		chooser.addObject("Blue Right Gear", new AutoBlueRightGear());
 		chooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
@@ -121,10 +122,8 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
-		chooser.addObject("climb", new Climb());
 		
 		SmartDashboard.putData("Auto mode", chooser);
-		SmartDashboard.putData(Scheduler.getInstance());
 		Robot.intake.intakeIn();
 		}
 

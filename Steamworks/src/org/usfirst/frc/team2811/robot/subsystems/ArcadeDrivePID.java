@@ -67,12 +67,12 @@ public class ArcadeDrivePID extends RobotDrive {
     	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
 		
-		/* FIXME TEST WITH AUTOSHIFT
+		//FIXME TEST WITH AUTOSHIFT
 		//Voltage per second 
-		double ramp = 0.04 ;
+		double ramp = 0.08 ;
 		drivePIDLeft.setOutputRampRate(ramp);
 		drivePIDRight.setOutputRampRate(ramp);
-		*/
+		
 	}
  
     public void setTuningHigh(){

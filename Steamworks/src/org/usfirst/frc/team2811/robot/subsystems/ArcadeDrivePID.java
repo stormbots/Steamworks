@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
 import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
 
 import com.ctre.CANTalon;
 
@@ -15,9 +16,6 @@ import edu.wpi.first.wpilibj.hal.HAL;
  * Expands RobotDrive to allow for MiniPID control of each output
  */
 public class ArcadeDrivePID extends RobotDrive {
-
-	//Access preference on the SmartDashboard
-	Preferences prefs = Preferences.getInstance();
 	
 	private CANTalon leftMotor;
 	private CANTalon rightMotor;
@@ -191,58 +189,30 @@ public class ArcadeDrivePID extends RobotDrive {
     	double outputMin = -maxTickRate; 
         return (inputValue/(inputMax-inputMin)-inputMin/(inputMax-inputMin))*(outputMax-outputMin)+outputMin;        
     }
-    
-    private void checkKeys(String key, double value){
-		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
-	}
-	
+    	
 	public void updateValFromFlash(){
-		leftLowP = prefs.getDouble("Chassis leftLowP", 0.0004);
-		leftLowI = prefs.getDouble("Chassis leftLowI", 0.0000);
-		leftLowD = prefs.getDouble("Chassis leftLowD", 0.0000);
-		leftLowF = prefs.getDouble("Chassis leftLowF", 0.0008);
+		leftLowP = Util.getPreferencesDouble("Chassis leftLowP", 0.0004);
+		leftLowI = Util.getPreferencesDouble("Chassis leftLowI", 0.0000);
+		leftLowD = Util.getPreferencesDouble("Chassis leftLowD", 0.0000);
+		leftLowF = Util.getPreferencesDouble("Chassis leftLowF", 0.0008);
 		
-		rightLowP = prefs.getDouble("Chassis rightLowP", 0.0004);
-		rightLowI = prefs.getDouble("Chassis rightLowI", 0.0000);
-		rightLowD = prefs.getDouble("Chassis rightLowD", 0.0000);
-		rightLowF = prefs.getDouble("Chassis rightLowF", 0.0008);
+		rightLowP = Util.getPreferencesDouble("Chassis rightLowP", 0.0004);
+		rightLowI = Util.getPreferencesDouble("Chassis rightLowI", 0.0000);
+		rightLowD = Util.getPreferencesDouble("Chassis rightLowD", 0.0000);
+		rightLowF = Util.getPreferencesDouble("Chassis rightLowF", 0.0008);
 		
-		leftHighP = prefs.getDouble("Chassis leftHighP", 0.00011);
-		leftHighI = prefs.getDouble("Chassis leftHighI", 0.00000);
-		leftHighD = prefs.getDouble("Chassis leftHighD", 0.00000);
-		leftHighF = prefs.getDouble("Chassis leftHighF", 0.00023);
+		leftHighP = Util.getPreferencesDouble("Chassis leftHighP", 0.00011);
+		leftHighI = Util.getPreferencesDouble("Chassis leftHighI", 0.00000);
+		leftHighD = Util.getPreferencesDouble("Chassis leftHighD", 0.00000);
+		leftHighF = Util.getPreferencesDouble("Chassis leftHighF", 0.00023);
 		
-		rightHighP = prefs.getDouble("Chassis rightHighP", 0.00011);
-		rightHighI = prefs.getDouble("Chassis rightHighI", 0.00000);
-		rightHighD = prefs.getDouble("Chassis rightHighD", 0.00000);
-		rightHighF = prefs.getDouble("Chassis rightHighF", 0.00023);
+		rightHighP = Util.getPreferencesDouble("Chassis rightHighP", 0.00011);
+		rightHighI = Util.getPreferencesDouble("Chassis rightHighI", 0.00000);
+		rightHighD = Util.getPreferencesDouble("Chassis rightHighD", 0.00000);
+		rightHighF = Util.getPreferencesDouble("Chassis rightHighF", 0.00023);
 
-		maxTickRateLow  = prefs.getDouble("Chassis maxTickRateLow",  1300);  //Tuned for comp bot
-		maxTickRateHigh = prefs.getDouble("Chassis maxTickRateHigh", 4350);  //Tuned for comp bot
-				
-		checkKeys("Chassis leftLowP", leftLowP);
-		checkKeys("Chassis leftLowI", leftLowI);
-		checkKeys("Chassis leftLowD", leftLowD);
-		checkKeys("Chassis leftLowF", leftLowF);
-		
-		checkKeys("Chassis rightLowP", rightLowP);
-		checkKeys("Chassis rightLowI", rightLowI);
-		checkKeys("Chassis rightLowD", rightLowD);
-		checkKeys("Chassis rightLowF", rightLowF);
-		
-		checkKeys("Chassis leftHighP", leftHighP);
-		checkKeys("Chassis leftHighI", leftHighI);
-		checkKeys("Chassis leftHighD", leftHighD);
-		checkKeys("Chassis leftHighF", leftHighF);
-		
-		checkKeys("Chassis rightHighP", rightHighP);
-		checkKeys("Chassis rightHighI", rightHighI);
-		checkKeys("Chassis rightHighD", rightHighD);
-		checkKeys("Chassis rightHighF", rightHighF);
-		
-		checkKeys("Chassis maxTickRateLow",  maxTickRateLow);
-		checkKeys("Chassis maxTickRateHigh", maxTickRateHigh);
-
+		maxTickRateLow  = Util.getPreferencesDouble("Chassis maxTickRateLow",  1300);  //Tuned for comp bot
+		maxTickRateHigh = Util.getPreferencesDouble("Chassis maxTickRateHigh", 4350);  //Tuned for comp bot
 	}
 }
 

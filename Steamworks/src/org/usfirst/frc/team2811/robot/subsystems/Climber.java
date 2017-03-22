@@ -48,8 +48,11 @@ public class Climber extends Subsystem {
         setDefaultCommand(new ClimberOff());
     }
     
+    public void climbManual(double power){
+		climberMotor.set(power);
+    }
     public void climbUp(){
-    		climberMotor.set(speed);
+		climberMotor.set(speed);
     }
     public void climbUpSlow(){
     	climberMotor.set(speed/2);

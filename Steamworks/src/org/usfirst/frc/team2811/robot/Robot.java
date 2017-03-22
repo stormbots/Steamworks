@@ -67,13 +67,11 @@ public class Robot extends IterativeRobot {
 	public static Intake intake;
 	public static Chassis chassis;
 	public static Blender blender;
-		
-	public static OI oi;
+	public static OI oi;	
+	SendableChooser<OI> oiChooser;
 
-	Command joystickDrive;
-	
 	Command autonomousCommand;
-	SendableChooser<Command> chooser;
+	SendableChooser<Command> autonomousChooser;
 
 	//Debug Commands
 
@@ -82,7 +80,6 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	@Override
-	
 	public void robotInit() {		
 		//Initialize Subsystems
 		visionBoiler = new VisionBoiler();
@@ -99,31 +96,38 @@ public class Robot extends IterativeRobot {
 
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
+		oiChooser = new SendableChooser<OI>();
+		//oiChooser.addDefault("Driver OI", new OI());
+		oiChooser.addObject("Driver OI", new OI());
+		oiChooser.addObject("Debug OI", new DebugOI());
+		SmartDashboard.putData("Operator Interface", oiChooser);
 
 		
-		joystickDrive = new JoystickDrive();
+		//autonomousChooser.addObject("Manual Turn", new TurretManualTurn());
+//		SmartDashboard.putData("Auto mode", autonomousChooser);
 		
-		chooser = new SendableChooser<Command>();
+		autonomousChooser = new SendableChooser<Command>();
 //		chooser.addDefault("climb", new Climb());
 
 		//BLUE
-		chooser.addObject("Blue Right Gear", new AutoBlueRightGear());
-		chooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
-		chooser.addObject("Blue Center Shoot Gear", new AutoBlueCenterShootGear());
-		chooser.addObject("Blue Left Shoot Gear", new AutoBlueLeftShootGear());
+		autonomousChooser.addObject("Blue Right Gear", new AutoBlueRightGear());
+		autonomousChooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
+		autonomousChooser.addObject("Blue Center Shoot Gear", new AutoBlueCenterShootGear());
+		autonomousChooser.addObject("Blue Left Shoot Gear", new AutoBlueLeftShootGear());
 		
 		//RED
-		chooser.addObject("Red Right Shoot Turn Mobility", new AutoRedShootTurnMobility());
-		chooser.addObject("Red Right Shoot Turn Gear", new AutoRedRightShootGear());
-		chooser.addObject("Red Right Gear", new AutoRedRightGear());
-		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
+		autonomousChooser.addObject("Red Right Shoot Turn Mobility", new AutoRedShootTurnMobility());
+		autonomousChooser.addObject("Red Right Shoot Turn Gear", new AutoRedRightShootGear());
+		autonomousChooser.addObject("Red Right Gear", new AutoRedRightGear());
+		autonomousChooser.addObject("Red Left Gear", new AutoRedLeftGear());
 		
 		//NEUTRAL
-		chooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
-		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
-		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
+		autonomousChooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
+		autonomousChooser.addObject("Mobility 10 feet", new AutoMobility10ft());
+		autonomousChooser.addObject("Mobility 60 inches", new AutoMobility60inches());
 		
-		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData("Auto mode", autonomousChooser);
+
 		Robot.intake.intakeIn();
 		}
 
@@ -168,7 +172,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Util.updateFlash();
 		chassis.setGearLow();
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = autonomousChooser.getSelected();
+
 		if (autonomousCommand != null) autonomousCommand.start();
 		chassis.encoderReset();
 		Robot.intake.intakeOut();
@@ -197,11 +202,16 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
+
+		OI newOI=oiChooser.getSelected();
+		if(newOI != null) oi = newOI;
+
 		Util.updateFlash();
 		chassis.setGearLow();
+
 		oi.setAutoShiftDefault();
 		chassis.encoderReset();
-	//.homeCW();
+
 		Robot.intake.intakeOut();
 		
 	}

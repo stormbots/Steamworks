@@ -2,9 +2,11 @@ package org.usfirst.frc.team2811.robot.subsystems;
 
 import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.Util;
+import org.usfirst.frc.team2811.robot.commandGroups.TestShooterSequenceWithoutShooter;
 import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
+import org.usfirst.frc.team2811.robot.commands.ShooterTestSetRPM;
 
 import com.ctre.CANTalon;
 
@@ -61,7 +63,7 @@ public class Shooter extends Subsystem{
     
     public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new ShooterOff());
+		setDefaultCommand(new ShooterTestSetRPM(Robot.oi.getShooterValue()));
 	}
     
     

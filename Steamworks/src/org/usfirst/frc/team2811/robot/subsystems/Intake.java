@@ -27,6 +27,7 @@ public class Intake extends Subsystem {
 		
 		intakeMotor = new CANTalon(3);
 		intakeMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+		//true on comp
 		intakeMotor.reverseOutput(true);
 		intakeMotor.clearStickyFaults();
 		intakeMotor.enable();

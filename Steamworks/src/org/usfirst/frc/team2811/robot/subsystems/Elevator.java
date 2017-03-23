@@ -34,6 +34,7 @@ public class Elevator extends Subsystem {
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
+    	
     	//elevatorMotor.setPID(1, 0, 0);
     	updateValFromFlash();
 	}

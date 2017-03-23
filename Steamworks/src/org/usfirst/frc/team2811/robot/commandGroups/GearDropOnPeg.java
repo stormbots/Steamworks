@@ -19,7 +19,7 @@ public class GearDropOnPeg extends CommandGroup {
 	
     public GearDropOnPeg() {
     	
-    	
+    	// NEED TO BE AT LEAST 37INCHES FROM WALL FOR VISION TO WORK
     	addSequential(new GearVisionAlignment(),1.5);
     	addSequential(new ChassisDriveUltrasonic(),2.5);
     }

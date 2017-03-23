@@ -28,7 +28,7 @@ public class Blender extends Subsystem {
 	 	motor.enable();
 	 	
 	 	//Reverse is true on comp bot
-	 	motor.reverseOutput(false);
+	 	motor.reverseOutput(true);
 	 	motor.set(0);
 	 	updateValFromFlash();
     }

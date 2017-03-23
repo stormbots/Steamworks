@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
+import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 
@@ -27,8 +30,11 @@ public class AutoBlueLeftShootGear extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterSetPrefsRPM(3750), 1.5);
-    	addSequential(new AutoShooterPrefSequence(3750), 4.0);
+    	addSequential(new ShooterSetPrefsRPM(3750), 0.1);
+    	addSequential(new AutoShooterPrefSequence(3750), 2.75);
+    	addSequential(new ShooterOff());
+    	addSequential(new BlenderOff());
+    	addSequential(new ElevatorOff());
     	addSequential(new AutoBlueLeftGear(), 15.0);
     }
 }

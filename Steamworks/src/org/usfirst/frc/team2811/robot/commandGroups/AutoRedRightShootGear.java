@@ -31,9 +31,9 @@ public class AutoRedRightShootGear extends CommandGroup {
         // arm.
     	addSequential(new ShooterAutoSetRPM(4500), 0.1);
     	addSequential(new AutoShooterSequenceWithKnownRPM(4500), 2.75);
-    	addSequential(new ShooterOff());
-    	addSequential(new BlenderOff(),0);
-    	addSequential(new ElevatorOff(),0);
+    	addSequential(new ShooterOff(),0.1);
+    	addSequential(new BlenderOff(),0.1);
+    	addSequential(new ElevatorOff(),0.1);
     	addSequential(new AutoRedRightGear());
     }
 }

@@ -82,7 +82,7 @@ public class OI {
     	rightStick = new Joystick(1);
     	
     	rightTrigger = new JoystickButton(rightStick,1);
-    	rightTrigger.whileHeld(new GearDropOnPeg());
+    	rightTrigger.whileHeld(new GearDropOnPegNoVision());
 ////////XBOX    	
     	xBox = new XboxController(2);
     	

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ChassisAutoTurnVision extends Command {
 	
 	private double toleranceDegrees;
+	private double targetAngle;
 	
     public ChassisAutoTurnVision(double toleranceDegrees) {
         requires(Robot.chassis);
@@ -32,9 +33,8 @@ public class ChassisAutoTurnVision extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.visionGear.haveValidTargetGear()) {
+    	if (Robot.visionGear.haveValidTargetGear()) {  
     		double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), -Robot.visionGear.getAngleHorizontal());
-//    		SmartDashboard.putNumber("AngleToTurn output", output);
     		Robot.chassis.drive(0, output);
     		
     	} else {

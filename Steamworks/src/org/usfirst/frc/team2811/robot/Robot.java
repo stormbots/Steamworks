@@ -125,7 +125,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Auto mode", chooser);
 		Robot.intake.intakeIn();
-		}
+	}
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
@@ -168,6 +168,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Util.updateFlash();
 		chassis.setGearLow();
+		chassis.setAutoShiftEnabled(false);
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
 		chassis.encoderReset();
@@ -198,8 +199,9 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
 		Util.updateFlash();
-		chassis.setGearLow();
+		
 		oi.setAutoShiftDefault();
+		chassis.setGearLow();
 		chassis.encoderReset();
 	//.homeCW();
 		Robot.intake.intakeOut();

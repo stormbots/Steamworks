@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 
@@ -35,8 +36,8 @@ public class Chassis extends Subsystem {
     private Solenoid gearShifter;
     private Solenoid opGearShifter;
     
-    public boolean autoShiftCurrentlyEnabled;
-    public boolean autoShiftDefault;
+    private boolean autoShiftEnabled;
+    private boolean autoShiftDefault;
     
 //DRIVE PID ---------------------------------------------------------------------------------------------------------------//   
 	//Comp bot drivefwd map values
@@ -90,9 +91,6 @@ public class Chassis extends Subsystem {
     	initTalons();
     	updateValFromFlash();
     	
-    	
-    	autoShiftCurrentlyEnabled = autoShiftDefault;
-    	
     	setGearLow();
      }
 	
@@ -106,57 +104,61 @@ public class Chassis extends Subsystem {
     }
 	
     public void shiftGears(){
-    	gearShifter.set(!gearShifter.get());
-    	opGearShifter.set(!opGearShifter.get());
-    	robotDrive.shiftTuning();
+    	if(gearShifter.get()){
+    		setGearLow();
+    	} else {
+    		setGearHigh();
+    	}
     }
     
     public void setGearLow(){
-    	robotDrive.setCurrentGear(false);
     	gearShifter.set(false);
     	opGearShifter.set(true);
-//    	robotDrive.setTuning(autoShiftCurrentlyEnabled);
-    	robotDrive.setTuning(false);
+    	robotDrive.setTuningLow();
+    	if(autoShiftEnabled){
+    		robotDrive.setMapHigh();
+    	} else {
+    		robotDrive.setMapLow();
     	}
+   	}
     
     public void setGearHigh(){
-    	robotDrive.setCurrentGear(true);
     	gearShifter.set(true);
     	opGearShifter.set(false);
-    	robotDrive.setTuning(true);
+    	robotDrive.setTuningHigh();
+    	robotDrive.setMapHigh();
     }
     
-    public void toggleAutoShiftDefault(){
-    	autoShiftDefault = !autoShiftDefault;
+    public void setAutoShiftDefault(boolean setDefault){
+    	autoShiftDefault=setDefault;
+    }
+        
+    public void setAutoShiftEnabled(boolean autoShift){
+    	autoShiftEnabled = autoShift;
+   		setGearLow();
+    }
+    
+    public boolean getAutoShiftDefault(){
+    	return autoShiftDefault;
     }
     
     public boolean gearState(){
     	return gearShifter.get();
     }
+    
+    public boolean isAutoShiftEnabled(){
+    	return autoShiftEnabled;
+    }
+    
+    public double getAbsoluteSpeed(){
+    	return robotDrive.getAbsoluteSpeed();
+    }
+    
 //DRIVE PID ---------------------------------------------------------------------------------------------------------------//
 	public double minipidDriveGetOutput(double actual,double setPoint){
-			
-			double output = minipidDrive.getOutput(actual, setPoint);
-			if(output>-0.01  && output < 0.01){
-				output = 0.0;
-			}else if(output>0.0){
-				output = output + driveMinimumOutputLimit;
-			}else if(output < 0.0){
-				output = output - driveMinimumOutputLimit;
-			}
-			return output;
-		}
-	    
-	public double getToleranceInches(){
-		return chassisAutoDriveToleranceInches;
-	}
-	public void minipidDriveReset(){
-		minipidDrive.reset();
-	}
 		
-//TURN PID ---------------------------------------------------------------------------------------------------------------//
-	public double minipidTurnGetOutput(double actual, double setPoint){
-		double output = minipidTurn.getOutput(actual, setPoint);
+		double output = minipidDrive.getOutput(actual, setPoint);
+		
 		if(output>-0.01  && output < 0.01){
 			output = 0.0;
 		}else if(output>0.0){
@@ -164,6 +166,30 @@ public class Chassis extends Subsystem {
 		}else if(output < 0.0){
 			output = output - driveMinimumOutputLimit;
 		}
+		
+		return output;
+	}
+	    
+	public double getToleranceInches(){
+		return chassisAutoDriveToleranceInches;
+	}
+	
+	public void minipidDriveReset(){
+		minipidDrive.reset();
+	}
+		
+//TURN PID ---------------------------------------------------------------------------------------------------------------//
+	public double minipidTurnGetOutput(double actual, double setPoint){
+		double output = minipidTurn.getOutput(actual, setPoint);
+		
+		if(output>-0.01  && output < 0.01){
+			output = 0.0;
+		}else if(output>0.0){
+			output = output + driveMinimumOutputLimit;
+		}else if(output < 0.0){
+			output = output - driveMinimumOutputLimit;
+		}
+		
 		return output;
 	}
 	

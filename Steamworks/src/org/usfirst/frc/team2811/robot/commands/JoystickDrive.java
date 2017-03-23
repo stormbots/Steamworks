@@ -15,11 +15,22 @@ public class JoystickDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.chassis.autoShiftCurrentlyEnabled = Robot.chassis.autoShiftDefault;
+    	Robot.chassis.setAutoShiftEnabled(Robot.chassis.getAutoShiftDefault());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
+    	if(Robot.chassis.isAutoShiftEnabled()){
+			if(Robot.chassis.getAbsoluteSpeed()>2550){
+				Robot.chassis.setGearHigh();
+			}
+			
+			if(Robot.chassis.getAbsoluteSpeed()<2000){
+				Robot.chassis.setGearLow();
+			}
+		}
+    	
     	Robot.chassis.drive(Math.abs(Robot.oi.getMoveValue())>.05?Robot.oi.getMoveValue():0, 
     						Math.abs(Robot.oi.getRotateValue())>.05?Robot.oi.getRotateValue():0);
     }
@@ -31,7 +42,7 @@ public class JoystickDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.chassis.autoShiftCurrentlyEnabled = false;
+    	Robot.chassis.setAutoShiftEnabled(false);
     	Robot.chassis.setGearLow();
     	Robot.chassis.drive(0, 0);
     	
@@ -41,7 +52,7 @@ public class JoystickDrive extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.chassis.autoShiftCurrentlyEnabled = false;
+    	Robot.chassis.setAutoShiftEnabled(false);
     	Robot.chassis.setGearLow();
     	Robot.chassis.drive(0, 0);
     	

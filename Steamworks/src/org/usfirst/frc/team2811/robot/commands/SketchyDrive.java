@@ -20,13 +20,13 @@ public class SketchyDrive extends Command {
     public SketchyDrive(double forward, double rotation, double timeout) {
     	requires(Robot.chassis);
     	setForward = forward;
+    	setRotation = rotation;
     	setTimeout(timeout);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.chassis.autoShiftCurrentlyEnabled=false;
-    
+    	Robot.chassis.setAutoShiftEnabled(false);    
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -42,13 +42,11 @@ public class SketchyDrive extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassis.drive(0,0);
-    	Robot.chassis.autoShiftCurrentlyEnabled = Robot.chassis.autoShiftDefault;
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.chassis.drive(0,0);
-    	Robot.chassis.autoShiftCurrentlyEnabled = Robot.chassis.autoShiftDefault;
     }
 }

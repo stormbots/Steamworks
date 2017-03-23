@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
 import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
 
 import com.ctre.CANTalon;
 
@@ -15,9 +16,6 @@ import edu.wpi.first.wpilibj.hal.HAL;
  * Expands RobotDrive to allow for MiniPID control of each output
  */
 public class ArcadeDrivePID extends RobotDrive {
-
-	//Access preference on the SmartDashboard
-	Preferences prefs = Preferences.getInstance();
 	
 	private CANTalon leftMotor;
 	private CANTalon rightMotor;
@@ -44,10 +42,9 @@ public class ArcadeDrivePID extends RobotDrive {
 	private double rightHighD = 0.00000;
 	private double rightHighF = 0.00023;
 
-	private boolean currentGear = false;
-
 	private double 	maxTickRateLow  = 1400;//Tuned for comp bot
 	private double 	maxTickRateHigh = 4350; //Tuned for comp bot
+	private boolean mapScale;
 
 		
 	// Local variables to hold the computed PWM values for the motors
@@ -68,38 +65,36 @@ public class ArcadeDrivePID extends RobotDrive {
     	drivePIDLeft = new MiniPID(leftLowP,leftLowI,leftLowD,leftLowF);	
 		drivePIDRight = new MiniPID(rightLowP,rightLowI,rightLowD,rightLowF);
 		
-		//voltage per second
-		double ramp = 0.04 ;
+		//FIXME TEST WITH AUTOSHIFT
+		//Voltage per second 
+		double ramp = 0.08 ;
 		drivePIDLeft.setOutputRampRate(ramp);
 		drivePIDRight.setOutputRampRate(ramp);
+		
 	}
-    
-    public void setCurrentGear(boolean trueIsHigh){
-    	currentGear=trueIsHigh;
-    }
-    public void shiftTuning(){
-    	//TODO THIS IS THE BUG
-    	//THIS IS NEVER SET AND AS A RESULT ALWAYS SETS FOR LOW GEAR TUNING
-    	currentGear = !currentGear;
-    	setTuning(currentGear);
-    }
-    
-    //setHighHearTuning
-    //setLowGearTuning
  
+    public void setTuningHigh(){
+       	drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
+    	drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
+    	SmartDashboard.putString("Tuning", "HIGH");
+    }
     
-    //
+    public void setTuningLow(){
+    	drivePIDLeft.setPID(leftLowP, leftLowI, leftLowD, leftLowF);
+    	drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);
+    	SmartDashboard.putString("Tuning", "LOW");
+    }
     
-    public void setTuning(boolean gear){
-    	if(gear==true) {
-    		drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
-    		drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
-    		SmartDashboard.putString("Tuning", "HIGH");
-    	} else {
-    		drivePIDLeft.setPID(leftLowP, leftLowI, leftLowD, leftLowF);
-    		drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);
-    		SmartDashboard.putString("Tuning", "LOW");
-    	}
+    public void setMapHigh(){
+    	mapScale = true;
+    }
+    
+    public void setMapLow(){
+    	mapScale = false;
+    }
+    
+    public double getAbsoluteSpeed(){
+    	return Math.abs(leftMotor.getEncVelocity()) + Math.abs(rightMotor.getEncVelocity());
     }
     
 	/**
@@ -146,18 +141,6 @@ public class ArcadeDrivePID extends RobotDrive {
 		      kArcadeStandard_Reported = true;
 		}
 		
-		SmartDashboard.putBoolean("Autoshift Enabled", Robot.chassis.autoShiftCurrentlyEnabled);
-		
-		if(Robot.chassis.autoShiftCurrentlyEnabled){
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))>2600){
-				Robot.chassis.setGearHigh();
-			}
-			
-			if((Math.abs(leftMotor.getEncVelocity())+Math.abs(rightMotor.getEncVelocity()))<1800){
-				Robot.chassis.setGearLow();
-			}
-		}
-		
 		//PREVENTS WEIRD TINY MOVEMENTS - DON'T TOUCH
 		if(leftMotorSpeed<.05&&rightMotorSpeed<.05){
 			drivePIDLeft.reset();
@@ -199,65 +182,37 @@ public class ArcadeDrivePID extends RobotDrive {
 	
 	/** Maps Joystick values to motor ticks for comparing to actual speeds */
     public double mapToTicks(double inputValue){
-    	double maxTickRate=(currentGear||Robot.chassis.autoShiftCurrentlyEnabled)?maxTickRateHigh:maxTickRateLow;
+    	double maxTickRate = mapScale?maxTickRateHigh:maxTickRateLow;
     	double inputMax =  1;
     	double inputMin = -1;
     	double outputMax = maxTickRate;
     	double outputMin = -maxTickRate; 
         return (inputValue/(inputMax-inputMin)-inputMin/(inputMax-inputMin))*(outputMax-outputMin)+outputMin;        
     }
-    
-    private void checkKeys(String key, double value){
-		if(!prefs.containsKey(key)) prefs.putDouble(key, value);
-	}
-	
+    	
 	public void updateValFromFlash(){
-		leftLowP = prefs.getDouble("Chassis leftLowP", 0.0004);
-		leftLowI = prefs.getDouble("Chassis leftLowI", 0.0000);
-		leftLowD = prefs.getDouble("Chassis leftLowD", 0.0000);
-		leftLowF = prefs.getDouble("Chassis leftLowF", 0.0008);
+		leftLowP = Util.getPreferencesDouble("Chassis leftLowP", 0.0004);
+		leftLowI = Util.getPreferencesDouble("Chassis leftLowI", 0.0000);
+		leftLowD = Util.getPreferencesDouble("Chassis leftLowD", 0.0000);
+		leftLowF = Util.getPreferencesDouble("Chassis leftLowF", 0.0008);
 		
-		rightLowP = prefs.getDouble("Chassis rightLowP", 0.0004);
-		rightLowI = prefs.getDouble("Chassis rightLowI", 0.0000);
-		rightLowD = prefs.getDouble("Chassis rightLowD", 0.0000);
-		rightLowF = prefs.getDouble("Chassis rightLowF", 0.0008);
+		rightLowP = Util.getPreferencesDouble("Chassis rightLowP", 0.0004);
+		rightLowI = Util.getPreferencesDouble("Chassis rightLowI", 0.0000);
+		rightLowD = Util.getPreferencesDouble("Chassis rightLowD", 0.0000);
+		rightLowF = Util.getPreferencesDouble("Chassis rightLowF", 0.0008);
 		
-		leftHighP = prefs.getDouble("Chassis leftHighP", 0.00011);
-		leftHighI = prefs.getDouble("Chassis leftHighI", 0.00000);
-		leftHighD = prefs.getDouble("Chassis leftHighD", 0.00000);
-		leftHighF = prefs.getDouble("Chassis leftHighF", 0.00023);
+		leftHighP = Util.getPreferencesDouble("Chassis leftHighP", 0.00011);
+		leftHighI = Util.getPreferencesDouble("Chassis leftHighI", 0.00000);
+		leftHighD = Util.getPreferencesDouble("Chassis leftHighD", 0.00000);
+		leftHighF = Util.getPreferencesDouble("Chassis leftHighF", 0.00023);
 		
-		rightHighP = prefs.getDouble("Chassis rightHighP", 0.00011);
-		rightHighI = prefs.getDouble("Chassis rightHighI", 0.00000);
-		rightHighD = prefs.getDouble("Chassis rightHighD", 0.00000);
-		rightHighF = prefs.getDouble("Chassis rightHighF", 0.00023);
+		rightHighP = Util.getPreferencesDouble("Chassis rightHighP", 0.00011);
+		rightHighI = Util.getPreferencesDouble("Chassis rightHighI", 0.00000);
+		rightHighD = Util.getPreferencesDouble("Chassis rightHighD", 0.00000);
+		rightHighF = Util.getPreferencesDouble("Chassis rightHighF", 0.00023);
 
-		maxTickRateLow  = prefs.getDouble("Chassis maxTickRateLow",  1300);  //Tuned for comp bot
-		maxTickRateHigh = prefs.getDouble("Chassis maxTickRateHigh", 4350);  //Tuned for comp bot
-				
-		checkKeys("Chassis leftLowP", leftLowP);
-		checkKeys("Chassis leftLowI", leftLowI);
-		checkKeys("Chassis leftLowD", leftLowD);
-		checkKeys("Chassis leftLowF", leftLowF);
-		
-		checkKeys("Chassis rightLowP", rightLowP);
-		checkKeys("Chassis rightLowI", rightLowI);
-		checkKeys("Chassis rightLowD", rightLowD);
-		checkKeys("Chassis rightLowF", rightLowF);
-		
-		checkKeys("Chassis leftHighP", leftHighP);
-		checkKeys("Chassis leftHighI", leftHighI);
-		checkKeys("Chassis leftHighD", leftHighD);
-		checkKeys("Chassis leftHighF", leftHighF);
-		
-		checkKeys("Chassis rightHighP", rightHighP);
-		checkKeys("Chassis rightHighI", rightHighI);
-		checkKeys("Chassis rightHighD", rightHighD);
-		checkKeys("Chassis rightHighF", rightHighF);
-		
-		checkKeys("Chassis maxTickRateLow",  maxTickRateLow);
-		checkKeys("Chassis maxTickRateHigh", maxTickRateHigh);
-
+		maxTickRateLow  = Util.getPreferencesDouble("Chassis maxTickRateLow",  1300);  //Tuned for comp bot
+		maxTickRateHigh = Util.getPreferencesDouble("Chassis maxTickRateHigh", 4350);  //Tuned for comp bot
 	}
 }
 

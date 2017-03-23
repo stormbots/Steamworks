@@ -16,8 +16,8 @@ public class ToggleAutoShift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.chassis.toggleAutoShiftDefault();
-    	Robot.chassis.autoShiftCurrentlyEnabled = !Robot.chassis.autoShiftCurrentlyEnabled;
+    	Robot.chassis.setAutoShiftEnabled(!Robot.chassis.isAutoShiftEnabled());
+    	Robot.chassis.setAutoShiftDefault(Robot.chassis.isAutoShiftEnabled());
     }
 
     // Called repeatedly when this Command is scheduled to run

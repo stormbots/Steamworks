@@ -125,8 +125,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
 		
 //		//TESTING & DEBUGGING
-//		chooser.addObject("Turn 15deg", new ChassisAutoTurn(15));
-//		chooser.addObject("Turn 45deg", new ChassisAutoTurn(45));
+//		chooser.addObject("Turn 3deg", new ChassisAutoTurn(3));
+//		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
 //		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
 //		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
 //		

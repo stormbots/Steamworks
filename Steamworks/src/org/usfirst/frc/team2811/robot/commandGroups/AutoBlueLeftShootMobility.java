@@ -31,8 +31,8 @@ public class AutoBlueLeftShootMobility extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterAutoSetRPM(3500), 1.5);
-    	addSequential(new AutoShooterSequenceWithKnownRPM(3500), 7);
+    	addSequential(new ShooterAutoSetRPM(3550), 0.5);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3550), 7);
     	addSequential(new ShooterSetPrefsRPM(0), 0);
     	addSequential(new BlenderOff(), 0);
     	addSequential(new ElevatorOff(), 0);

@@ -26,6 +26,7 @@ public class Climber extends Subsystem {
 		climberMotor.enable();
 		climberMotor.set(0);
 		
+		
 		climberMotor2 = new CANTalon(11);
 		climberMotor2.changeControlMode(CANTalon.TalonControlMode.Follower);
 		climberMotor2.clearStickyFaults();
@@ -49,10 +50,10 @@ public class Climber extends Subsystem {
     }
     
     public void climbUp(){
-    		climberMotor.set(speed);
+    		climberMotor.set(-speed);
     }
     public void climbUpSlow(){
-    	climberMotor.set(speed/2);
+    	climberMotor.set(-speed/2);
     }
     
     public double getCurrent(){

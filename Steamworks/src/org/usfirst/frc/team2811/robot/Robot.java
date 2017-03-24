@@ -17,6 +17,7 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
 import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
@@ -122,6 +123,12 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
+		
+		//TESTING & DEBUGGING
+		chooser.addObject("Turn 15deg", new ChassisAutoTurn(15));
+		chooser.addObject("Turn 45deg", new ChassisAutoTurn(45));
+		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
+		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
 		
 		SmartDashboard.putData("Auto mode", chooser);
 		Robot.intake.intakeIn();

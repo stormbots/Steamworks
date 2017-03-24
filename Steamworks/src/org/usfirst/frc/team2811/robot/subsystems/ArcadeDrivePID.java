@@ -67,7 +67,7 @@ public class ArcadeDrivePID extends RobotDrive {
 		
 		//FIXME TEST WITH AUTOSHIFT
 		//Voltage per second 
-		double ramp = 0.08 ;
+		double ramp = 0.04 ;
 		drivePIDLeft.setOutputRampRate(ramp);
 		drivePIDRight.setOutputRampRate(ramp);
 		

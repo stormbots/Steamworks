@@ -32,7 +32,7 @@ public class AutoBlueLeftGear extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new ChassisAutoDrive(0,88.0),5);
+    	addSequential(new ChassisAutoDrive(0,90.0),5);
     	addSequential(new ChassisAutoTurn(60.0),2);
     	addSequential(new GearDropOnPeg());
     	

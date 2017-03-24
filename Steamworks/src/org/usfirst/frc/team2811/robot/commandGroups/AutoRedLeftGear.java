@@ -32,7 +32,7 @@ public class AutoRedLeftGear extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new ChassisAutoDrive(0,85),5);
+    	addSequential(new ChassisAutoDrive(0,87),5);
     	addSequential(new ChassisAutoTurn(60.0),2);
     	addSequential(new ChassisAutoDrive(1),2);
     	addSequential(new GearDropOnPeg());

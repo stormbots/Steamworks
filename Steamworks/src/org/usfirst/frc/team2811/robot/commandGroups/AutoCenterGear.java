@@ -26,7 +26,7 @@ public class AutoCenterGear extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(0,60),1.8);
+    	addSequential(new ChassisAutoDrive(0,60),2);
     	addSequential(new GearDropOnPeg(),4);
     }
 }

@@ -7,10 +7,9 @@ import org.usfirst.frc.team2811.robot.commands.Wait;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Stub class! 
+ *  
  * 
- * This is useful for dropping the peg onto the gear assuming the robot is 
- * roughly located where the peg is.
+ * This is useful for align the robot with vision and drop the gear
  * \
  *
  */
@@ -19,7 +18,7 @@ public class GearDropOnPeg extends CommandGroup {
 	
     public GearDropOnPeg() {
     	
-    	// NEED TO BE AT LEAST 37INCHES FROM WALL FOR VISION TO WORK
+    	// NEED TO BE AT LEAST 37INCHES FROM WALL FOR VISION TO WORK (maybe)
     	addSequential(new GearVisionAlignment(),1.5);
     	addSequential(new ChassisDriveUltrasonic(),2.5);
     }

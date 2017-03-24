@@ -103,7 +103,7 @@ public class OI {
     	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
         threeAxisButton11 = new JoystickButton(threeAxis,11);
-        threeAxisButton11.whileHeld(new TurretSetTargetAngle());
+        threeAxisButton11.whileHeld(new TurretManualTurn());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -186,7 +186,7 @@ public class OI {
     public double getJoystickAngle(){
     	//TODO change this back so that it works with the turret control
     	//return threeAxis.getRawAxis(3);
-    	return ((3+threeAxis.getRawAxis(3))*1500);
+    	return ((5+threeAxis.getRawAxis(3))*800);
     }
 
     public boolean isTurningClock(){

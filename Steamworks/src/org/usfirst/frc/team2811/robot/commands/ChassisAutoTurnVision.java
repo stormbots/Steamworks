@@ -13,6 +13,8 @@ public class ChassisAutoTurnVision extends Command {
 	
 	private double toleranceDegrees;
 	private double targetAngle;
+	private double onePicAngle;
+	private boolean haveValidTarget = false;
 	
     public ChassisAutoTurnVision(double toleranceDegrees) {
         requires(Robot.chassis);
@@ -27,28 +29,44 @@ public class ChassisAutoTurnVision extends Command {
     	Robot.chassis.setGearLow();
     	Robot.chassis.setAutoShiftEnabled(false);    
     	Robot.chassis.encoderReset();
+//    	if(Robot.visionGear.haveValidTargetGear()){
+//    		onePicAngle = -Robot.visionGear.getAngleHorizontal();
+//    	}else{
+//    		onePicAngle = 0;
+//    	}
+    	
 
     	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.visionGear.haveValidTargetGear()) {  
-    		double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), -Robot.visionGear.getAngleHorizontal());
-    		Robot.chassis.drive(0, output);
+//    	if (Robot.visionGear.haveValidTargetGear()) {  
+//    		double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), -Robot.visionGear.getAngleHorizontal());
+		if(haveValidTarget){    
+    	double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), onePicAngle);
+		Robot.chassis.drive(0, output);
+		}else if(Robot.visionGear.haveValidTargetGear()){
+			onePicAngle = -Robot.visionGear.getAngleHorizontal();
+			haveValidTarget = true;
+			Robot.chassis.drive(0, 0);
+		}
+		
+		System.out.println(onePicAngle);
     		
-    	} else {
-    		SmartDashboard.putNumber("AngleToTurn output", -9999);
-    		Robot.chassis.drive(0, 0);
-    	}
-    	SmartDashboard.putNumber("AngleToTurn Vision", -Robot.visionGear.getAngleHorizontal());
+//    	} else {
+//    		SmartDashboard.putNumber("AngleToTurn output", -9999);
+//    		Robot.chassis.drive(0, 0);
+//    	}
+//    	SmartDashboard.putNumber("AngleToTurn Vision", -Robot.visionGear.getAngleHorizontal());
     	System.out.println("ChassisAutoTurnVision executing!");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
        double rotation = Robot.chassis.getRotation();
-       double target = Robot.visionGear.getAngleHorizontal();
+//       double target = Robot.visionGear.getAngleHorizontal();
+       double target = onePicAngle;
        SmartDashboard.putNumber("Difference ChassisAutoTurnVision: ", Util.difference(rotation, target));
        return Util.difference(rotation, target) < toleranceDegrees;
     }

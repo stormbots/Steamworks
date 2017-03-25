@@ -49,7 +49,7 @@ public class VisionGear extends Subsystem {
 	
 
 	public double getAngleHorizontal() {
-		return angleTargetHorizontal;
+		return angleTargetHorizontal+2.0;
 	}
 	
 	public void enable(){

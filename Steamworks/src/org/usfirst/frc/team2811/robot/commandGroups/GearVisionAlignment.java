@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
+import org.usfirst.frc.team2811.robot.commands.Wait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,5 +28,11 @@ public class GearVisionAlignment extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ChassisAutoTurnVision(0.5),1.5);
+    	addSequential(new Wait(0.1));
+    	addSequential(new ChassisAutoTurnVision(0.5),0.75);
+    	addSequential(new Wait(0.1));
+    	addSequential(new ChassisAutoTurnVision(0.5),0.5);
+
+
     }
 }

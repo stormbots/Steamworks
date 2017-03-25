@@ -16,6 +16,7 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoRedLeftGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
+import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
@@ -125,7 +126,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
 		
 //		//TESTING & DEBUGGING
-//		chooser.addObject("Turn 3deg", new ChassisAutoTurn(3));
+		chooser.addObject("Vision Alignment", new GearVisionAlignment());
 //		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
 //		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
 //		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));

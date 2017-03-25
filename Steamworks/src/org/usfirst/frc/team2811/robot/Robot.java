@@ -42,6 +42,7 @@ import org.usfirst.frc.team2811.robot.subsystems.VisionGear;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -71,6 +72,8 @@ public class Robot extends IterativeRobot {
 	public static Blender blender;
 		
 	public static OI oi;
+	
+	public static PowerDistributionPanel PDP;
 
 	Command joystickDrive;
 	
@@ -102,6 +105,7 @@ public class Robot extends IterativeRobot {
 		//ALWAYS INITIALIZE ALL SUBSYSTEMS BEFORE OI, or requires() doesn't work
 		oi = new OI();
 
+		PDP = new PowerDistributionPanel();
 		
 		joystickDrive = new JoystickDrive();
 		
@@ -232,6 +236,7 @@ public class Robot extends IterativeRobot {
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
+		SmartDashboard.putData("PDP", PDP);
         SmartDashboard.putNumber("TurretPos", Robot.turret.getCurrentPos());
         SmartDashboard.putNumber("Turret Current Angle", Robot.turret.getCurrentAngle());
         //SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));

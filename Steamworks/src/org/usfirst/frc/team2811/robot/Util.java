@@ -38,6 +38,16 @@ public class Util {
 		}
 	}
 	
+	public static double constrain(double input, double outputMax, double outputMin){
+		if(input>outputMax){
+			return outputMax;
+		}else if(input<outputMin){
+			return outputMin;
+		} else {
+			return input;
+		}
+	}
+	
 	public static void updateFlash(){
 		Robot.blender.updateValFromFlash();
 		Robot.chassis.updateValFromFlash();

@@ -27,11 +27,12 @@ public class GearVisionAlignment extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoTurnVision(0.5),1.5);
     	addSequential(new Wait(0.1));
     	addSequential(new ChassisAutoTurnVision(0.5),0.75);
     	addSequential(new Wait(0.1));
     	addSequential(new ChassisAutoTurnVision(0.5),0.5);
+    	addSequential(new Wait(0.1));
+    	addSequential(new ChassisAutoTurnVision(0.5),0.25);
 
 
     }

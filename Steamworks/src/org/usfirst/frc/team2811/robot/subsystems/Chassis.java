@@ -100,6 +100,8 @@ public class Chassis extends Subsystem {
 
 //ROBOT DRIVE ---------------------------------------------------------------------------------------------------------------//
     public void drive(double move, double rotate){
+    	move = voltageAdjustOutput(move);
+    	rotate = voltageAdjustOutput(rotate);
     	robotDrive.newArcadeDrive(move, rotate);
     }
 	
@@ -152,6 +154,12 @@ public class Chassis extends Subsystem {
     
     public double getAbsoluteSpeed(){
     	return robotDrive.getAbsoluteSpeed();
+    }
+    
+    private double voltageAdjustOutput(double input){
+    	double outputMod = Util.map(Robot.PDP.getVoltage(), 6.5, 8.25, 0, 1);
+    	outputMod = Util.constrain(outputMod,1,0);
+    	return input * outputMod;
     }
     
 //DRIVE PID ---------------------------------------------------------------------------------------------------------------//

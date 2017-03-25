@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ChassisAutoTurnVision extends Command {
 	
 	private double toleranceDegrees;
-	private double targetAngle;
 	private double onePicAngle;
 	private boolean haveValidTarget = false;
 	
@@ -44,7 +43,10 @@ public class ChassisAutoTurnVision extends Command {
 //    	if (Robot.visionGear.haveValidTargetGear()) {  
 //    		double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), -Robot.visionGear.getAngleHorizontal());
 		if(haveValidTarget){    
-    	double output = Robot.chassis.minipidTurnGetOutput(Robot.chassis.getRotation(), onePicAngle);
+    	double output = Robot.chassis.minipidTurnGetOutput(
+    					Robot.chassis.getRotation(), 
+    					onePicAngle
+    					);
 		Robot.chassis.drive(0, output);
 		}else if(Robot.visionGear.haveValidTargetGear()){
 			onePicAngle = -Robot.visionGear.getAngleHorizontal();
@@ -52,13 +54,7 @@ public class ChassisAutoTurnVision extends Command {
 			Robot.chassis.drive(0, 0);
 		}
 		
-		System.out.println(onePicAngle);
-    		
-//    	} else {
-//    		SmartDashboard.putNumber("AngleToTurn output", -9999);
-//    		Robot.chassis.drive(0, 0);
-//    	}
-//    	SmartDashboard.putNumber("AngleToTurn Vision", -Robot.visionGear.getAngleHorizontal());
+		SmartDashboard.putNumber("Vision Gear Picture Angle", onePicAngle);
     	System.out.println("ChassisAutoTurnVision executing!");
     }
 
@@ -67,7 +63,7 @@ public class ChassisAutoTurnVision extends Command {
        double rotation = Robot.chassis.getRotation();
 //       double target = Robot.visionGear.getAngleHorizontal();
        double target = onePicAngle;
-       SmartDashboard.putNumber("Difference ChassisAutoTurnVision: ", Util.difference(rotation, target));
+//       SmartDashboard.putNumber("Difference ChassisAutoTurnVision: ", Util.difference(rotation, target));
        return Util.difference(rotation, target) < toleranceDegrees;
     }
 

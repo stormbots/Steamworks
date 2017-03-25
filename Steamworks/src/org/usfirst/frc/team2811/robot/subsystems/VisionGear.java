@@ -26,6 +26,7 @@ public class VisionGear extends Subsystem {
 	private int lastHeartbeat = -1;
 	private long lastHeartbeatTime = 0;
 	private int numNtFaults = 0;
+	private double angleAdjust;
 	
     public VisionGear() {
     	networkTable=NetworkTable.getTable("vision");
@@ -35,6 +36,7 @@ public class VisionGear extends Subsystem {
 
     public void updateValFromFlash(){
     	visionValidTargetTimeout=Util.getPreferencesDouble("visionValidTargetTimeout",0.1);
+    	angleAdjust = Util.getPreferencesDouble("Vision Gear Angle Adjustment", 2.0);
     }
    
 
@@ -49,7 +51,7 @@ public class VisionGear extends Subsystem {
 	
 
 	public double getAngleHorizontal() {
-		return angleTargetHorizontal+2.0;
+		return angleTargetHorizontal+ angleAdjust;
 	}
 	
 	public void enable(){

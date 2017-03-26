@@ -33,7 +33,7 @@ public class GearVisionAlignment extends CommandGroup {
     	addSequential(new ChassisAutoTurnVision(0.5),0.5);
     	addSequential(new Wait(0.1));
     	addSequential(new ChassisAutoTurnVision(0.5),0.25);
-
+    	
 
     }
 }

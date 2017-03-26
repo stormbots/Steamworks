@@ -18,6 +18,7 @@ public class GearDropOnPeg extends CommandGroup {
 	
     public GearDropOnPeg() {
     	
+    	
     	addSequential(new GearVisionAlignment(),1.5);
     	addSequential(new ChassisDriveUltrasonic(),2.5);
     }

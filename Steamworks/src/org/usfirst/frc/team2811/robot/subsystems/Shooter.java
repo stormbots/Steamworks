@@ -38,10 +38,11 @@ public class Shooter extends Subsystem{
 	 
 	 private double speed;
 	 
-	 private ArrayList<Double> distanceMap = new ArrayList<>();
-	 private ArrayList<Integer> rpmMap = new ArrayList<>();
+	 private double[] distanceMap = {0,1};
+	 private int[] rpmMap = {3000,4000};
 	 
 	 private double bias = 0.0;
+	 
 	 
     public Shooter(){
     	shooterMotor = new CANTalon(12);
@@ -121,30 +122,20 @@ public class Shooter extends Subsystem{
     }
     
     public double getRPM(double distance){
-    	if(distanceMap.size()!=rpmMap.size()){
+    	if(distanceMap.length!=rpmMap.length){
     		System.err.println("distanceMap does not match the rpmMap!!!");
-    		return rpmMap.get(0);
+    		return rpmMap[0];
     	}
-    	for (int i=0; i<distanceMap.size()-1;i++){
-    		if(distanceMap.get(i+1)>distance){
-    			return map(distance, distanceMap.get(i), distanceMap.get(i+1), 
-    	    			rpmMap.get(i), rpmMap.get(i+1));
+    	for (int i=0; i<distanceMap.length-1;i++){
+    		if(distanceMap[i+1]>distance){
+    			return map(distance, distanceMap[i], distanceMap[i+1], 
+    	    			rpmMap[i], rpmMap[i+1]);
     		}
     	}
-    	return rpmMap.get(distanceMap.size()-1);
+    	return rpmMap[distanceMap.length-1];
     }
 
-    public void initDistanceMap(){
-    	for(int i = 0; i < 22; i++){
-    		distanceMap.add(i*0.5+3);
-    	}
-    }
-    
-    public void initRPMMap(){
-    	for(int i = 0; i < 22; i++){
-    		rpmMap.add(i*100+3200);
-    	}
-    }
+
     //**************************
     // Debug functions 
     //*************************

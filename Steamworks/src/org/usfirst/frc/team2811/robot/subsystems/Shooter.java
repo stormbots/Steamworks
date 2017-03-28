@@ -1,5 +1,9 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.Util;
@@ -33,6 +37,9 @@ public class Shooter extends Subsystem{
 	 private double targetDistance = 0.0;
 	 
 	 private double speed;
+	 
+	 private ArrayList<Double> distanceMap = new ArrayList<>();
+	 private ArrayList<Integer> rpmMap = new ArrayList<>();
 	 
 	 private double bias = 0.0;
 	 
@@ -68,7 +75,6 @@ public class Shooter extends Subsystem{
     public void updateValFromFlash(){
     	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
-    	//shooterMotor.set(speed);
     }
 //This is for manual control during teleop of a match
     public void pidTuneSetRPM(){
@@ -114,7 +120,31 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     }
     
+    public double getRPM(double distance){
+    	if(distanceMap.size()!=rpmMap.size()){
+    		System.err.println("distanceMap does not match the rpmMap!!!");
+    		return rpmMap.get(0);
+    	}
+    	for (int i=0; i<distanceMap.size()-1;i++){
+    		if(distanceMap.get(i+1)>distance){
+    			return map(distance, distanceMap.get(i), distanceMap.get(i+1), 
+    	    			rpmMap.get(i), rpmMap.get(i+1));
+    		}
+    	}
+    	return rpmMap.get(distanceMap.size()-1);
+    }
 
+    public void initDistanceMap(){
+    	for(int i = 0; i < 22; i++){
+    		distanceMap.add(i*0.5+3);
+    	}
+    }
+    
+    public void initRPMMap(){
+    	for(int i = 0; i < 22; i++){
+    		rpmMap.add(i*100+3200);
+    	}
+    }
     //**************************
     // Debug functions 
     //*************************
@@ -133,6 +163,8 @@ public class Shooter extends Subsystem{
     public double joystickToVelocity(double input){
     	return map(input, 0, upJoystick, 0, upRPM);
     }
+    
+    
     
     public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

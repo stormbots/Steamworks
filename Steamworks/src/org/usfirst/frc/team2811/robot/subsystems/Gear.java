@@ -3,6 +3,7 @@ package org.usfirst.frc.team2811.robot.subsystems;
 import org.usfirst.frc.team2811.robot.Robot;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,6 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Gear extends Subsystem {
 	private Ultrasonic sonarLeft;
 	private Ultrasonic sonarRight;
+	private Solenoid gearOpSolenoid = new Solenoid(4);
+	private Solenoid gearSolenoid = new Solenoid(5);
+	private boolean gearDrop = true;
+	private boolean opGearDrop = !gearDrop;
+	private boolean gearDropClose = !gearDrop;
+	private boolean opGearDropClose = !gearDropClose;
 		
 	
 		
@@ -91,7 +98,15 @@ public class Gear extends Subsystem {
     	SmartDashboard.putNumber("Left Ultrasonic", distanceLeftSideInches());
     	SmartDashboard.putNumber("Ultrasonic (inches)", getDistanceInches());	
     }
-   
+    public void gearDrop(){
+    	gearSolenoid.set(gearDrop);
+    	gearOpSolenoid.set(opGearDrop);
+    	
+    }
+    public void gearDropClose(){
+    	gearSolenoid.set(gearDropClose);
+    	gearOpSolenoid.set(opGearDropClose);
+    }
     
 }
 

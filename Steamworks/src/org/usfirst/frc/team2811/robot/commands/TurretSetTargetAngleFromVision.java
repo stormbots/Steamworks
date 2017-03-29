@@ -24,6 +24,11 @@ public class TurretSetTargetAngleFromVision extends Command {
     protected void execute() {
     	double target;
     	if(Robot.visionBoiler.haveValidTargetBoiler()){
+		if (Robot.visionBoiler.getAngleTargetHorizontalBoiler() < -180.0) {
+			// the method returned -9999, which means the VisionBoiler subsystem
+			// couldn't get a value from NT
+			return; // we don't want to turn 9999 deg to the left
+		}
     		target = Robot.turret.getTargetAngle()-Robot.visionBoiler.getAngleTargetHorizontalBoiler();
     		Robot.turret.setTargetAngle(target);
     		//setTimeout(1);

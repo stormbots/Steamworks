@@ -47,11 +47,22 @@ public class VisionBoiler extends Subsystem {
     // here. Call these from Commands.
 	
     public double getDistanceTargetBoiler() {
-		return distanceTarget;
+		return this.getDistanceFromInterpolation();
 	}
 
 	public double getAngleTargetHorizontalBoiler() {
-		return angleTargetHorizontal;
+		int px = (int) networkTable.getNumber("boiler_angle_cy", -1);
+		
+		if (px < 0) {
+			return -9999.0;
+		}
+		
+		double degPxRatio = 1 / 12.30355;
+		
+		double angle = degPxRatio * (180 - px);
+		// if the camera is rotated the other way
+		// double angle = degPxRatio * (px - 180)
+		return angle;
 	}
 	
 	public void enable(){
@@ -87,6 +98,31 @@ public class VisionBoiler extends Subsystem {
 			robotTimestamp=Timer.getFPGATimestamp();
 
 		}
+	}
+	
+	public double getDistanceFromInterpolation() {
+		int[][] table = {
+			// {px, distance}
+			{1, 2},
+			{3, 4},
+			{5, 6}
+		};
+		int px = networkTable.getNumber("boiler_distance_cx", -1);
+		
+		if (px < 0) {
+			return -1.0;
+		}
+		
+		i = 0;
+		// Goes left-to-right, but might need to go RTL if the ratio is inverse
+		while (px > table[i][0] && i < table.length - 1)
+			i++;
+		
+		// LTR version
+		return table[i][1] + ((table[i+1][1] - table[i][1]) / (table[i+1][0] - table[i][0])) * (px - table[i][0]);
+		
+		// RTL version
+		// return table[i+1][1] + ((table[i][1] - table[i+1][1]) / (table[i][0] - table[i+1][0])) * (px - table[i+1][0]);
 	}
 	
 

@@ -38,20 +38,16 @@ public class Shooter extends Subsystem{
 	 
 	 private double speed;
 	 
-//	 private double[] distanceMap = {3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14};
-//	 private int[] rpmMap = {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230};
 	 private double[] distanceMap = {1,2,3,4,5};
 	 private double[] rpmMap = {100,200,300,400,500};
 	 
 	 private double bias = 0.0;
-	 private String distanceMapString;
-	 private String rpmMapString;
 	 
     public Shooter(){
     	shooterMotor = new CANTalon(12);
         shooterMotor.reset();
     	shooterMotor.clearStickyFaults();
-    	//Change the motor into speed mode (closed-loop velocity[]\)
+    	//Change the motor into speed mode (closed-loop velocity)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
         shooterMotor.reverseSensor(true);
@@ -65,8 +61,7 @@ public class Shooter extends Subsystem{
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
-    	//shooterMotor.setPID(0.0tghn  5, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
-    	
+    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
     	updateValFromFlash();
     }
     public void initDefaultCommand() {

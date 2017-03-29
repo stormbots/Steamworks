@@ -102,8 +102,8 @@ public class OI {
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
     	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
-        threeAxisButton11 = new JoystickButton(threeAxis,11);
-        threeAxisButton11.whileHeld(new TurretManualTurn());
+        threeAxisButton2 = new JoystickButton(threeAxis,2);
+        threeAxisButton2.whileHeld(new TurretManualTurn());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -132,8 +132,8 @@ public class OI {
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
 
-        threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whenPressed(new TurretOneWayHoming());
+        threeAxisButton11 = new JoystickButton(threeAxis,11);
+        threeAxisButton11.whenPressed(new TurretOneWayHoming());
 //        threeAxisButton8 = new JoystickButton(threeAxis,8);
 //        threeAxisButton8.whileHeld(new TurretManualTurn());    
     	

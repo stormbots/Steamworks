@@ -41,6 +41,7 @@ import org.usfirst.frc.team2811.robot.subsystems.VisionBoiler;
 import org.usfirst.frc.team2811.robot.subsystems.VisionGear;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
@@ -74,7 +75,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	
 	public static PowerDistributionPanel PDP;
-
+	
 	Command joystickDrive;
 	
 	Command autonomousCommand;
@@ -136,6 +137,7 @@ public class Robot extends IterativeRobot {
 //		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
 //		
 		SmartDashboard.putData("Auto mode", chooser);
+		
 		Robot.intake.intakeIn();
 	}
 
@@ -153,7 +155,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 
-		visionGear.heartbeat();
+		//visionGear.heartbeat();
 		
 		Robot.turret.updateValFromFlash();
 		Robot.shooter.updateValFromFlash();
@@ -183,6 +185,7 @@ public class Robot extends IterativeRobot {
 		chassis.setAutoShiftEnabled(false);
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
+		checkBatteryVoltage();
 		chassis.encoderReset();
 		Robot.intake.intakeOut();
 
@@ -210,6 +213,7 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
+		checkBatteryVoltage();
 		Util.updateFlash();
 		
 		oi.setAutoShiftDefault();
@@ -264,6 +268,13 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 
+	}
+	
+	// If the battery voltage is lower than it should, force a disable in teleop and autonomous
+	private void checkBatteryVoltage(){
+		if(PDP.getVoltage() < 11.0){
+			throw new RuntimeException(Util.lordDan());
+		}
 	}
 	
 }

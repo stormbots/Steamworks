@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class Util {
 	
+	
 	private static Preferences prefs = Preferences.getInstance();
 	
 	/**
@@ -58,4 +59,58 @@ public class Util {
 		Robot.visionBoiler.updateValFromFlash();
 		Robot.visionGear.updateValFromFlash();
 	}
+	
+	
+//---------------------------------------------------------------------------------------------------------------------------------------	
+
+	/**
+	 * 
+	 * @return LORD DAN
+	 */
+	public static String lordDan(){
+
+	return "                                                                     \n" +
+			" XXXXX    X     X      XX       XX      X        XXXXX   XXXXXXX   \n"+
+	"		 XX       X     X      XX       XXX     X      XXX       X          \n"+
+	"		XX        X     X     XXXX      X XX    X    XXX         X			\n"+
+	"		X         X     X    XX  X      X  XX   X   XX           XXXXXXXX	\n"+
+	"		X         XXXXXXX    X   XX     XX  XX  X   X     XXXX    X         \n"+
+	"		XX        X     X   XXXXXXXX     X   XX X   XX       X    X         \n"+
+	"		 XXX      X     X   X      X     X    XXX    XX     XX    XX        \n"+
+	"		   XXXXX  X     X  X       X     X     XX      XXXXXX      XXXXXXXX\n"+
+	"                                                                                      \n" +
+	
+	
+	"		                                                                       XX            X\n"+
+	"		 XXXXXXXXX      XXX         XXXXXXXXXXXXXXX            XXXXXXXXXXXX     XXX         X\n"+
+	"		 X       XX    XX  XXXXXXXXXXXX   XX       XXXXXXXXXX  X          XX      XXX       X\n"+
+	"		 X       XX   XX   XX    X         X       X           X           XX       XXX    X\n"+
+	"		X      XXX    X     X    X         X       X           X           XX         XXX X\n"+
+	"		XXXXXXXXX    XX     X    X         X       X           X         XXX            XXX\n"+
+	"		X       XXX  XXXXXXXXX   X         X       XXXXX       X X  XXXXX                X\n"+
+	"		X         XXXX      X    X         X        X           XXXXX                   X\n"+
+	"		X          XX       X    X         X        X           X   XXXX               XX\n"+
+	"		X        XX X       X    X         X        X           X       XXXX           X\n"+
+	"		XXXXXXXXXX XX       X    X          X       X           X           XXX       X\n"+
+	"		                                            XXXXXXXXXXX X                    XX\n"+
+	"		                                                                            XX\n"+
+	"		                                                                           XX\n";
+
+				
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -38,8 +38,8 @@ public class Shooter extends Subsystem{
 	 
 	 private double speed;
 	 
-	 private double[] distanceMap = {0,1};
-	 private int[] rpmMap = {3000,4000};
+	 private double[] distanceMap = {3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14};
+	 private int[] rpmMap = {10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230};
 	 
 	 private double bias = 0.0;
 	 
@@ -66,7 +66,6 @@ public class Shooter extends Subsystem{
     	
     	updateValFromFlash();
     }
-    
     public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ShooterOff());

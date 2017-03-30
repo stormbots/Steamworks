@@ -21,12 +21,14 @@ import org.usfirst.frc.team2811.robot.commands.ToggleAutoShift;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -102,8 +104,8 @@ public class OI {
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
     	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
-        threeAxisButton11 = new JoystickButton(threeAxis,11);
-        threeAxisButton11.whileHeld(new TurretManualTurn());
+        threeAxisButton2 = new JoystickButton(threeAxis,2);
+        threeAxisButton2.whileHeld(new TurretManualTurn());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -115,7 +117,7 @@ public class OI {
         threeAxisButton5.whileHeld(new GearVisionAlignment());
 
         threeAxisButton6 = new JoystickButton(threeAxis,6);
-        threeAxisButton6.whileHeld(new ClimbDown()); 
+        threeAxisButton6.whileHeld(new AutoShooterPrefSequence(00)); 
         
         threeAxisButton7 = new JoystickButton(threeAxis, 7);
         threeAxisButton7.whileHeld(new Climb());
@@ -126,19 +128,22 @@ public class OI {
     
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
-//		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
+		threeAxisButton9.whenPressed(new ChassisDriveUltrasonic(0,48,0.2));
 //
 		threeAxisButton10 = new JoystickButton(threeAxis,10);
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
 
-        threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whenPressed(new TurretOneWayHoming());
+        threeAxisButton11 = new JoystickButton(threeAxis,11);
+        threeAxisButton11.whenPressed(new TurretOneWayHoming());
 //        threeAxisButton8 = new JoystickButton(threeAxis,8);
 //        threeAxisButton8.whileHeld(new TurretManualTurn());    
     	
         threeAxisButton12 = new JoystickButton(threeAxis,12);
-        threeAxisButton12.whileHeld(new GearDropOnPegNoVision());
+//        threeAxisButton12.whileHeld(new GearDropOnPegNoVision());
+        threeAxisButton12.whileHeld(new ChassisDriveUltrasonic(0,24,0.2));	
+        
+        
         
         
 	}
@@ -188,7 +193,10 @@ public class OI {
     	//return threeAxis.getRawAxis(3);
     	return ((5+threeAxis.getRawAxis(3))*800);
     }
-
+    
+    public double getShooterRPMBias(){
+    	return threeAxis.getRawAxis(1)*100;
+    }
     public boolean isTurningClock(){
         return threeAxisButton9.get();
     }

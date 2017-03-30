@@ -48,8 +48,7 @@ public class ChassisDriveUltrasonic extends Command {
 		if(Robot.gear.getDistanceFeet()!=10.0){
 		    double output = Robot.chassis.minipidDriveGetOutput(
 	    		Robot.gear.getDistanceFeet(), 
-	    		targetInches/12.0 + (Robot.oi.getMoveValue()/12.0)*2
-		    	);
+	    		targetInches/12.0 + (Robot.oi.getMoveValue()/12.0)*2);
 		    Robot.chassis.drive(output, 0);
 		    System.out.println("ChassisDriveUltrasonic executing!");
 		}else{

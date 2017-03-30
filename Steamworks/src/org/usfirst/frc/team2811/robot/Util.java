@@ -60,9 +60,21 @@ public class Util {
 		Robot.visionGear.updateValFromFlash();
 	}
 	
-	
-//---------------------------------------------------------------------------------------------------------------------------------------	
+	public static double getMapValueFromLists(double input, double[] fromList, double[] toList){
+		if(fromList.length!=toList.length){
+    		System.err.println("Number of elements in the list does not match!!!");
+    		return toList[0];
+    	}
+    	for (int i=0; i<fromList.length-1;i++){
+    		if(fromList[i+1]>input){
+    			return map(input, fromList[i], fromList[i+1], 
+    	    			toList[i], toList[i+1]);
+    		}
+    	}
+    	return toList[fromList.length-1];
+	}
 
+	
 	/**
 	 * 
 	 * @return LORD DAN
@@ -95,22 +107,6 @@ public class Util {
 	"		                                            XXXXXXXXXXX X                    XX\n"+
 	"		                                                                            XX\n"+
 	"		                                                                           XX\n";
-
-				
+	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

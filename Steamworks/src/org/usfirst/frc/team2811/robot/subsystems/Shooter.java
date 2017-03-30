@@ -1,5 +1,9 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.Util;
@@ -34,13 +38,19 @@ public class Shooter extends Subsystem{
 	 
 	 private double speed;
 	 
+	 private double rpmBias = 0.0;
+	 
+	 //TODO: add values to preference, if the data size matches, before running the code!
+	 private double[] distanceMap = {66, 72, 78, 84, 90};
+	 private double[] rpmMap = {3300, 3400, 3450, 3475, 3550};
+	 
 	 private double bias = 0.0;
 	 
     public Shooter(){
     	shooterMotor = new CANTalon(12);
         shooterMotor.reset();
     	shooterMotor.clearStickyFaults();
-    	//Change the motor into speed mode (closed-loop velocity[]\)
+    	//Change the motor into speed mode (closed-loop velocity)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
         shooterMotor.reverseSensor(true);
@@ -54,11 +64,9 @@ public class Shooter extends Subsystem{
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
-    	//shooterMotor.setPID(0.0tghn  5, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
-    	
+    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
     	updateValFromFlash();
     }
-    
     public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new ShooterOff());
@@ -68,14 +76,27 @@ public class Shooter extends Subsystem{
     public void updateValFromFlash(){
     	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
-    	//shooterMotor.set(speed);
+    	
+    	if(!prefs.containsKey("Shooter DistanceToRPMMap")){
+    		prefs.putString("Shooter DistanceToRPMMap", "1:100,2:200,3:300,4:400,5:500");
+    	}    	
+    	updateMap("Shooter DistanceToRPMMap", ",", ":");
+    	
     }
-//This is for manual control during teleop of a match
+    //This is for manual control during teleop of a match
     public void pidTuneSetRPM(){
-//    	TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
+    	//TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
 		//setRPM(speed);
     	setRPM(Robot.oi.getJoystickAngle());
     	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
+    }
+    private void setPIDProfile(double distance){
+    	if(distance > 7){
+    		shooterMotor.setProfile(1);
+    	}
+    	else{
+    		shooterMotor.setProfile(0);
+    	}
     }
     
     //**************************
@@ -114,7 +135,29 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     }
     
+    public double getRPM(double distance){
+    	setPIDProfile(distance);
+    	if(distance < distanceMap[0]) return 0;
+    	return Util.getMapValueFromLists(distance, distanceMap, rpmMap) + rpmBias;
+    }
 
+    public void setShootBias(double bias){
+    	rpmBias = bias;
+    }
+    /*
+     * Caution: 
+     * 1. Same number of elements in the string and targetMap
+     * 2. No space between numbers
+     */
+    private void updateMap(String key, String separator1, String separator2){
+    	String[] valuePairString = prefs.getString(key, "").split(separator1);
+    	String[][] valueString = new String[valuePairString.length][2];
+    	for(int i = 0; i < valueString.length; i++){
+    		String[] pair = valuePairString[i].split(separator2);
+    		distanceMap[i] = Double.parseDouble(pair[0]);
+    		rpmMap[i] = Double.parseDouble(pair[1]);
+    	}
+    }
     //**************************
     // Debug functions 
     //*************************
@@ -133,6 +176,8 @@ public class Shooter extends Subsystem{
     public double joystickToVelocity(double input){
     	return map(input, 0, upJoystick, 0, upRPM);
     }
+    
+    
     
     public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

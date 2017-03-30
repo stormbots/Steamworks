@@ -124,7 +124,7 @@ public class VisionBoiler extends Subsystem {
 			{423 + 40.0/2,	48},
 			{464 + 42.0/2,	42},
 			{515 + 44.0/2,	36},
-			{568 + 42.0/2,	30},
+			{568 + 42.0/2,	30}
 		};
 		int px = (int) networkTable.getNumber("boiler_distance_cx", -1);
 		

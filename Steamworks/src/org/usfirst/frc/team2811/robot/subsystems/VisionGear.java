@@ -32,6 +32,14 @@ public class VisionGear extends Subsystem {
     	networkTable=NetworkTable.getTable("vision");
     	prefs = Preferences.getInstance();
     	visionValidTargetTimeout=0;
+    	
+    	// make sure some preference values get set so that the pi
+    	// picks them up relatively quickly
+    	Util.getPreferencesDouble("VisionGearRectTolerance", 0.2);
+    	Util.getPreferencesDouble("VisionGearRectToleranceLow", 1.9);
+    	Util.getPreferencesDouble("VisionGearRectToleranceHigh", 3);
+    	Util.getPreferencesDouble("VisionGearFudgeFactor", 0.85);
+    	Util.getPreferencesDouble("VisionGearForwardPixel", 614);
 	}
 
     public void updateValFromFlash(){

@@ -139,6 +139,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		Robot.intake.intakeIn();
+		NetworkTable.setUpdateRate(0.02); // 20ms
 	}
 
 	/**

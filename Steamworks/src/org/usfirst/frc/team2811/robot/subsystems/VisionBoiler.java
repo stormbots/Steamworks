@@ -103,17 +103,30 @@ public class VisionBoiler extends Subsystem {
 	public double getDistanceFromInterpolation() {
 		int[][] table = {
 			// {px, distance}
-			{1, 2},
-			{3, 4},
-			{5, 6}
+			{1, 	12},
+			{3, 	24},
+			{5, 	36},
+			{0, 	48},
+			{0, 	60},
+			{0, 	72},
+			{0, 	84},
+			{10,	96},
+			{10,	108},
+			{10,	120},
+			{10,	132},
+			{10,	144},
+			{10,	156},
+			{10,	168},
+			{10,	180},
+			{10,	192}
 		};
-		int px = networkTable.getNumber("boiler_distance_cx", -1);
+		int px = (int) networkTable.getNumber("boiler_distance_cx", -1);
 		
 		if (px < 0) {
 			return -1.0;
 		}
 		
-		i = 0;
+		int i = 0;
 		// Goes left-to-right, but might need to go RTL if the ratio is inverse
 		while (px > table[i][0] && i < table.length - 1)
 			i++;

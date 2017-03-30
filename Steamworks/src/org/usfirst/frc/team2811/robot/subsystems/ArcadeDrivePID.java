@@ -73,22 +73,25 @@ public class ArcadeDrivePID extends RobotDrive {
 		
 	}
  
+    //NO
     public void setTuningHigh(){
        	drivePIDLeft.setPID(leftHighP, leftHighI, leftHighD, leftHighF);
     	drivePIDRight.setPID(rightHighP, rightHighI, rightHighD, rightHighF);
     	SmartDashboard.putString("Tuning", "HIGH");
     }
     
+    //NO
     public void setTuningLow(){
     	drivePIDLeft.setPID(leftLowP, leftLowI, leftLowD, leftLowF);
     	drivePIDRight.setPID(rightLowP, rightLowI, rightLowD, rightLowF);
     	SmartDashboard.putString("Tuning", "LOW");
     }
     
+    //NO
     public void setMapHigh(){
     	mapScale = true;
     }
-    
+    //NO
     public void setMapLow(){
     	mapScale = false;
     }

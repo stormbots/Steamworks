@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot.commands;
 
 import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -9,6 +10,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class JoystickDrive extends Command {
 
+	private double autoShiftHigh,autoShiftLow;
+	
     public JoystickDrive() {
         requires(Robot.chassis);
     }
@@ -16,17 +19,20 @@ public class JoystickDrive extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.chassis.setAutoShiftEnabled(Robot.chassis.getAutoShiftDefault());
+    	
+    	autoShiftHigh = Util.getPreferencesDouble("Chassis autoShiftHigh", 2550);
+    	autoShiftLow = Util.getPreferencesDouble("Chassis autoShiftLow", 2000);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
     	if(Robot.chassis.isAutoShiftEnabled()){
-			if(Robot.chassis.getAbsoluteSpeed()>2550){
+			if(Robot.chassis.getAbsoluteSpeed()>autoShiftHigh){
 				Robot.chassis.setGearHigh();
 			}
 			
-			if(Robot.chassis.getAbsoluteSpeed()<2000){
+			if(Robot.chassis.getAbsoluteSpeed()<autoShiftLow){
 				Robot.chassis.setGearLow();
 			}
 		}

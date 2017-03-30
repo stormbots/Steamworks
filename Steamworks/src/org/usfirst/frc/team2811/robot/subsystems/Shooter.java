@@ -38,8 +38,11 @@ public class Shooter extends Subsystem{
 	 
 	 private double speed;
 	 
-	 private double[] distanceMap = {1,2,3,4,5};
-	 private double[] rpmMap = {100,200,300,400,500};
+	 private double rpmBias = 0.0;
+	 
+	 //TODO: add values to preference, if the data size matches, before running the code!
+	 private double[] distanceMap = {66, 72, 78, 84, 90};
+	 private double[] rpmMap = {3300, 3400, 3450, 3475, 3550};
 	 
 	 private double bias = 0.0;
 	 
@@ -87,6 +90,14 @@ public class Shooter extends Subsystem{
     	setRPM(Robot.oi.getJoystickAngle());
     	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
+    private void setPIDProfile(double distance){
+    	if(distance > 7){
+    		shooterMotor.setProfile(1);
+    	}
+    	else{
+    		shooterMotor.setProfile(0);
+    	}
+    }
     
     //**************************
     // Normal Operation 
@@ -125,10 +136,14 @@ public class Shooter extends Subsystem{
     }
     
     public double getRPM(double distance){
+    	setPIDProfile(distance);
     	if(distance < distanceMap[0]) return 0;
-    	return Util.getMapValueFromLists(distance, distanceMap, rpmMap);
+    	return Util.getMapValueFromLists(distance, distanceMap, rpmMap) + rpmBias;
     }
 
+    public void setShootBias(double bias){
+    	rpmBias = bias;
+    }
     /*
      * Caution: 
      * 1. Same number of elements in the string and targetMap

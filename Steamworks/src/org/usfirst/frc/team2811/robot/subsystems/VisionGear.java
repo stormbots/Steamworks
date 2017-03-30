@@ -52,6 +52,7 @@ public class VisionGear extends Subsystem {
 
 	public double getAngleHorizontal() {
 		return angleTargetHorizontal+ angleAdjust;
+		
 	}
 	
 	public void enable(){
@@ -130,6 +131,10 @@ public class VisionGear extends Subsystem {
 		}
 		
 		this.lastHeartbeat = piHeartbeat;
+	}
+	
+	public void updateDashboard(){
+		SmartDashboard.putNumber("Vision Gear Angle", getAngleHorizontal());
 	}
 }
 

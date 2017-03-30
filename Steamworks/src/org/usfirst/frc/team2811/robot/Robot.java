@@ -233,6 +233,7 @@ public class Robot extends IterativeRobot {
 		
 		gear.updateDashboard();
 		chassis.updateDashboard();
+		visionGear.updateDashboard();
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);

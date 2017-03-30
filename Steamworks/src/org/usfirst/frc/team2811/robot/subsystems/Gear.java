@@ -87,9 +87,9 @@ public class Gear extends Subsystem {
     }
     
     public void updateDashboard(){
-    	SmartDashboard.putNumber("Right Ultrasonic (inches)", distanceRightSideInches());	
+    	SmartDashboard.putNumber("Right Ultrasonic (inches)", distanceRightSideInches());
     	SmartDashboard.putNumber("Left Ultrasonic", distanceLeftSideInches());
-    	SmartDashboard.putNumber("Ultrasonic (inches)", getDistanceInches());	
+    	SmartDashboard.putNumber("Ultrasonic (inches)", getDistanceInches());
     }
    
     

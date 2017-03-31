@@ -114,10 +114,10 @@ public class Util {
 
 	
 	/**
-	 * 
+	 * Some weird programming stuff
 	 * @return LORD DAN
 	 */
-	public static String lordDan(){
+	public static String warningChangeBattery(){
 
 	return "                                                                     \n" +
 			" XXXXX    X     X      XX       XX      X        XXXXX   XXXXXXX   \n"+

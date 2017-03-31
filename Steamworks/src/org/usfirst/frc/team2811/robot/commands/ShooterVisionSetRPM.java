@@ -23,7 +23,7 @@ public class ShooterVisionSetRPM extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.shooter.setShootBias(Robot.oi.getShooterRPMBias());
-    	Robot.shooter.getRPM(distance);
+    	Robot.shooter.setRPM(Robot.shooter.getRPM(distance));
     }
 
     // Make this return true when this Command no longer needs to run execute()

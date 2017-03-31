@@ -80,23 +80,11 @@ public class Shooter extends Subsystem{
     	if(!prefs.containsKey("Shooter DistanceToRPMMap")){
     		prefs.putString("Shooter DistanceToRPMMap", "1:100,2:200,3:300,4:400,5:500");
     	}    	
+    	
+    	//TODO: Run in robot/brain, add or delete another pair of value and see if it runs as expected
+    	//If not, fix the function as the comment instructed
     	updateMap("Shooter DistanceToRPMMap", ",", ":");
     	
-    }
-    //This is for manual control during teleop of a match
-    public void pidTuneSetRPM(){
-    	//TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
-		//setRPM(speed);
-    	setRPM(Robot.oi.getJoystickAngle());
-    	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
-    }
-    private void setPIDProfile(double distance){
-    	if(distance > 7){
-    		shooterMotor.setProfile(1);
-    	}
-    	else{
-    		shooterMotor.setProfile(0);
-    	}
     }
     
     //**************************
@@ -106,6 +94,15 @@ public class Shooter extends Subsystem{
     	targetDistance = distance;
     	setRPM(0);
     }
+    
+  //This is for manual control during teleop of a match
+    public void pidTuneSetRPM(){
+    	//TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
+		//setRPM(speed);
+    	setRPM(Robot.oi.getJoystickAngle());
+    	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
+    }
+    
 //THis is for preference set during Auto testing
     public void setPrefRPM(double targetRPM){
     	setRPM(speed);
@@ -135,6 +132,14 @@ public class Shooter extends Subsystem{
     	shooterMotor.set(0);
     }
     
+    /**
+     * This function returns the shooter target rpm and resets shooter profile based on the distance and rpm map values, 
+     * if the distance is smaller than the closest distance in the list, return 0. If greater than the largest distance, 
+     * return the max rpm in the list. 
+     * Turn off the elevator and blender if returns 0!!!!!
+     * @param distance
+     * @return
+     */
     public double getRPM(double distance){
     	setPIDProfile(distance);
     	if(distance < distanceMap[0]) return 0;
@@ -144,20 +149,47 @@ public class Shooter extends Subsystem{
     public void setShootBias(double bias){
     	rpmBias = bias;
     }
-    /*
-     * Caution: 
-     * 1. Same number of elements in the string and targetMap
-     * 2. No space between numbers
+    
+    /**
+     * Update the distance map and rpm map on preference, using the format of 
+     * distance:rpm,distance:rpm,distance:rpm...
+     * No space between elements!!!!!
      */
     private void updateMap(String key, String separator1, String separator2){
     	String[] valuePairString = prefs.getString(key, "").split(separator1);
-    	String[][] valueString = new String[valuePairString.length][2];
-    	for(int i = 0; i < valueString.length; i++){
+    	double[] newDistance = new double[valuePairString.length];
+    	double[] newRPM = new double[valuePairString.length];
+    	for(int i = 0; i < valuePairString.length; i++){
     		String[] pair = valuePairString[i].split(separator2);
-    		distanceMap[i] = Double.parseDouble(pair[0]);
-    		rpmMap[i] = Double.parseDouble(pair[1]);
+    		
+    		//Put back the next two line if it doesn't work
+//    		distanceMap[i] = Double.parseDouble(pair[0]);
+//    		rpmMap[i] = Double.parseDouble(pair[1]);
+    		
+        	//Comment out the next two line if it doesn't work
+    		newDistance[i] = Double.parseDouble(pair[0]);
+    		newRPM[i] = Double.parseDouble(pair[1]);
+    	}
+    	
+    	//Comment out the next two line if it doesn't work
+    	distanceMap = newDistance;
+    	rpmMap = newRPM;
+    }
+    
+    /**
+     * This function switches between short and long distance (in inches) shooting pid profile depending on the 
+     * distance passed in
+     * @param distance
+     */
+    private void setPIDProfile(double distance){
+    	if(distance > 84){
+    		shooterMotor.setProfile(1);
+    	}
+    	else{
+    		shooterMotor.setProfile(0);
     	}
     }
+    
     //**************************
     // Debug functions 
     //*************************

@@ -275,7 +275,7 @@ public class Robot extends IterativeRobot {
 	// If the battery voltage is lower than it should, force a disable in teleop and autonomous
 	private void checkBatteryVoltage(){
 		if(PDP.getVoltage() < 11.0){
-			throw new RuntimeException(Util.lordDan());
+			throw new RuntimeException(Util.warningChangeBattery());
 		}
 	}
 	

@@ -45,7 +45,7 @@ public class OI {
     private Joystick rightStick;
     private JoystickButton rightTrigger;
     
-    private boolean austinDefaultAutoShift = true;
+    private boolean austinDefaultAutoShift = false;
 
 ////////XBOX    
     private XboxController xBox;
@@ -194,6 +194,10 @@ public class OI {
     	return ((5+threeAxis.getRawAxis(3))*800);
     }
     
+    /**
+     * Read threeAxis joystick y axis value, modify the shooter rpm to rpm+-100
+     * @return a decimal between -100 and 100
+     */
     public double getShooterRPMBias(){
     	return threeAxis.getRawAxis(1)*100;
     }

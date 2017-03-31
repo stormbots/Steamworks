@@ -1,32 +1,27 @@
 package org.usfirst.frc.team2811.robot.commands;
 
 import org.usfirst.frc.team2811.robot.Robot;
-import org.usfirst.frc.team2811.robot.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ShooterVisionSetRPM extends Command {
-	
-    public ShooterVisionSetRPM() {
+public class VisionBoilerEnable extends Command {
+
+    public VisionBoilerEnable() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.shooter);
+        // eg. requires(chassis);
+    	requires(Robot.visionBoiler);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.visionBoiler.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.shooter.setShootBias(Robot.oi.getShooterRPMBias());
-//    	Robot.shooter.setRPM(Robot.shooter.getRPM(distance));
-    	if(Robot.visionBoiler.isValidTarget()){
-    		double distance = Robot.visionBoiler.getDistanceTargetBoiler();
-    		Robot.shooter.setTargetDistance(distance);		
-    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,11 +31,12 @@ public class ShooterVisionSetRPM extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.visionBoiler.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.setRPM(0);
+    	Robot.visionBoiler.disable();
     }
 }

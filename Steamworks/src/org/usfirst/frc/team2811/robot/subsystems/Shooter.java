@@ -84,7 +84,8 @@ public class Shooter extends Subsystem{
     	//TODO: Run in robot/brain, add or delete another pair of value and see if it runs as expected
     	//If not, fix the function as the comment instructed
     	updateMap("Shooter DistanceToRPMMap", ",", ":");
-    	
+    	shooterMotor.setInverted(!Util.getPreferencesBoolean("Shooter Output isCompBot", false));
+    	//shooterMotor.set(speed);
     }
     
     //**************************

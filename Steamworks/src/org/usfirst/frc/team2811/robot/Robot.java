@@ -208,6 +208,8 @@ public class Robot extends IterativeRobot {
 //		visionGear.heartbeat();
 		gear.updateDashboard();
 		chassis.updateDashboard();
+		shooter.updateDashboard();
+		visionGear.updateDashboard();
 
 		SmartDashboard.putNumber("Vision Gear Angle", Robot.visionGear.getAngleHorizontal());
 	}
@@ -242,6 +244,8 @@ public class Robot extends IterativeRobot {
 		gear.updateDashboard();
 		chassis.updateDashboard();
 		visionGear.updateDashboard();
+		shooter.updateDashboard();
+		
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
@@ -278,7 +282,7 @@ public class Robot extends IterativeRobot {
 	// If the battery voltage is lower than it should, force a disable in teleop and autonomous
 	private void checkBatteryVoltage(){
 		if(PDP.getVoltage() < 11.0){
-			throw new RuntimeException(Util.warningChangeBattery());
+			//throw new RuntimeException(Util.warningChangeBattery());
 		}
 	}
 	

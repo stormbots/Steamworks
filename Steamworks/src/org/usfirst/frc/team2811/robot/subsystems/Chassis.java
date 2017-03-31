@@ -242,6 +242,15 @@ public class Chassis extends Subsystem {
 		frontRight.setPosition(0);
 		frontLeft.setPosition(0);
 	}
+    
+    /**
+     * 
+     * @param right value 
+     * @param left value
+     */
+    public void tankDrive(double right, double left){
+    	robotDrive.tankDrive(right, left);
+    }
    
 //UTILITY FUNCTIONS ---------------------------------------------------------------------------------------------------------------//
     private void initTalons(){

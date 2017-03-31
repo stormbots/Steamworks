@@ -35,9 +35,7 @@ public class AutoBlueLeftGear extends CommandGroup {
     	addSequential(new ChassisAutoDrive(0,86.0),5);
     	addSequential(new ChassisAutoTurn(60.0),2);
     	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
-    	addSequential(new ChassisAutoTurnVision(0.5),0.5);
-    	addSequential(new ChassisDriveUltrasonic(0,18,0.3),1.25);
-    	addSequential(new GearDropOnPeg());
+    	addSequential(new GearDropOnPeg(),3.5);
     	
     }
 }

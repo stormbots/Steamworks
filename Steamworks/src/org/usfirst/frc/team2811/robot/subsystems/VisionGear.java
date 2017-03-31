@@ -25,7 +25,7 @@ public class VisionGear extends Subsystem {
 	private double visionValidTargetTimeout;
 	private int lastHeartbeat = -1;
 	private long lastHeartbeatTime = 0;
-	private int numNtFaults = 0;
+	private int numNtFaults = 0;	
 	private double angleAdjust;
 	
 	private double[][] calibrationMapping24inch={
@@ -38,13 +38,23 @@ public class VisionGear extends Subsystem {
 			{24.79,	-16},	//+6"
 		};
 	
+//	private double[][] calibrationMapping24inch={
+//			//measured from off-center from the gear
+//			//{Reported, actual target turn value}
+//			{-29,	-11},	//-6"
+//			{-7.05,	-5},	//-3
+//			{2.83,	0.0},	//0"
+//			{9.09,	22},	//+3"
+//			{18.6,	33},	//+6"
+//		};
+	
 	private double[][] calibrationMapping48inch={
 			//measured from off-center from the gear
-			{-5.7,	9},	//-12
-			{-8,	6},	//-6"
-			//{?.??,	0.0},	//0" //TODO WE NEED THIS
-			{16.6,	-16},	//+6"
-			{28.75,	-26},	//+12"
+			{-5.7,	-9},	//-12
+			{-8,	-6},	//-6"
+			{0.0,	0.0},	//0" //TODO WE NEED TO VERIFY THIS
+			{16.6,	16},	//+6"
+			{28.75,	26},	//+12"
 		};
 	
     public VisionGear() {
@@ -131,7 +141,6 @@ public class VisionGear extends Subsystem {
 			angleTargetHorizontal = networkTable.getNumber("gear_error_angle",0);
 			visionTimestamp = time;
 			robotTimestamp=Timer.getFPGATimestamp();
-
 		}
 	}
 	
@@ -176,6 +185,7 @@ public class VisionGear extends Subsystem {
 	
 	public void updateDashboard(){
 		SmartDashboard.putNumber("Vision Gear Angle", getAngleHorizontal());
+		SmartDashboard.putNumber("Angle from map", getAngleHorizontalAtDistance(24));
 	}
 }
 

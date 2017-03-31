@@ -33,8 +33,7 @@ public class AutoRedRightGear extends CommandGroup {
     	addSequential(new ChassisAutoDrive(0, 96),4);
     	addSequential(new ChassisAutoTurn(-55),3.5);
     	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
-    	addSequential(new ChassisAutoTurnVision(0.5),0.75);
-    	addSequential(new ChassisDriveUltrasonic(0,18,0.3),1.5);
-    	addSequential(new GearDropOnPeg());
+//    	addSequential(new ChassisAutoTurnVision(0.5),0.75);
+    	addSequential(new GearDropOnPeg(),3.5);
     }
 }

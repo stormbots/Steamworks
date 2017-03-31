@@ -29,7 +29,7 @@ public class AutoCenterGear extends CommandGroup {
         // arm.
     	addSequential(new ChassisAutoDrive(0,60),2);
     	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
-    	addSequential(new GearDropOnPeg(),4);
+    	addSequential(new GearDropOnPeg(),3.5);
 //    	addSequential(new GearDropOnPegNoVision(),4);
     }
 }

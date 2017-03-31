@@ -19,12 +19,12 @@ public class ShooterUltrasonicSetRPM extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	distance = Robot.gear.getDistanceInches()+24;
+    	distance = Robot.gear.getDistanceInches()+18+17;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-		Robot.shooter.setTargetDistance(distance);		
+		Robot.shooter.setTargetDistance(distance+Robot.oi.getShooterDistanceBias());		
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,11 +34,13 @@ public class ShooterUltrasonicSetRPM extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.shooter.shooterOff();
+
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.setRPM(0);
+    	Robot.shooter.shooterOff();
     }
 }

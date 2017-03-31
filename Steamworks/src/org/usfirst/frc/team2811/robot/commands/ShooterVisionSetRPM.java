@@ -25,7 +25,7 @@ public class ShooterVisionSetRPM extends Command {
 //    	Robot.shooter.setRPM(Robot.shooter.getRPM(distance));
     	if(Robot.visionBoiler.isValidTarget()){
     		double distance = Robot.visionBoiler.getDistanceTargetBoiler();
-    		Robot.shooter.setTargetDistance(distance);		
+    		Robot.shooter.setTargetDistance(distance+Robot.oi.getShooterRPMBias());		
     	}
     }
 
@@ -36,11 +36,13 @@ public class ShooterVisionSetRPM extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.shooter.shooterOff();
+
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.setRPM(0);
+    	Robot.shooter.shooterOff();
     }
 }

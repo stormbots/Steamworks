@@ -47,11 +47,22 @@ public class VisionBoiler extends Subsystem {
     // here. Call these from Commands.
 	
     public double getDistanceTargetBoiler() {
-		return distanceTarget;
+		return this.getDistanceFromInterpolation();
 	}
 
 	public double getAngleTargetHorizontalBoiler() {
-		return angleTargetHorizontal;
+		int px = (int) networkTable.getNumber("boiler_angle_cy", -1);
+		
+		if (px < 0) {
+			return -9999.0;
+		}
+		
+		double degPxRatio = 1 / 12.30355;
+		
+		double angle = degPxRatio * (180 - px);
+		// if the camera is rotated the other way
+		// double angle = degPxRatio * (px - 180)
+		return angle;
 	}
 	
 	public void enable(){
@@ -87,6 +98,50 @@ public class VisionBoiler extends Subsystem {
 			robotTimestamp=Timer.getFPGATimestamp();
 
 		}
+	}
+	
+	public double getDistanceFromInterpolation() {
+		double[][] table = {
+			// {px, distance(in)}
+			{96  + 23.0/2, 	159},
+			{100 + 24.0/2, 	150},
+			{110 + 25.0/2, 	144},
+			{121 + 24.0/2, 	138},
+			{130 + 25.0/2, 	132},
+			{142 + 27.0/2, 	126},
+			{153 + 28.0/2, 	120},
+			{167 + 28.0/2,	114},
+			{180 + 29.0/2,	108},
+			{198 + 30.0/2,	102},
+			{219 + 32.0/2,	96},
+			{238 + 32.0/2,	90},
+			{259 + 33.0/2,	84},
+			{280 + 34.0/2,	78},
+			{305 + 36.0/2,	72},
+			{331 + 36.0/2,	66},
+			{359 + 37.0/2,	60},
+			{386 + 39.0/2,	54},
+			{423 + 40.0/2,	48},
+			{464 + 42.0/2,	42},
+			{515 + 44.0/2,	36},
+			{568 + 42.0/2,	30}
+		};
+		int px = (int) networkTable.getNumber("boiler_distance_cx", -1);
+		
+		if (px < 0) {
+			return -1.0;
+		}
+		
+		int i = 0;
+		// Goes left-to-right, but might need to go RTL if the ratio is inverse
+		while (px > table[i][0] && i < table.length - 1)
+			i++;
+		
+		// LTR version
+		return table[i][1] + ((table[i+1][1] - table[i][1]) / (table[i+1][0] - table[i][0])) * (px - table[i][0]);
+		
+		// RTL version
+		// return table[i+1][1] + ((table[i][1] - table[i+1][1]) / (table[i][0] - table[i+1][0])) * (px - table[i+1][0]);
 	}
 	
 

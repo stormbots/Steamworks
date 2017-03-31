@@ -30,8 +30,9 @@ public class VisionGear extends Subsystem {
 	
 	private double[][] calibrationMapping24inch={
 			//measured from off-center from the gear
-			{5.05,	11.57},	//-6
-			{4.9,	14.55},	//-3"
+			//{Reported, actual target turn value}
+			{4.9,	14.55},	//-6"
+			{5.05,	11.57},	//-3
 			{9.29,	0.0},	//0"
 			{18.6,	-13},	//+3"
 			{24.79,	-16},	//+6"
@@ -41,7 +42,7 @@ public class VisionGear extends Subsystem {
 			//measured from off-center from the gear
 			{-5.7,	9},	//-12
 			{-8,	6},	//-6"
-			//{9.29,	0.0},	//0" //TODO WE NEED THIS
+			//{?.??,	0.0},	//0" //TODO WE NEED THIS
 			{16.6,	-16},	//+6"
 			{28.75,	-26},	//+12"
 		};

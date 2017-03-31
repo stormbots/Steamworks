@@ -60,6 +60,19 @@ public class Util {
 		Robot.visionGear.updateValFromFlash();
 	}
 	
+	/**
+	 * Maps an input range using multiple points split into 2 independent lists. 
+	 * Lists should have the same size.  
+	 * <br><br>
+	 * Eg given the lists {1,2,3,4,5},{10,20,30,20,10}
+	 * <br>
+	 * the value of 3 would map to 30, and 1.5 would map to 15
+	 * 
+	 * @param input	value to interpolate
+	 * @param fromList list of input values
+	 * @param toList list of output values
+	 * @return
+	 */
 	public static double getMapValueFromLists(double input, double[] fromList, double[] toList){
 		if(fromList.length!=toList.length){
     		System.err.println("Number of elements in the list does not match!!!");
@@ -72,6 +85,31 @@ public class Util {
     		}
     	}
     	return toList[fromList.length-1];
+	}
+
+	/**
+	 * Perform linear interpolation on a nested multidimensional array
+	 * eg, given the list {{1,10},{2,20},{3,30},{4,20},{5,10}}
+	 * converting 3 would return 30, and converting 1.5 would return 15
+	 * 
+	 * @param input 
+	 * @param pairedlist Array of 2-element double arrays, eg [ [1,1],[2,3],[3,6] ... ]
+	 * @return
+	 */
+	public static double getMapValueFromList(double input, double[][] pairedlist){
+
+		if(input<pairedlist[0][0])return pairedlist[0][1];
+		
+    	for (int i=0; i<pairedlist.length-1;i++){
+        	if(pairedlist[i+1][0]>input){
+    			return map(input, 
+    					pairedlist[i][0], pairedlist[i+1][0], 
+    					pairedlist[i][1], pairedlist[i+1][1]
+    					);
+    		}
+    	}
+    	
+    	return pairedlist[pairedlist.length-1][1];
 	}
 
 	

@@ -28,6 +28,24 @@ public class VisionGear extends Subsystem {
 	private int numNtFaults = 0;
 	private double angleAdjust;
 	
+	private double[][] calibrationMapping24inch={
+			//measured from off-center from the gear
+			{5.05,	11.57},	//-6
+			{4.9,	14.55},	//-3"
+			{9.29,	0.0},	//0"
+			{18.6,	-13},	//+3"
+			{24.79,	-16},	//+6"
+		};
+	
+	private double[][] calibrationMapping48inch={
+			//measured from off-center from the gear
+			{-5.7,	9},	//-12
+			{-8,	6},	//-6"
+			//{9.29,	0.0},	//0" //TODO WE NEED THIS
+			{16.6,	-16},	//+6"
+			{28.75,	-26},	//+12"
+		};
+	
     public VisionGear() {
     	networkTable=NetworkTable.getTable("vision");
     	prefs = Preferences.getInstance();
@@ -57,10 +75,24 @@ public class VisionGear extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
+	/**
+	 * Check for distance calibration at 24" away from the target
+	 * @return target angle to turn to
+	 */
 
-	public double getAngleHorizontal() {
-		return angleTargetHorizontal+ angleAdjust;
-		
+	public double getAngleHorizontal(){
+		return getAngleHorizontalAtDistance(24);
+	}
+	
+	/**
+	 * Check the best dataset for the calibrated distance, return our target angle
+	 * @param inches away from the gear target (using ultrasonics)
+	 * @return target angle to turn to
+	 */
+	public double getAngleHorizontalAtDistance(double inches){
+		if(inches>=48) return Util.getMapValueFromList(angleTargetHorizontal,calibrationMapping48inch);
+		else if(inches>=24) return Util.getMapValueFromList(angleTargetHorizontal,calibrationMapping24inch);
+		else return Util.getMapValueFromList(angleTargetHorizontal,calibrationMapping24inch);
 	}
 	
 	public void enable(){

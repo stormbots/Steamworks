@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.hal.HAL;
 
 /**
@@ -37,6 +38,7 @@ public class Shooter extends Subsystem{
 	 private double targetDistance = 0.0;
 	 
 	 private double speed;
+	 private double shooterRPM;
 	 
 	 private double rpmBias = 0.0;
 	 
@@ -59,8 +61,8 @@ public class Shooter extends Subsystem{
     	shooterMotor.enable();
     	shooterMotor.set(0);
     	
-    	//Reverse is false on comp bot
-    	shooterMotor.reverseOutput(false);
+    	//Reverse is true on comp bot, maybe false
+    	shooterMotor.reverseOutput(true);
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
@@ -77,6 +79,7 @@ public class Shooter extends Subsystem{
     	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
     	
+    	
     	if(!prefs.containsKey("Shooter DistanceToRPMMap")){
     		prefs.putString("Shooter DistanceToRPMMap", "1:100,2:200,3:300,4:400,5:500");
     	}    	
@@ -88,11 +91,21 @@ public class Shooter extends Subsystem{
     	//shooterMotor.set(speed);
     }
     
+    public void updateDashboard(){
+    	SmartDashboard.putNumber("Shooter Speed", speed);
+    	SmartDashboard.putNumber("Shooter RPM", shooterMotor.get());
+    	SmartDashboard.putNumber("Shooter Set Distance", getTargetDistance());
+    	SmartDashboard.putNumber("Shooter Distance RPM", getRPM(targetDistance));
+    	
+    }
+
+    
     //**************************
     // Normal Operation 
     //*************************
     public void setTargetDistance(double distance){
     	targetDistance = distance;
+    	//setRPM(getRPM(targetDistance));
     	setRPM(0);
     }
     
@@ -130,6 +143,7 @@ public class Shooter extends Subsystem{
     }
     
     public void shooterOff(){
+    	//shooterMotor.reset();
     	shooterMotor.set(0);
     }
     
@@ -142,7 +156,8 @@ public class Shooter extends Subsystem{
      * @return
      */
     public double getRPM(double distance){
-    	setPIDProfile(distance);
+    	//setPIDProfile(distance);
+    	shooterMotor.setProfile(0);
     	if(distance < distanceMap[0]) return 0;
     	return Util.getMapValueFromLists(distance, distanceMap, rpmMap) + rpmBias;
     }

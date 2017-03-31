@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class UpdateVisionBoiler extends Command {
+public class VisionBoilerDisable extends Command {
 
-    public UpdateVisionBoiler() {
+    public VisionBoilerDisable() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.visionBoiler);
@@ -21,12 +21,12 @@ public class UpdateVisionBoiler extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.visionBoiler.update();
+    	Robot.visionBoiler.disable();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true
@@ -36,6 +36,5 @@ public class UpdateVisionBoiler extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	System.out.println("Vision interrupted!!!");
     }
 }

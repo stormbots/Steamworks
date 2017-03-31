@@ -17,6 +17,7 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
+import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequenceVision;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
@@ -132,6 +133,7 @@ public class Robot extends IterativeRobot {
 		
 //		//TESTING & DEBUGGING
 		chooser.addObject("Vision Alignment", new GearVisionAlignment());
+		chooser.addObject("Shoot W/Vision", new ShooterSequenceVision());
 //		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
 //		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
 //		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
@@ -150,6 +152,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		Robot.intake.intakeIn();
+		visionBoiler.disable();
 	}
 
 	@Override
@@ -202,8 +205,7 @@ public class Robot extends IterativeRobot {
 //		visionGear.heartbeat();
 		gear.updateDashboard();
 		chassis.updateDashboard();
-		visionBoiler.update();
-		visionGear.update();
+
 		SmartDashboard.putNumber("Vision Gear Angle", Robot.visionGear.getAngleHorizontal());
 	}
 
@@ -231,10 +233,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		// Important! This talks to the RasPi so our vision works
-		visionBoiler.update();
-		visionGear.update();
-//		visionGear.heartbeat();
+
+		//visionGear.heartbeat();
 		
 		gear.updateDashboard();
 		chassis.updateDashboard();

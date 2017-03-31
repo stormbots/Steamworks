@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
 import org.usfirst.frc.team2811.robot.Util;
-import org.usfirst.frc.team2811.robot.commands.UpdateVisionBoiler;
-import org.usfirst.frc.team2811.robot.commands.UpdateVisionGear;
+import org.usfirst.frc.team2811.robot.commands.VisionBoilerUpdate;
+import org.usfirst.frc.team2811.robot.commands.VisionGearUpdate;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
@@ -70,7 +70,7 @@ public class VisionGear extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-//		setDefaultCommand(new UpdateVisionGear());
+		setDefaultCommand(new VisionGearUpdate());
     }
 
     // Put methods for controlling this subsystem

@@ -8,23 +8,23 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ShooterVisionSetRPM extends Command {
+public class ShooterUltrasonicSetRPM extends Command {
 	
-    public ShooterVisionSetRPM() {
+    private double distance;
+
+	public ShooterUltrasonicSetRPM() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	distance = Robot.gear.getDistanceInches()+24;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.visionBoiler.isValidTarget()){
-    		double distance = Robot.visionBoiler.getDistanceTargetBoiler();
-    		Robot.shooter.setTargetDistance(distance);		
-    	}
+		Robot.shooter.setTargetDistance(distance);		
     }
 
     // Make this return true when this Command no longer needs to run execute()

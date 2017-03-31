@@ -81,7 +81,8 @@ public class Shooter extends Subsystem{
     		prefs.putString("Shooter DistanceToRPMMap", "1:100,2:200,3:300,4:400,5:500");
     	}    	
     	updateMap("Shooter DistanceToRPMMap", ",", ":");
-    	
+    	shooterMotor.setInverted(!Util.getPreferencesBoolean("Shooter Output isCompBot", false));
+    	//shooterMotor.set(speed);
     }
     //This is for manual control during teleop of a match
     public void pidTuneSetRPM(){

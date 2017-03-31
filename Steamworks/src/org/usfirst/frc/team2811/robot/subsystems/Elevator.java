@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2811.robot.subsystems;
 
+import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
 
 import com.ctre.CANTalon;
@@ -48,6 +49,7 @@ public class Elevator extends Subsystem {
     	power = prefs.getDouble("Elevator Power", 0.4);
     	if(!prefs.containsKey("Elevator Speed")) prefs.putDouble("Elevator Speed", 500);
     	if(!prefs.containsKey("Elevator Power")) prefs.putDouble("Elevator Power", 0.4);
+    	elevatorMotor.setInverted(Util.getPreferencesBoolean("Elevator Output isCompBot", false));
 
     }
     public void setPercentPower(){

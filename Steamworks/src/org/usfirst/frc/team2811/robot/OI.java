@@ -16,6 +16,7 @@ import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.IntakeToggle;
 import org.usfirst.frc.team2811.robot.commands.ShiftGears;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 import org.usfirst.frc.team2811.robot.commands.ToggleAutoShift;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
@@ -102,8 +103,8 @@ public class OI {
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
     	threeAxisButton1.whileHeld(new ShooterSequence(0));
     	
-        threeAxisButton11 = new JoystickButton(threeAxis,11);
-        threeAxisButton11.whileHeld(new TurretManualTurn());
+    	threeAxisButton2 = new JoystickButton(threeAxis,2);
+        threeAxisButton2.whenPressed(new TurretOneWayHoming());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -126,14 +127,15 @@ public class OI {
     
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
-//		threeAxisButton9.whenPressed(new ChassisAutoTurn(90.0));
+		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
 //
 		threeAxisButton10 = new JoystickButton(threeAxis,10);
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
-
-        threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whenPressed(new TurretOneWayHoming());
+		threeAxisButton11 = new JoystickButton(threeAxis,11);
+        threeAxisButton11.whileHeld(new TurretManualTurn());
+        
+        
 //        threeAxisButton8 = new JoystickButton(threeAxis,8);
 //        threeAxisButton8.whileHeld(new TurretManualTurn());    
     	

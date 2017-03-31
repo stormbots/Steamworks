@@ -68,6 +68,7 @@ public class Shooter extends Subsystem{
     public void updateValFromFlash(){
     	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
+    	shooterMotor.setInverted(!Util.getPreferencesBoolean("Shooter Output isCompBot", false));
     	//shooterMotor.set(speed);
     }
 //This is for manual control during teleop of a match

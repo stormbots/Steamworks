@@ -90,6 +90,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	
 	public void robotInit() {		
+		
+		System.out.println("COMMENT OUT BATTERY VOLTAGE SECURE CODE");
+		
 		//Initialize Subsystems
 		visionBoiler = new VisionBoiler();
 		visionGear = new VisionGear();

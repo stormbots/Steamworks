@@ -29,7 +29,7 @@ public class Elevator extends Subsystem {
         elevatorMotor.reset();
     	elevatorMotor.clearStickyFaults();
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	//Reverse is true on comp bot
     	elevatorMotor.reverseOutput(true);
     	elevatorMotor.enable();
@@ -52,6 +52,7 @@ public class Elevator extends Subsystem {
     	elevatorMotor.setInverted(Util.getPreferencesBoolean("Elevator Output isCompBot", false));
 
     }
+    
     public void setPercentPower(){
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	elevatorMotor.enable();

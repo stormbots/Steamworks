@@ -130,12 +130,15 @@ public class OI {
         threeAxisButton7.whileHeld(new Climb());
         
     	threeAxisButton8 = new JoystickButton(threeAxis, 8);
+    	//threeAxisButton8.whileHeld(new ElevatorOn());
+    	
     	threeAxisButton8.whileHeld(new ClimbSlow());        
 //      TODO Put back turretCalButton if not manual turn!
     
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
-//		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
+//		threeAxisButton9.whileHeld(new BlenderOn());
+		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
 
 //
 		threeAxisButton10 = new JoystickButton(threeAxis,10);

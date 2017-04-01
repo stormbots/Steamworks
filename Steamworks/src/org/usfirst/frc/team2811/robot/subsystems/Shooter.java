@@ -147,11 +147,17 @@ public class Shooter extends Subsystem{
     public void setAutoRPM(double targetRPM){
     	setRPM(targetRPM);
     }
-    
+    /**
+     * This is just a function that puts the shooter at a set RPM
+     * @param rpm
+     */
     public void setRPM(double rpm){
     	shooterMotor.set(rpm);
     }
-    
+    /**
+     * This sets a bias that can be used when shooting so it will adjust the set shooter speed by the bias
+     * @param biasAmount
+     */
     public void setBias(double biasAmount){
     	bias = biasAmount;
     }
@@ -159,7 +165,9 @@ public class Shooter extends Subsystem{
     public double getBias(){
     	return bias;
     }
-    
+    /**
+     * This sets the motor speed to zero
+     */
     public void shooterOff(){
     	//shooterMotor.reset();
     	shooterMotor.set(0);

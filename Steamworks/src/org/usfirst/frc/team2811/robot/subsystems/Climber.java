@@ -37,7 +37,9 @@ public class Climber extends Subsystem {
 		
 		updateValFromFlash();
 	}
-	
+	/**
+	 * This update the values that are specified in the flash that can be seen and changes on the smartdashboard
+	 */
 	public void updateValFromFlash(){
 		currentLimit = prefs.getDouble("climberCurrentLimit", 10);
 		if(!prefs.containsKey("climberCurrentLimit")){
@@ -48,10 +50,15 @@ public class Climber extends Subsystem {
         // Set the default commansd for a subsystem here.
         setDefaultCommand(new ClimberOff());
     }
-    
+    /**
+     * Set the power to the climber so the robot will climb
+     */
     public void climbUp(){
     		climberMotor.set(-speed);
     }
+    /**
+     * sets the power to half the specified value to climb 
+     */
     public void climbUpSlow(){
     	climberMotor.set(-speed/2);
     }
@@ -59,6 +66,9 @@ public class Climber extends Subsystem {
     public double getCurrent(){
     	return climberMotor.getOutputCurrent();
     }
+    /**
+     * Set the motor power to zero so it turns the climber off
+     */
     public void climberOff(){
     	climberMotor.set(0);
     }

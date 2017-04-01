@@ -36,7 +36,13 @@ public class Intake extends Subsystem {
 		
 	}
 	
-	
+	public void initDefaultCommand() {
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new IntakeBallOff());
+    }
+    
+    
 	public boolean isIntakeOn(){
 		if(!(intakeMotor.get()!=0)){
 			return true;
@@ -44,16 +50,23 @@ public class Intake extends Subsystem {
 			return false;
 		}
 	}
-	
+	/**
+	 * Checks if the intake state is in
+	 * @return
+	 */
 	public boolean isIntakeIn(){
 		return intakeSolenoid.get()==in;
 	}
-	
+	/**
+	 * Put the intake actuator out
+	 */
 	public void intakeOut(){
 		intakeSolenoid.set(out);
 		intakeOpSolenoid.set(opOut);
 	}
-	
+	/**
+	 * Puts the intake actuator in
+	 */
 	public void intakeIn(){
 		intakeSolenoid.set(in);
 		intakeOpSolenoid.set(opIn);
@@ -70,29 +83,29 @@ public class Intake extends Subsystem {
 		
 	}
 	
-	
+	/**
+	 * Sets the intake power to a specified value so it can intake balls in
+	 */
     public void setIntakeOn(){
     	intakeMotor.set(-speed);
     	
     	//TODO find the right value for the motor on
     }
-    
+    /**
+     * Sets the intake voltage to zero
+     */
     public void setIntakeOff(){
 		intakeMotor.set(0);
     }
-    
+    /**
+     * Sets the intake power to a specified value so it kicks the balls out
+     */
     public void reverseIntake(){
     	intakeMotor.set(speed);
     }
 
 	
 	
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new IntakeBallOff());
-    }
-    
     
 }
 

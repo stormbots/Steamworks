@@ -80,11 +80,15 @@ public class Turret extends Subsystem {
 	protected void initDefaultCommand() {
 		setDefaultCommand(new TurretOff());
 	}
-
+	/**
+	 * This makes it so that the homed variable is set false
+	 */
 	public void reversedHomed(){
 		homed = !homed;
 	}
-	
+	/**
+	 * This function is use to update values of the preferences that can be seen on the smart dashboard
+	 */
 	public void updateValFromFlash(){
 		counterClockTicks = prefs.getInt("turretCounterClockTicks", 25029);
 		clockTicks = prefs.getInt("turretClockTicks", 13440);
@@ -165,7 +169,9 @@ public class Turret extends Subsystem {
     	}
     	return false;
 	}
-	
+	/**
+	 * Turns the turret off
+	 */
 	public void setTurretOff(){
 		turretMotor.set(0);
 	}
@@ -245,22 +251,32 @@ public class Turret extends Subsystem {
     public double getTargetAngle(){
 		return targetAngle;
 	}
-    
+    /**
+     * sets the motor to a output
+     * @param motorOutput
+     */
     public void setTurretMotor(double motorOutput){
     	turretMotor.set(motorOutput);
     }
-    
+    /**
+     * This sets the 
+     * @return home = true
+     */
     public boolean isHomed(){
     	return homed;
     }
-
-    public void checkLeftSwitch(){
+    /**
+     * Checks whether the CounterClockwise is closed or open 
+     */
+    public void checkCounterClockwiseSwitch(){
     	if (!switchCounterClockwise.get()){
     		System.out.println("CounterClockSwitchClosed");
     	}
     }
-	
-    public void checkRightSwitch(){
+	/**
+	 *  Checks whether the Clockwise is closed or open 
+	 */
+    public void checkClockwiseSwitch(){
     	if (!switchClockwise.get()){
     		System.out.println("ClockSwitchClosed");
     	}
@@ -269,7 +285,10 @@ public class Turret extends Subsystem {
     public double getManualSpeed(){
     	return motorOutputManual;
     }
-    
+    /**
+     * This returns the current encoder values
+     * @return
+     */
     public double getCurrentPos(){
     	return turretMotor.getEncPosition();
     }

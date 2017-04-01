@@ -43,7 +43,9 @@ public class Elevator extends Subsystem {
         // Set the default command for a subsystem here.
         setDefaultCommand(new ElevatorOff());
     }
-    
+    /**
+     * Update the values needed for preferences into the flash
+     */
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Elevator Speed", 500);
     	power = prefs.getDouble("Elevator Power", 0.4);
@@ -52,21 +54,31 @@ public class Elevator extends Subsystem {
     	elevatorMotor.setInverted(Util.getPreferencesBoolean("Elevator Output isCompBot", false));
 
     }
-    
+    /**
+     * Changes the mode to percent v bus and set the motor to a set Power that is specified in the smart dashboard preferences
+     */
     public void setPercentPower(){
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     	elevatorMotor.enable();
     	
     	elevatorMotor.set(power);    	
     }
+    /**
+     * This sets the RPM to a rate that is not currently specified and can be used and changes in the specific commands
+     * @param targetRate
+     */
     public void setRPM(double targetRate){
     	elevatorMotor.set(targetRate);
     }
-    
+    /**
+     * This sets the elevator RPM to a value that is specified on the smartDashboard
+     */
     public void elevatorOn(){
     	elevatorMotor.set(speed);
     }
-    
+    /**
+     * This sets the elevator RPM to zero
+     */
     public void elevatorOff(){
     	elevatorMotor.set(0);
     }

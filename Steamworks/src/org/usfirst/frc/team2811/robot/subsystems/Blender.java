@@ -22,8 +22,8 @@ public class Blender extends Subsystem {
     public Blender(){
     	motor = new CANTalon(4);
     	//TODO: put it back to percentVbus if not tuned
-    	motor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	//motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	//motor.changeControlMode(CANTalon.TalonControlMode.Speed);
+    	motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
         motor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	motor.clearStickyFaults();
 	 	motor.enable();
@@ -37,7 +37,9 @@ public class Blender extends Subsystem {
     public void initDefaultCommand() {
        setDefaultCommand(new BlenderOff());
     }
-    
+    /**
+     * This is a function that is used to update the preference values for the blender
+     */
     public void updateValFromFlash(){
     	speed = prefs.getDouble("Blender Speed", 0.5);
     	if(!prefs.containsKey("Blender Speed")) prefs.putDouble("Blender Speed", 0.5);
@@ -50,15 +52,21 @@ public class Blender extends Subsystem {
 			return false;
 		}
     }
-    
+    /**
+     * This sets the blender to a speed(but actually is a percent power) to a value specified in the preferences on the smart dashboard
+     */
     public void setBlenderOn(){
     	motor.set(speed);
     }
-    
+    /**
+     * This sets the power to zero
+     */
     public void setBlenderOff(){
     	motor.set(0);
     }
-    
+    /**
+     * This sets the blender to the reverse of the speed specified on the preferences 
+     */
     public void setBlenderReverse(){
     	motor.set(-speed);
     }

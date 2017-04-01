@@ -19,6 +19,7 @@ import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequenceVision;
 import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.Climb;
@@ -252,6 +253,8 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
 		SmartDashboard.putData("Compressor", compressor);
 		SmartDashboard.putData("PDP", PDP);
+		
+		//TODO put them in a function in the right subsystem
         SmartDashboard.putNumber("TurretPos", Robot.turret.getCurrentPos());
         SmartDashboard.putNumber("Turret Current Angle", Robot.turret.getCurrentAngle());
         //SmartDashboard.putNumber("Turret Target Angle", Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));

@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.hal.HAL;
  */
 public class Shooter extends Subsystem{
 	 private CANTalon shooterMotor;
-	 //private CANTalon shooterMotor2;
 	 public Preferences prefs = Preferences.getInstance();
 	 private int upJoystick = 1;
 	
@@ -76,7 +75,9 @@ public class Shooter extends Subsystem{
 		setDefaultCommand(new ShooterOff());
 	}
     
-    
+    /**
+     * Update values needed from the preference
+     */
     public void updateValFromFlash(){
     	speed = Util.getPreferencesDouble("Shooter Speed", 4200);
     	shooterMotor.clearStickyFaults();
@@ -93,6 +94,9 @@ public class Shooter extends Subsystem{
     	//shooterMotor.set(speed);
     }
     
+    /**
+     * Put values on SmartDashboard for debugging and tuning
+     */
     public void updateDashboard(){
     	SmartDashboard.putNumber("Shooter Speed", speed);
     	SmartDashboard.putNumber("Shooter RPM", shooterMotor.get());
@@ -105,13 +109,20 @@ public class Shooter extends Subsystem{
     //**************************
     // Normal Operation 
     //*************************
+    
+    /**
+     * Set the target distance of the shooter and set shooter rpm according to the distance/rpm map
+     * @param distance
+     */
     public void setTargetDistance(double distance){
     	targetDistance = distance;
     	setRPM(getRPM(targetDistance));
     	//setRPM(0);
     }
     
-  //This is for manual control during teleop of a match
+    /**
+     * This is for manual control during teleop of a match, using the flapper on the joystick
+     */
     public void pidTuneSetRPM(){
     	//TODO put the speed back in the shooter function so we can edit it manually instead of it being controled by the flap
 		//setRPM(speed);
@@ -119,21 +130,26 @@ public class Shooter extends Subsystem{
     	//System.out.println("shooter RPM " + Robot.oi.getJoystickAngle());
     }
     
-//THis is for preference set during Auto testing
+    /**
+     * This is for preference set during Auto testing, using the preference called "Shooter Speed" to give a set rpm
+     * @param targetRPM
+     */
     public void setPrefRPM(double targetRPM){
     	setRPM(speed);
     	System.out.println("PID Target Setpoint " + targetRPM);
     	System.out.println("PID Output " + shooterMotor.pidGet());	
     }
-//THis is a hard coded value for Auto shooting
+    
+    /**
+     * THis is a hard coded value for Auto shooting
+     * @param targetRPM
+     */
     public void setAutoRPM(double targetRPM){
     	setRPM(targetRPM);
     }
+    
     public void setRPM(double rpm){
     	shooterMotor.set(rpm);
-    }
-    public double getTargetDistance(){
-    	return targetDistance;
     }
     
     public void setBias(double biasAmount){
@@ -164,6 +180,11 @@ public class Shooter extends Subsystem{
     	return Util.getMapValueFromLists(distance, distanceMap, rpmMap) + rpmBias;
     }
 
+    /**
+     * This sets the shooting rpm bias, used for teleop control, in/decrease a certain amount of rpm to the mapped 
+     * value returned
+     * @param bias
+     */
     public void setShootBias(double bias){
     	rpmBias = bias;
     }
@@ -212,6 +233,10 @@ public class Shooter extends Subsystem{
     // Debug functions 
     //*************************
     
+    public double getTargetDistance(){
+    	return targetDistance;
+    }
+    
     public double getPIDError(){
        	double error = shooterMotor.getClosedLoopError();
     	//System.out.println("Error" + error);
@@ -226,8 +251,6 @@ public class Shooter extends Subsystem{
     public double joystickToVelocity(double input){
     	return map(input, 0, upJoystick, 0, upRPM);
     }
-    
-    
     
     public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

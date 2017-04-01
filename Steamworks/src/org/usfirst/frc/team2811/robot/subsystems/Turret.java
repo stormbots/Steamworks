@@ -23,8 +23,8 @@ public class Turret extends Subsystem {
 	
 	private CANTalon turretMotor;
 	//Save or fetch data into preference
-    private int counterClockTicks;
-	private int clockTicks;
+    private int counterClockTicks = 25029;
+	private int clockTicks = 13440;
     private int counterClockAngle = 90;
     private int clockAngle = 0;
     
@@ -84,6 +84,7 @@ public class Turret extends Subsystem {
 	public void reversedHomed(){
 		homed = !homed;
 	}
+	
 	public void updateValFromFlash(){
 		counterClockTicks = prefs.getInt("turretCounterClockTicks", 25029);
 		clockTicks = prefs.getInt("turretClockTicks", 13440);
@@ -104,23 +105,24 @@ public class Turret extends Subsystem {
 		checkKeys("turretManualOutputVal", motorOutputManual);
 	}
 
-	//Homing checking limit switch on one side, use the ticks recorded in preference
+	/**
+	 * Homing checking limit switch on one side, replace clockticks&counterClockTicks recorded in preference
+	 * @return true when the turret is homed, else continue homing
+	 */
     public boolean homeCW(){
     	turretMotor.set(-homingSpeed); 
     	if(switchClockwise.get()==SWITCH_CLOSED){
     		turretMotor.setEncPosition(clockTicks);
     		homed = true;
     		System.out.println("upTicks: "+counterClockTicks + ", downTicks: "+clockTicks);
-//        	turretMotor.enableForwardSoftLimit(true);
-//        	turretMotor.enableReverseSoftLimit(true);
-//    		turretMotor.setForwardSoftLimit(counterClockTicks);
-//    		turretMotor.setReverseSoftLimit(clockTicks);
     	}
     	return homed;
     }
     
 
-    //Homing counterClockwise and set the downTicks
+    /**
+     * Homing counterClockwise and set the clockTicks
+     */
 	public boolean homeCCW(){
 		//move motor
 		turretMotor.set(homingSpeed);
@@ -135,7 +137,10 @@ public class Turret extends Subsystem {
     	return downTicksSet;
     }
     
-	//Homing checking limit switches on both sides and record new up/downTicks in preference
+	/**
+	 * Homing checking limit switches on both sides and record new counterClock/clockTicks in preference
+	 * @return true if both ticks are set
+	 */
 	public boolean homeBothWays(){
 		//homeCCW until downTicks is set
 		if(!downTicksSet){
@@ -168,6 +173,9 @@ public class Turret extends Subsystem {
     //******************
     // PID stuff
     //******************
+	/**
+	 * Calculate the percent vbus needed given the current angle and target angle
+	 */
     public void calculateTurretPIDOutput(){
     	currentAngle = getCurrentAngle();
 		currentOutput = turretPID.getOutput(currentAngle, targetAngle);
@@ -181,12 +189,21 @@ public class Turret extends Subsystem {
 
 	}
     
+    /**
+     * Set the target angle for pid to calculate output, have soft limits on either side to prevent turret 
+     * turn out of frame and break stuff
+     * @param angle
+     */
 	public void setTargetAngle(double angle){
 		if(targetAngle>counterClockAngle) targetAngle = counterClockAngle;
 		else if(targetAngle<clockAngle) targetAngle = clockAngle;
 		else targetAngle = angle;
 	}
 	
+	/**
+	 * Used to update the current angle of the turret, called when calculating the pid output
+	 * @return
+	 */
 	public double getCurrentAngle(){
 		currentAngle = ticksToAngle(turretMotor.getEncPosition());
     	return currentAngle;

@@ -68,12 +68,14 @@ public class ChassisAutoDrive extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassis.drive(0, 0);
+    	SmartDashboard.putNumber("Inches Driven Autonomous Drive command", Robot.chassis.getFeet()*12.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.chassis.drive(0, 0);
+    	SmartDashboard.putNumber("Inches Driven Autonomous Drive command", Robot.chassis.getFeet()*12.0);
 
     }
     

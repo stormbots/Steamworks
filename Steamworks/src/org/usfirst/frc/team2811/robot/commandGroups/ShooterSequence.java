@@ -35,17 +35,7 @@ public class ShooterSequence extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	//TODO: map a button to whileHeld()
-    	//TODO: Need to add vision to this EX: Turn to target(chassis)
-    	
-    	//addSequential(new TurretSetTargetAngle());
-    	//addSequential(new Wait(0.5));
-    	//addSequential(new ShooterTuning(), 0.75);
     	addParallel(new ShooterTuning());
-    	//addParallel(new IntakeBallIn());
-//    	addSequential(new Wait(0.5));
-    	//Both blender and elevator are set to a hard coded value
-    	//addParallel(new ElevatorOn());
     	addParallel(new ElevatorOn());
     	addSequential(new BlenderOn());
     }

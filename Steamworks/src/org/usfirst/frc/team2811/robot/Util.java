@@ -115,8 +115,6 @@ public class Util {
 	
 	//TODO put in MINIPID
 	public static double pidOutputLimitAdd(double output, double minimumOutputLimit){
-		
-		
 		if(output>-0.01  && output < 0.01){
 			output = 0.0;
 		}else if(output>0.0){
@@ -128,7 +126,31 @@ public class Util {
 		return output;
 	}
 
-	
+	/**
+	 * Update the preference for two separate but related double lists using a String in the format of 
+	 * value1<separator2>value2<separator1>value1<separator2>value2<separator1>... NO SPACE IN BETWEEN! 
+	 * Example: if separator1 is , and separator2 is : the resulting format will be 
+	 * value1:value2,value1:value2,value1:value2...
+	 * @param key: the preference key, type has to be a String
+	 * @param list1: list containing the first value of each pair
+	 * @param list2: list containing the second value of each pair
+	 * @param separator1: separates the String into pairs of values in the form of value1<separator2>value2
+	 * @param separator2: separate each pairs of values
+	 */
+    private void updateMap(String key, double[] list1, double[] list2, String separator1, String separator2){
+    	String[] valuePairString = prefs.getString(key, "").split(separator1);
+    	//To handle the case of the new list might have more pairs than original, make a new array
+    	double[] newList1 = new double[valuePairString.length];
+    	double[] newList2 = new double[valuePairString.length];
+    	for(int i = 0; i < valuePairString.length; i++){
+    		String[] pair = valuePairString[i].split(separator2);
+    		newList1[i] = Double.parseDouble(pair[0]);
+    		newList2[i] = Double.parseDouble(pair[1]);
+    	}
+    	list1 = newList1;
+    	list2 = newList2;
+    }
+    
 	/**
 	 * Some weird programming stuff
 	 * @return LORD DAN

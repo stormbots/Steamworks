@@ -62,6 +62,7 @@ public class Shooter extends Subsystem{
     	shooterMotor.enable();
     	shooterMotor.set(0);
     	
+    	shooterMotor.setProfile(0);
     	//Reverse is true on comp bot, maybe false
     	shooterMotor.reverseOutput(true);
 

@@ -106,8 +106,9 @@ public class OI {
 		threeAxis = new Joystick(3);
 		
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
-    	threeAxisButton1.whileHeld(new ShooterSequence(0));
-    	threeAxisButton1.whenReleased(new ShooterOff());
+//    	threeAxisButton1.whileHeld(new ShooterSequence(0));
+    	threeAxisButton1.whileHeld(new AutoShooterPrefSequence(0));
+		threeAxisButton1.whenReleased(new ShooterOff());
     	
     	threeAxisButton2 = new JoystickButton(threeAxis,2);
         threeAxisButton2.whileHeld(new TurretManualTurn());

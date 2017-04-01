@@ -6,6 +6,7 @@ import org.usfirst.frc.team2811.robot.commands.JoystickDrive;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -250,6 +251,12 @@ public class Chassis extends Subsystem {
      */
     public void tankDrive(double right, double left){
     	robotDrive.tankDrive(right, left);
+    }
+    
+    public void setLow5sec(){
+    	if(DriverStation.getInstance().getMatchTime() <= 5 && gearState() == true){
+    		setGearLow();
+    	}
     }
    
 //UTILITY FUNCTIONS ---------------------------------------------------------------------------------------------------------------//

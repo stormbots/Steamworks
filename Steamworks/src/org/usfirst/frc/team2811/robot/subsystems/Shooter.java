@@ -55,7 +55,8 @@ public class Shooter extends Subsystem{
     	//Change the motor into speed mode (closed-loop velocity)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-        shooterMotor.reverseSensor(true);
+        //TODO MAKE SURE YOU FIX PID IF YOU REVERSE THE MOTOR
+        shooterMotor.reverseSensor(false);
     	shooterMotor.enableBrakeMode(false);
     	shooterMotor.enableLimitSwitch(false, false);
     	shooterMotor.enable();
@@ -105,8 +106,8 @@ public class Shooter extends Subsystem{
     //*************************
     public void setTargetDistance(double distance){
     	targetDistance = distance;
-    	//setRPM(getRPM(targetDistance));
-    	setRPM(0);
+    	setRPM(getRPM(targetDistance));
+    	//setRPM(0);
     }
     
   //This is for manual control during teleop of a match

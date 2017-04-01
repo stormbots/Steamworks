@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot.commands;
 
 import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
 import org.usfirst.frc.team2811.robot.subsystems.MiniPID;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,7 +24,14 @@ public class ChassisDriveToWall extends Command {
          
          leftPID=new MiniPID(0,0,0);
          rightPID=new MiniPID(0,0,0);
-         //setPOINT RANGE
+         
+         rightPID.setSetpointRange(setpointRange);
+         leftPID.setSetpointRange(setpointRange);
+         
+         rightPID.setOutputLimits(-1, 1);
+         leftPID.setOutputLimits(-1, 1);
+         
+         
          //minimumOutputLImit
     }
 
@@ -35,15 +43,19 @@ public class ChassisDriveToWall extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double outRight = rightPID.getOutput(Robot.gear.distanceRightSideInches(), targetInches);
-    	double outLeft = leftPID.getOutput(Robot.gear.distanceLeftSideInches(), targetInches);
+    	double rightRaw = rightPID.getOutput(Robot.gear.distanceRightSideInches(), targetInches);
+    	double leftRaw = leftPID.getOutput(Robot.gear.distanceLeftSideInches(), targetInches);
+    	double outRight = Util.pidOutputLimitAdd(rightRaw, minimumOutputLimit);
+    	double outLeft = Util.pidOutputLimitAdd(leftRaw, minimumOutputLimit);
     	Robot.chassis.tankDrive(outRight, outLeft);
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	double rightUltrasonic = Robot.gear.distanceRightSideInches();
+    	double leftUltrasonic = Robot.gear.distanceRightSideInches();
+        return Util.difference(rightUltrasonic, leftUltrasonic) < 0.2;
     }
 
     // Called once after isFinished returns true
@@ -54,4 +66,5 @@ public class ChassisDriveToWall extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+    
 }

@@ -156,6 +156,7 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		Robot.intake.intakeIn();
 		visionBoiler.disable();
+		chassis.setGearLow();
 	}
 
 	@Override
@@ -245,6 +246,7 @@ public class Robot extends IterativeRobot {
 		chassis.updateDashboard();
 		visionGear.updateDashboard();
 		shooter.updateDashboard();
+		chassis.setLow5sec();
 		
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot;
 import java.lang.Math;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 /**
 	Utility functions for various simple maths and other helpful stuff
@@ -111,6 +112,21 @@ public class Util {
     	
     	return pairedlist[pairedlist.length-1][1];
 	}
+	
+	//TODO put in MINIPID
+	public static double pidOutputLimitAdd(double output, double minimumOutputLimit){
+		
+		
+		if(output>-0.01  && output < 0.01){
+			output = 0.0;
+		}else if(output>0.0){
+			output = output + minimumOutputLimit;
+		}else if(output < 0.0){
+			output = output - minimumOutputLimit;
+		}
+		
+		return output;
+	}
 
 	
 	/**
@@ -147,4 +163,5 @@ public class Util {
 	"		                                                                           XX\n";
 	
 	}
+	
 }

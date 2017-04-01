@@ -110,7 +110,7 @@ public class OI {
     	threeAxisButton1.whenReleased(new ShooterOff());
     	
     	threeAxisButton2 = new JoystickButton(threeAxis,2);
-        threeAxisButton2.whenPressed(new TurretManualTurn());
+        threeAxisButton2.whileHeld(new TurretManualTurn());
 
         threeAxisButton3 = new JoystickButton(threeAxis, 3);
         threeAxisButton3.whileHeld(new IntakeBallIn());
@@ -141,7 +141,7 @@ public class OI {
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
 		threeAxisButton11 = new JoystickButton(threeAxis,11);
-        threeAxisButton11.whileHeld(new TurretOneWayHoming());
+        threeAxisButton11.whenPressed(new TurretOneWayHoming());
         
 //        threeAxisButton8 = new JoystickButton(threeAxis,8);
 //        threeAxisButton8.whileHeld(new TurretManualTurn());    
@@ -209,7 +209,7 @@ public class OI {
     	return threeAxis.getRawAxis(1)*100;
     }
     public double getShooterDistanceBias(){
-    	return threeAxis.getRawAxis(1)*3;
+    	return threeAxis.getRawAxis(1)*12;
     }
     public boolean isTurningClock(){
         return threeAxisButton9.get();

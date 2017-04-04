@@ -2,15 +2,18 @@ package org.usfirst.frc.team2811.robot.commandGroups;
 
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
+import org.usfirst.frc.team2811.robot.commands.SketchyDrive;
+import org.usfirst.frc.team2811.robot.commands.SketchyDriveAutoOnly;
+import org.usfirst.frc.team2811.robot.commands.Wait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoCenterGear extends CommandGroup {
+public class AutoCenterGearWait extends CommandGroup {
 
-    public AutoCenterGear() {
+    public AutoCenterGearWait() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -30,5 +33,7 @@ public class AutoCenterGear extends CommandGroup {
     	addSequential(new ChassisAutoDrive(0,60),2);
     	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
     	addSequential(new GearDropOnPeg(),3.5);
+    	addSequential(new Wait(3.5));
+    	addSequential(new SketchyDriveAutoOnly(0.15,24),5);
     }
 }

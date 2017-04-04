@@ -21,6 +21,7 @@ import org.usfirst.frc.team2811.robot.commands.ShiftGears;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
+import org.usfirst.frc.team2811.robot.commands.SketchyDriveAutoOnly;
 import org.usfirst.frc.team2811.robot.commands.ToggleAutoShift;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGearWait;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnMobility;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGear;
 //import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnDrive;
@@ -131,7 +132,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
 		
 		//NEUTRAL
-		chooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
+		chooser.addObject("Blue/Red Center Gear", new AutoCenterGear());
+		chooser.addDefault("Blue/Red Wait Center Gear", new AutoCenterGearWait());
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
 		

@@ -55,6 +55,7 @@ public class Shooter extends Subsystem{
     	//Change the motor into speed mode (closed-loop velocity)
     	shooterMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
         shooterMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+        //sensor reverse is true on comp bot
         shooterMotor.reverseSensor(true);
     	shooterMotor.enableBrakeMode(false);
     	shooterMotor.enableLimitSwitch(false, false);
@@ -64,6 +65,7 @@ public class Shooter extends Subsystem{
     	//Reverse is true on comp bot, maybe false
     	shooterMotor.reverseOutput(true);
 
+    	//New wheel pid P=0.07, I=5E-06, D=0.4, F-f=0.028
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
     	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);

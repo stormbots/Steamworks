@@ -29,13 +29,13 @@ public class Elevator extends Subsystem {
         elevatorMotor.reset();
     	elevatorMotor.clearStickyFaults();
     	elevatorMotor.changeControlMode(CANTalon.TalonControlMode.Speed);
-    	//elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+    	elevatorMotor.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
     	//Reverse is true on comp bot
     	elevatorMotor.reverseOutput(true);
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
-    	
+    	//Elevator F-f=0.0105
     	//elevatorMotor.setPID(1, 0, 0);
     	updateValFromFlash();
 	}
@@ -70,6 +70,9 @@ public class Elevator extends Subsystem {
     	elevatorMotor.set(0);
     }
     
+    public double getPIDError(){
+    	return elevatorMotor.getClosedLoopError();
+    }
 
 }
 

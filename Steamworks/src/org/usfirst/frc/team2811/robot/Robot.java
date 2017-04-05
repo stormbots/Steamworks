@@ -269,6 +269,7 @@ public class Robot extends IterativeRobot {
 	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.getDistanceInches());
 	    
 	    SmartDashboard.putNumber("Shooter speed error", -Robot.shooter.getPIDError());
+	    SmartDashboard.putNumber("Elevator speed error", -Robot.elevator.getPIDError());
 
 		}
 

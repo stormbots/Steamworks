@@ -68,7 +68,7 @@ public class Shooter extends Subsystem{
         {120, 3400},
         {132, 3550},
         {144, 3700}     
-    }
+    };
 	 private double bias = 0.0;
 	 
     public Shooter(){

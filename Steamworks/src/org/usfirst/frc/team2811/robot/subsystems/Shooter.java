@@ -42,9 +42,33 @@ public class Shooter extends Subsystem{
 	 private double rpmBias = 0.0;
 	 
 	 //TODO: add values to preference, if the data size matches, before running the code!
-	 private double[] distanceMap = {66, 72, 78, 84, 90};
+     private double[] distanceMap = {66, 72, 78, 84, 90};
 	 private double[] rpmMap = {3300, 3400, 3450, 3475, 3550};
 	 
+     // Mapping for the old two-wheel configuration
+     // private double[][] distanceToRPMMap={
+     //    {66,3300},
+     //    {72,3400},
+     //    {78,3450},
+     //    {84,3475},
+     //    {90,3550},
+     //    {96,3650},
+     //    {10,3750},
+     // }
+
+     //Mapping for the new single heavy wheel
+     private double[][] distanceToRPMMap={
+        {48 , 2850},
+        {60 , 2900},
+        {72 , 2950},
+        {84 , 3030},
+        {96 , 3125},
+        {108, 3260},
+        // Consider using another pid / elevator speed for the following distances   
+        {120, 3400},
+        {132, 3550},
+        {144, 3700}     
+    }
 	 private double bias = 0.0;
 	 
     public Shooter(){
@@ -188,8 +212,8 @@ public class Shooter extends Subsystem{
     public double getRPM(double distance){
     	//setPIDProfile(distance);
     	shooterMotor.setProfile(0);
-    	if(distance < distanceMap[0]) return 0;
-    	return Util.getMapValueFromLists(distance, distanceMap, rpmMap) + rpmBias;
+    	if(distance < distanceToRPMMap[0][0]) return 0;
+    	return Util.getMapValueFromList(distance, distanceToRPMMap) + rpmBias;
     }
 
     /**

@@ -136,6 +136,7 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Blue/Red Wait Center Gear", new AutoCenterGearWait());
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
+	//  chooser.addObject("Blue/Red Center Gear Slow Back", new AutoCenterGearWait());
 		
 //		//TESTING & DEBUGGING
 		chooser.addObject("Vision Alignment", new GearVisionAlignment());

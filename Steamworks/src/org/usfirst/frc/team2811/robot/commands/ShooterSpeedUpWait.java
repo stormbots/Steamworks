@@ -1,33 +1,35 @@
 package org.usfirst.frc.team2811.robot.commands;
 
 import org.usfirst.frc.team2811.robot.Robot;
+import org.usfirst.frc.team2811.robot.Util;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TurretSetTargetAngle extends Command {
+public class ShooterSpeedUpWait extends Command {
 
-	
-    public TurretSetTargetAngle() {
+	double rpm;
+    public ShooterSpeedUpWait(double rpm) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.turret);
+        requires(Robot.shooter);
+        this.rpm = rpm;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.turret.setTargetAngle(Robot.turret.joystickToAngle(Robot.oi.getJoystickAngleTurret()));
-    	Robot.turret.calculateTurretPIDOutput();
+    	Robot.shooter.setRPM(rpm);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Math.abs(Robot.shooter.getPIDError())<100;
     }
 
     // Called once after isFinished returns true

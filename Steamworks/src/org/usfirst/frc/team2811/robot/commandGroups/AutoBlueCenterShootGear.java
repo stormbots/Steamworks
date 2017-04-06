@@ -31,6 +31,7 @@ public class AutoBlueCenterShootGear extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	//4500 originally
     	addSequential(new ShooterAutoSetRPM(4500), 0.1);
     	addSequential(new AutoShooterSequenceWithKnownRPM(4500), 2.75);
     	addSequential(new ShooterOff());

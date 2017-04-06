@@ -4,6 +4,7 @@ import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterSpeedUpWait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -29,6 +30,7 @@ public class AutoShooterSequenceWithKnownRPM extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	addSequential(new ShooterSpeedUpWait(rpm), 1);
     	addParallel(new ShooterAutoSetRPM(rpm));
     	//addParallel(new IntakeBallIn());
 //    	addSequential(new Wait(0.5));

@@ -45,30 +45,30 @@ public class Shooter extends Subsystem{
      private double[] distanceMap = {66, 72, 78, 84, 90};
 	 private double[] rpmMap = {3300, 3400, 3450, 3475, 3550};
 	 
-     // Mapping for the old two-wheel configuration
-     // private double[][] distanceToRPMMap={
-     //    {66,3300},
-     //    {72,3400},
-     //    {78,3450},
-     //    {84,3475},
-     //    {90,3550},
-     //    {96,3650},
-     //    {10,3750},
-     // }
+     //Mapping for the old two-wheel configuration
+      private double[][] distanceToRPMMap={
+         {66,3300},
+         {72,3400},
+         {78,3450},
+         {84,3475},
+         {90,3550},
+         {96,3650},
+         {10,3750},
+      };
 
-     //Mapping for the new single heavy wheel
-     private double[][] distanceToRPMMap={
-        {48 , 2850},
-        {60 , 2900},
-        {72 , 2950},
-        {84 , 3030},
-        {96 , 3125},
-        {108, 3260},
-        // Consider using another pid / elevator speed for the following distances   
-        {120, 3400},
-        {132, 3550},
-        {144, 3700}     
-    };
+//     //Mapping for the new single heavy wheel
+//     private double[][] distanceToRPMMap={
+//        {48 , 2850},
+//        {60 , 2900},
+//        {72 , 2950},
+//        {84 , 3030},
+//        {96 , 3125},
+//        {108, 3260},
+//        // Consider using another pid / elevator speed for the following distances   
+//        {120, 3400},
+//        {132, 3550},
+//        {144, 3700}     
+//    };
 	 private double bias = 0.0;
 	 
     public Shooter(){
@@ -95,7 +95,7 @@ public class Shooter extends Subsystem{
 
     	//izone is used to cap the errorSum, 0 disables it
     	//The following line records a pretty consistent PIDF value
-    	//shooterMotor.setPID(0.05, 0.0, 0.6, 0.0255, izone, pidRamprate, pidProfile);
+    	//shooterMotor.setPID(0.05, 0.0, 0.4, 0.028, izone, pidRamprate, pidProfile);
     	updateValFromFlash();
     }
     public void initDefaultCommand() {
@@ -269,6 +269,9 @@ public class Shooter extends Subsystem{
     // Debug functions 
     //*************************
     
+    public double getPrefRPM(){
+    	return speed;
+    }
     public double getTargetDistance(){
     	return targetDistance;
     }

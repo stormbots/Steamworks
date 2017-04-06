@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This turns on the intake to get balls into the robot
  */
 public class IntakeBallIn extends Command {
 

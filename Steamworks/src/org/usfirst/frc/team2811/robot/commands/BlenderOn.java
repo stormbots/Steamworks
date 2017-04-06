@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This turns on the blender at a certain percent power set by preference
  */
 public class BlenderOn extends Command {
 
@@ -24,26 +24,7 @@ public class BlenderOn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	
-//    	if(Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last > 1.5){
-//    		blenderOn = !blenderOn;
-//    		last=Timer.getFPGATimestamp();
-//    		System.out.println("Blender set to Off " + last);
-//    	}else if(!Robot.blender.isBlenderOn()&&Timer.getFPGATimestamp() - last >0.1){
-//    		blenderOn = !blenderOn;
-//    		last=Timer.getFPGATimestamp(); 
-//   		System.out.println("Blender set to On " + last);
-//    	}
-//
-//    	//toggle motor in the target direction
-//    	if(blenderOn){
-//    		//TODO rename blender off to backwards since it goes backwards, instead of off
-//    		Robot.blender.setBlenderOn();
-//    	}
-//    	else{
-//    		Robot.blender.setBlenderReverse();
-//    	}
-    	
+
 		Robot.blender.setBlenderOn();
 
     }

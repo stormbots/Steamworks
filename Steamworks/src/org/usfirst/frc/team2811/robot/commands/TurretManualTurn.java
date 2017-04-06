@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Turn the turret manually using buttons, reference the oi for specific ones
  */
 public class TurretManualTurn extends Command {
 

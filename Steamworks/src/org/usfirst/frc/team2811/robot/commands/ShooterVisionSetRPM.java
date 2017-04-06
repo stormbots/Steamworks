@@ -6,7 +6,7 @@ import org.usfirst.frc.team2811.robot.Util;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Use the distance returned from the vision to determine the rpm needed, can be adjusted using joystick axis
  */
 public class ShooterVisionSetRPM extends Command {
 	

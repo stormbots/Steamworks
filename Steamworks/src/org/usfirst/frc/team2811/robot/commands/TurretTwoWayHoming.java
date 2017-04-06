@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Home the turret using limit switches on both sides (don't use it, use one way homing!)
  */
 public class TurretTwoWayHoming extends Command {
 

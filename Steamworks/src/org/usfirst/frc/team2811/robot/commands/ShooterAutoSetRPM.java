@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *THis is for auto command groups with known set RPM
+ * THis is for auto command groups with known set RPM
  */
 public class ShooterAutoSetRPM extends Command {
 

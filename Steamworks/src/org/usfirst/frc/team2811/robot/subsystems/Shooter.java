@@ -81,7 +81,7 @@ public class Shooter extends Subsystem{
         
         //TODO MAKE SURE YOU FIX PID IF YOU REVERSE THE MOTOR
         //sensor reverse is true on comp bot
-        shooterMotor.reverseSensor(true);
+        shooterMotor.reverseSensor(false);
     	shooterMotor.enableBrakeMode(false);
     	shooterMotor.enableLimitSwitch(false, false);
     	shooterMotor.enable();

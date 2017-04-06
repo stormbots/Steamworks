@@ -196,7 +196,7 @@ public class Robot extends IterativeRobot {
 		chassis.setAutoShiftEnabled(false);
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
-		checkBatteryVoltage();
+		Util.checkBatteryVoltage();
 		chassis.encoderReset();
 		Robot.intake.intakeOut();
 
@@ -225,7 +225,7 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
-		checkBatteryVoltage();
+		Util.checkBatteryVoltage();
 		Util.updateFlash();
 		
 		oi.setAutoShiftDefault();
@@ -250,6 +250,8 @@ public class Robot extends IterativeRobot {
 		visionGear.updateDashboard();
 		shooter.updateDashboard();
 		chassis.setLow5sec();
+		
+		SmartDashboard.putNumber("Time Left", DriverStation.getInstance().getMatchTime());
 		
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
@@ -285,13 +287,6 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 
-	}
-	
-	// If the battery voltage is lower than it should, force a disable in teleop and autonomous
-	private void checkBatteryVoltage(){
-		if(PDP.getVoltage() < 11.0){
-			//throw new RuntimeException(Util.warningChangeBattery());
-		}
 	}
 	
 }

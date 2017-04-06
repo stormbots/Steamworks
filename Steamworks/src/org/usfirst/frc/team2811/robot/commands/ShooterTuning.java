@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This is for manual control during teleop of a match, using the flapper on the joystick
  */
 public class ShooterTuning extends Command {
 

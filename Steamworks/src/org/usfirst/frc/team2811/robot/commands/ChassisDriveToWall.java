@@ -17,10 +17,35 @@ public class ChassisDriveToWall extends Command {
 	private double setpointRange = 5.0;
 	private double minimumOutputLimit = 0.2;
 	
+	/**
+	 *  Drive to "targetInches" away from wall
+	 * @param targetInches
+	 */
     public ChassisDriveToWall(double targetInches) {
         // Use requires() here to declare subsystem dependencies
          requires(Robot.chassis);
          this.targetInches = targetInches;
+         
+         leftPID=new MiniPID(0,0,0);
+         rightPID=new MiniPID(0,0,0);
+         
+         rightPID.setSetpointRange(setpointRange);
+         leftPID.setSetpointRange(setpointRange);
+         
+         rightPID.setOutputLimits(-1, 1);
+         leftPID.setOutputLimits(-1, 1);
+         
+         
+         //minimumOutputLImit
+    }
+    
+    /**
+     * Drive until the robot is touching the wall
+     */
+    public ChassisDriveToWall() {
+        // Use requires() here to declare subsystem dependencies
+         requires(Robot.chassis);
+         this.targetInches = 0;
          
          leftPID=new MiniPID(0,0,0);
          rightPID=new MiniPID(0,0,0);

@@ -254,7 +254,7 @@ public class Chassis extends Subsystem {
     }
     
     public void setLow5sec(){
-    	if(DriverStation.getInstance().getMatchTime() <= 5 && gearState() == true){
+    	if(DriverStation.getInstance().getMatchTime() < 5 && DriverStation.getInstance().getMatchTime() > 1 && gearState() == true){
     		setGearLow();
     	}
     }

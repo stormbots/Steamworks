@@ -42,7 +42,13 @@ public class ChassisDriveUltrasonic extends Command {
     	
     }
 
-    // Called repeatedly when this Command is scheduled to run
+    // Called repeatedly when this Command is scheduled to run\
+    /* The first if statement deal with out of range problems of the ultrasonic, then in the pid
+     * the actul is still encoder and the target is inches plus a value from the joystick that gives a range of 
+     * +- 2 inches to the driver to change the target
+     * (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.command.Command#execute()
+     */
     protected void execute() {
     	
 		if(Robot.gear.getDistanceFeet()!=10.0){

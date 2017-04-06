@@ -109,8 +109,7 @@ public class OI {
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
     	threeAxisButton1.whileHeld(new ShooterSequence(0));
 //		threeAxisButton1.whileHeld(new AutoShooterPrefSequence(0));
-    	threeAxisButton1.whenReleased(new ShooterOff());
-    	
+    
     	threeAxisButton2 = new JoystickButton(threeAxis,2);
         threeAxisButton2.whileHeld(new TurretManualTurn());
 
@@ -131,18 +130,17 @@ public class OI {
         threeAxisButton7.whileHeld(new Climb());
         
     	threeAxisButton8 = new JoystickButton(threeAxis, 8);
-    	//threeAxisButton8.whileHeld(new ElevatorOn());
-    	
-    	threeAxisButton8.whileHeld(new ClimbSlow());        
-//      TODO Put back turretCalButton if not manual turn!
+    	threeAxisButton8.whileHeld(new ElevatorOn());
+//    	threeAxisButton8.whileHeld(new ClimbSlow());        
     
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
 //		threeAxisButton9.whileHeld(new BlenderOn());
-		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
+//		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
 
 //
 		threeAxisButton10 = new JoystickButton(threeAxis,10);
+//		threeAxisButton10.whileHeld(new TurretSetTargetAngle());
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
 		threeAxisButton11 = new JoystickButton(threeAxis,11);
@@ -204,6 +202,9 @@ public class OI {
     	//TODO change this back so that it works with the turret control
     	//return threeAxis.getRawAxis(3);
     	return ((5+threeAxis.getRawAxis(3))*800);
+    }
+    public double getJoystickAngleTurret(){
+    	return threeAxis.getRawAxis(3);
     }
     
     /**

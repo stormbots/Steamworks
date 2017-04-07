@@ -126,6 +126,7 @@ public class Robot extends IterativeRobot {
 
 		//BLUE
 		chooser.addObject("Blue Right Gear", new AutoBlueRightGear());
+		chooser.addObject("Blue Left Gear", new AutoBlueLeftGear());
 		chooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
 		chooser.addObject("Blue Center Shoot Gear", new AutoBlueCenterShootGear());
 		chooser.addObject("Blue Left Shoot Gear", new AutoBlueLeftShootGear());
@@ -138,22 +139,23 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Red Right Gear", new AutoRedRightGear());
 		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
 		chooser.addObject("Red Right Shoot Gear BACK", new AutoRedRightShootGearBack());
-		chooser.addObject("Red Right SHOOT LONG Gear Back", new AutoRedRightShootLongGearBack());
-		chooser.addObject("Red Right Gear Back", new AutoRedRightGearBack());
+		chooser.addObject("Red Right SHOOT LONG Gear BACK", new AutoRedRightShootLongGearBack());
+		chooser.addObject("Red Right Gear BACK", new AutoRedRightGearBack());
 		
 		//NEUTRAL
 		chooser.addObject("Blue/Red Center Gear", new AutoCenterGear());
 		chooser.addDefault("Blue/Red Wait Center Gear", new AutoCenterGearWait());
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
+		chooser.addObject("Debugging 3feet", new ChassisAutoDrive(3.0,0));
 	//  chooser.addObject("Blue/Red Center Gear Slow Back", new AutoCenterGearWait());
 		
 //		//TESTING & DEBUGGING
 		chooser.addObject("Vision Alignment", new GearVisionAlignment());
 		chooser.addObject("Shoot W/Vision", new ShooterSequenceVision());
-//		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
-//		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
-//		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
+		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
+		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
+		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
 //		
 		SmartDashboard.putData("Auto mode", chooser);
 		

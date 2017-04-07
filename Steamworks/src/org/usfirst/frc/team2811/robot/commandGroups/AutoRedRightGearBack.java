@@ -35,7 +35,7 @@ public class AutoRedRightGearBack extends CommandGroup {
         // arm.
     	addSequential(new ChassisAutoDrive(0,-(112 - 17 - 2)), 4);
     	addSequential(new ChassisAutoTurn(120),3);
-    	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
+//    	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
     	addSequential(new GearDropOnPeg(),3.5);
     }
 }

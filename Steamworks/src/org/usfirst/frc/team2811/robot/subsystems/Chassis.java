@@ -55,6 +55,7 @@ public class Chassis extends Subsystem {
 	private double driveSetPointRange;
 	private double driveMinimumOutputLimit;
 	private double chassisAutoDriveToleranceInches;
+	private double driveRampRate;
 		
 //ROTATION PID ---------------------------------------------------------------------------------------------------------------//
 	//Comp bot map turn values
@@ -312,12 +313,14 @@ public class Chassis extends Subsystem {
 	    	driveSetPointRange = Util.getPreferencesDouble("DriveFeetSetpointRange", 0);
 	    	driveMinimumOutputLimit = Util.getPreferencesDouble("DriveMinimumOutputLimit", 0.2);
 	    	chassisAutoDriveToleranceInches = Util.getPreferencesDouble("TOLERANCE (inches)", 1.5);
-	    	
+	    	//from 0 to 1 in 0.25 sec
+	    	driveRampRate = Util.getPreferencesDouble("DriveRampRate", 0.0);
 	    	
 	    	minipidDrive.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
 	    	minipidDrive.setSetpointRange(driveSetPointRange);
 			minipidDrive.setMaxIOutput(driveMaxI);
 			minipidDrive.setPID(driveP, driveI, driveD);
+			minipidDrive.setOutputRampRate(driveRampRate);
 			
 	    }
 	

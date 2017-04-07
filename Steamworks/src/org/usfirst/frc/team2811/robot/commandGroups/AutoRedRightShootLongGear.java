@@ -1,16 +1,19 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
-import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
-import org.usfirst.frc.team2811.robot.commands.Wait;
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
+import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterOff;
+import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class GearVisionAlignment extends CommandGroup {
+public class AutoRedRightShootLongGear extends CommandGroup {
 
-    public GearVisionAlignment() {
+    public AutoRedRightShootLongGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -27,13 +30,12 @@ public class GearVisionAlignment extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new Wait(0.05));
-    	addSequential(new ChassisAutoTurnVision(0.5),0.35);
-    	addSequential(new Wait(0.05));
-    	addSequential(new ChassisAutoTurnVision(0.5),0.15);
-//    	addSequential(new Wait(0.1));
-//    	addSequential(new ChassisAutoTurnVision(0.5),0.25);
-    	
-
+    	addSequential(new ShooterAutoSetRPM(3500), 0.1);
+//    	addSequential(new AutoShooterSequenceWithKnownRPM(3650), 2.75);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3500), 6.0);
+    	addSequential(new ShooterOff(),0.1);
+    	addSequential(new BlenderOff(),0.1);
+    	addSequential(new ElevatorOff(),0.1);
+    	addSequential(new AutoRedRightGear());
     }
 }

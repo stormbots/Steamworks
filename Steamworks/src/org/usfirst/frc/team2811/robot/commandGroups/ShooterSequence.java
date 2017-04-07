@@ -39,6 +39,7 @@ public class ShooterSequence extends CommandGroup {
 //    	addSequential(new ShooterSpeedUpWait(Robot.oi.getJoystickAngle()),1);
     	addParallel(new ShooterTuning());
     	addParallel(new ElevatorOn());
+    	addParallel(new IntakeBallIn());
     	addSequential(new BlenderOn());
     }
 }

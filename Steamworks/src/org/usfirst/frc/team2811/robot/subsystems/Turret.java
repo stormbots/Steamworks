@@ -201,8 +201,8 @@ public class Turret extends Subsystem {
      * @param angle
      */
 	public void setTargetAngle(double angle){
-		if(targetAngle>counterClockAngle) targetAngle = counterClockAngle;
-		else if(targetAngle<clockAngle) targetAngle = clockAngle;
+		if(angle>counterClockAngle) targetAngle = counterClockAngle;
+		else if(angle<clockAngle) targetAngle = clockAngle;
 		else targetAngle = angle;
 	}
 	

@@ -33,7 +33,8 @@ public class AutoBlueLeftShootGear extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	//3575 rpm for old
-    	addSequential(new AutoShooterSequenceWithKnownRPM(3450), 5);
+    	addSequential(new ShooterAutoSetRPM(3350),0.1);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3350), 2.75);
     	addSequential(new ShooterOff());
     	addSequential(new BlenderOff());
     	addSequential(new ElevatorOff());

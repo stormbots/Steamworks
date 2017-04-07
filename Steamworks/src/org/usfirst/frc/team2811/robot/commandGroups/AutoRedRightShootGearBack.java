@@ -32,8 +32,8 @@ public class AutoRedRightShootGearBack extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterAutoSetRPM(3500), 0.1);
-    	addSequential(new AutoShooterSequenceWithKnownRPM(3500), 2.5);
+    	addSequential(new ShooterAutoSetRPM(3410), 0.1);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3410), 1.5);
     	addSequential(new ShooterOff(),0.1);
     	addSequential(new BlenderOff(),0.1);
     	addSequential(new ElevatorOff(),0.1);

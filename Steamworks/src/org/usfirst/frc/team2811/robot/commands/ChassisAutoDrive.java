@@ -16,17 +16,6 @@ public class ChassisAutoDrive extends Command {
 	private double targetFeet;
 	private double toleranceInches;
 	
-	
-	/** Drive forward or backwards for a number of feet
-	 * 
-	 * @param feet
-	 */
-    public ChassisAutoDrive(double feet) {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.chassis);
-        this.targetFeet = feet;
-        this.toleranceInches = Robot.chassis.getToleranceInches();
-    }
     
     /**
      * 

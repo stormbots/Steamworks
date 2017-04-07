@@ -7,16 +7,15 @@ import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
-import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoRedRightGearBack extends CommandGroup {
+public class AutoRedRightShootLongGearBack extends CommandGroup {
 
-    public AutoRedRightGearBack() {
+    public AutoRedRightShootLongGearBack() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -33,9 +32,11 @@ public class AutoRedRightGearBack extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(0,-(112 - 17 - 2)), 4);
-    	addSequential(new ChassisAutoTurn(120),3);
-    	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
-    	addSequential(new GearDropOnPeg(),3.5);
+    	addSequential(new ShooterAutoSetRPM(3410), 0.1);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3410), 5);
+    	addSequential(new ShooterOff(),0.1);
+    	addSequential(new BlenderOff(),0.1);
+    	addSequential(new ElevatorOff(),0.1);
+    	addSequential(new AutoRedRightGearBack());
     }
 }

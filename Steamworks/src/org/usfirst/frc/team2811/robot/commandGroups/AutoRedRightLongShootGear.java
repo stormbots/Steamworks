@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoRedRightShootLongGear extends CommandGroup {
+public class AutoRedRightLongShootGear extends CommandGroup {
 
-    public AutoRedRightShootLongGear() {
+    public AutoRedRightLongShootGear() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

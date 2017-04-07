@@ -16,8 +16,10 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueRightGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedLeftGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGearBack;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGear;
-import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootLongGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGearBack;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightLongShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequenceVision;
@@ -131,9 +133,11 @@ public class Robot extends IterativeRobot {
 		//RED
 		chooser.addObject("Red Right Shoot Turn Mobility", new AutoRedShootTurnMobility());
 		chooser.addObject("Red Right Shoot Turn Gear", new AutoRedRightShootGear());
-		chooser.addObject("Red Righ SHOOT LONG Turn Gear", new AutoRedRightShootLongGear());
+		chooser.addObject("Red Righ SHOOT LONG Turn Gear", new AutoRedRightLongShootGear());
 		chooser.addObject("Red Right Gear", new AutoRedRightGear());
 		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
+		chooser.addObject("RedRightShootGearBACK", new AutoRedRightShootGearBack());
+		chooser.addObject("RedRightGearBack", new AutoRedRightGearBack());
 		
 		//NEUTRAL
 		chooser.addObject("Blue/Red Center Gear", new AutoCenterGear());

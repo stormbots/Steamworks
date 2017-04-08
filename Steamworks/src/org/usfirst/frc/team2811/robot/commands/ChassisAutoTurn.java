@@ -35,6 +35,7 @@ public class ChassisAutoTurn extends Command {
     	Robot.chassis.drive(0, output);
     	System.out.println("ChassisAutoTurn executing!");
     	SmartDashboard.putNumber("Chassis AutoTurnCommand rotation: " , Robot.chassis.getRotation());
+    	SmartDashboard.putNumber("ChassisAutoTurn error", targetDegrees - Robot.chassis.getRotation());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -47,14 +48,14 @@ public class ChassisAutoTurn extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassis.drive(0, 0);
-    	Robot.chassis.encoderReset();
+//    	Robot.chassis.encoderReset();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     	Robot.chassis.drive(0, 0);
-    	Robot.chassis.encoderReset();
+//    	Robot.chassis.encoderReset();
     	System.out.println("ChassisAutoTurn interrupted!");
     }
 }

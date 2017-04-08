@@ -71,6 +71,7 @@ public class Chassis extends Subsystem {
 	private double turnSetPointRange;
 	private double turnMinimumOutputLimit;
 	private double toleranceDegrees;
+	private double turnRampRate;
 //------------------------------------------------------------------------------------------------------------//    
 	public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -340,11 +341,14 @@ public class Chassis extends Subsystem {
     	turnMaxI=Util.getPreferencesDouble("TurnMaxI", 0);
     	turnSetPointRange = Util.getPreferencesDouble("TurnSetpointRange", 0);
     	turnMinimumOutputLimit = Util.getPreferencesDouble("TurnMinimumOutputLimit", 0.2);
+    	turnRampRate = Util.getPreferencesDouble("TurnRampRate", 0.0);
+    	
     	
     	minipidTurn.setOutputLimits(-1+turnMinimumOutputLimit,1-turnMinimumOutputLimit);
     	minipidTurn.setSetpointRange(turnSetPointRange);
 		minipidTurn.setMaxIOutput(turnMaxI);
 		minipidTurn.setPID(turnP, turnI, turnD);
+		minipidTurn.setOutputRampRate(turnRampRate);
 	}
 	
     public void updateValFromFlash(){

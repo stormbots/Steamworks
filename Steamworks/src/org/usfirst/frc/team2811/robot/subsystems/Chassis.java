@@ -162,6 +162,11 @@ public class Chassis extends Subsystem {
     private double voltageAdjustOutput(double input){
     	double outputMod = Util.map(Robot.PDP.getVoltage(), 6.5, 8.25, 0, 1);
     	outputMod = Util.constrain(outputMod,1,0);
+    	
+    	if(Robot.PDP.getVoltage()<8.25){
+    		DriverStation.getInstance().reportWarning("Software Brownout Protection Triggered",false);
+    	}
+    	
     	return input * outputMod;
     }
     
@@ -238,7 +243,9 @@ public class Chassis extends Subsystem {
 
     public double getRotation(){
     	double degreesRight = Util.map(frontRight.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
-    	return degreesRight;
+    	double degreesLeft = Util.map(frontLeft.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
+    	return (degreesLeft+degreesRight)/2.0;
+//    	return degreesRight;
     }
     
     public void encoderReset(){

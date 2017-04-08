@@ -78,6 +78,7 @@ double "/Preferences/TurnMinimumOutputLimit"=0.06
 double "/Preferences/TurnOutputRangeP"=10
 double "/Preferences/TurnP"=0
 double "/Preferences/TurnProportional"=0.023
+double "/Preferences/TurnRampRate"=0
 double "/Preferences/TurnSetpointRange"=15
 double "/Preferences/Vision Gear Angle Adjustment"=2
 double "/Preferences/VisionGearForwardPixel"=614

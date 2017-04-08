@@ -47,28 +47,16 @@ public class Shooter extends Subsystem{
 	 
      //Mapping for the old two-wheel configuration
       private double[][] distanceToRPMMap={
-         {66,3300},
-         {72,3400},
-         {78,3450},
-         {84,3475},
-         {90,3550},
-         {96,3650},
-         {10,3750},
+         {4*12,3200},
+         {5*12,3250},
+         {6*12,3300},
+         {7*12,3400},
+         {8*12,3525},
+         {9*12,3675},
+         {10*12,3850},
+         {11*12,4100},
       };
 
-//     //Mapping for the new single heavy wheel
-//     private double[][] distanceToRPMMap={
-//        {48 , 2850},
-//        {60 , 2900},
-//        {72 , 2950},
-//        {84 , 3030},
-//        {96 , 3125},
-//        {108, 3260},
-//        // Consider using another pid / elevator speed for the following distances   
-//        {120, 3400},
-//        {132, 3550},
-//        {144, 3700}     
-//    };
 	 private double bias = 0.0;
 	 
     public Shooter(){

@@ -33,8 +33,8 @@ public class AutoRedRightGearBack extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(0,-(112 - 17 - 2)), 4);
-    	addSequential(new ChassisAutoTurn(120),3);
+    	addSequential(new ChassisAutoDrive(0,-(112 - 17)), 4);
+    	addSequential(new ChassisAutoTurn(125),3);
 //    	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
     	addSequential(new GearDropOnPeg(),3.5);
     }

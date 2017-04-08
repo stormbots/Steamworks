@@ -20,7 +20,7 @@ public class ShooterUltrasonicSetRPM extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	distance = Robot.gear.getDistanceInches()+18+17;
+    	distance = Robot.gear.getDistanceInches()+10;
     }
 
     // Called repeatedly when this Command is scheduled to run

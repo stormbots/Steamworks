@@ -124,27 +124,42 @@ public class Robot extends IterativeRobot {
 		chooser = new SendableChooser<Command>();
 //		chooser.addDefault("climb", new Climb());
 
+		//**************************
+	    // Autonomous chooser
+		// Naming scheme: Color(Blue/Red Side)/Starting position from the back of the driver station/Action
+		// Mobility = move past baseline
+	    //*************************
+		
 		//BLUE
 		chooser.addObject("Blue Right Gear", new AutoBlueRightGear());
 		chooser.addObject("Blue Left Gear", new AutoBlueLeftGear());
+		//Shoot for 7 seconds
 		chooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
 		chooser.addObject("Blue Center Shoot Gear", new AutoBlueCenterShootGear());
+		//Shoot for 2.75 seconds
 		chooser.addObject("Blue Left Shoot Gear", new AutoBlueLeftShootGear());
+		//Shoot for 5 seconds
 		chooser.addObject("Blue Left SHOOT LONG gear", new AutoBlueLeftShootLongGear());
 		
 		//RED
+		//Shoot for 4 seconds
 		chooser.addObject("Red Right Shoot Turn Mobility", new AutoRedShootTurnMobility());
+		//Shoot for 2.75 seconds
 		chooser.addObject("Red Right Shoot Turn Gear", new AutoRedRightShootGear());
+		//Shoot for 6 seconds
 		chooser.addObject("Red Righ SHOOT LONG Turn Gear", new AutoRedRightLongShootGear());
 		chooser.addObject("Red Right Gear", new AutoRedRightGear());
 		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
+		//Shoot for 2 seconds
 		chooser.addObject("Red Right Shoot Gear BACK", new AutoRedRightShootGearBack());
+		//Shoot for 5 seconds
 		chooser.addObject("Red Right SHOOT LONG Gear BACK", new AutoRedRightShootLongGearBack());
 		chooser.addObject("Red Right Gear BACK", new AutoRedRightGearBack());
 		
 		//NEUTRAL
 		chooser.addObject("Blue/Red Center Gear", new AutoCenterGear());
 		chooser.addDefault("Blue/Red Wait Center Gear", new AutoCenterGearWait());
+		//Useful for drive train calibration
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
 		chooser.addObject("Debugging 3feet", new ChassisAutoDrive(3.0,0));

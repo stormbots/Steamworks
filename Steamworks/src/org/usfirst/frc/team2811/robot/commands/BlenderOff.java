@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This turns off the blender
  */
 public class BlenderOff extends Command {
 

@@ -1,19 +1,21 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
-import org.usfirst.frc.team2811.robot.commands.BlenderOn;
-import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
+import org.usfirst.frc.team2811.robot.commands.BlenderOff;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
+import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
+import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
+import org.usfirst.frc.team2811.robot.commands.ElevatorOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterAutoSetRPM;
-import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
-import org.usfirst.frc.team2811.robot.commands.ShooterSpeedUpWait;
+import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoShooterSequenceWithKnownRPM extends CommandGroup {
+public class AutoRedRightShootGearBack extends CommandGroup {
 
-    public AutoShooterSequenceWithKnownRPM(double rpm) {
+    public AutoRedRightShootGearBack() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -30,14 +32,11 @@ public class AutoShooterSequenceWithKnownRPM extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ShooterSpeedUpWait(rpm), 0.21);
-    	addParallel(new ShooterAutoSetRPM(rpm));
-    	//addParallel(new IntakeBallIn());
-//    	addSequential(new Wait(0.5));
-    	//Both blender and elevator are set to a hard coded value
-    	//addParallel(new ElevatorOn());
-    	
-    	addParallel(new ElevatorOn());
-    	addSequential(new BlenderOn());
+    	addSequential(new ShooterAutoSetRPM(3410), 0.1);
+    	addSequential(new AutoShooterSequenceWithKnownRPM(3410), 2);
+    	addSequential(new ShooterOff(),0.05);
+    	addSequential(new BlenderOff(),0.05);
+    	addSequential(new ElevatorOff(),0.05);
+    	addSequential(new AutoRedRightGearBack());
     }
 }

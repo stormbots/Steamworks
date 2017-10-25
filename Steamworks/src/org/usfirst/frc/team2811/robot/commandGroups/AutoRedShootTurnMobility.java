@@ -37,6 +37,6 @@ public class AutoRedShootTurnMobility extends CommandGroup {
     	addSequential(new BlenderOff(), 0);
     	addSequential(new ElevatorOff(), 0);
     	addSequential(new ChassisAutoTurn(-135),3);
-    	addSequential(new ChassisAutoDrive(8),4);
+    	addSequential(new ChassisAutoDrive(8,0),4);
     }
 }

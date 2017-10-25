@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This controls the elevator using the power percentage
  */
 public class ElevatorPowerOn extends Command {
 

@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class GearDropOnPeg extends CommandGroup {
 
-	
+	/**
+	 * 1.5sec Vision
+	 * 2.2sec Ultrasonic drive
+	 */
     public GearDropOnPeg() {
     	
     	

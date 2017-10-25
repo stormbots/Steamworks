@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This is supposed to reverse the climber but mechanically it can't so it will only turn off the climber
  */
 public class ClimbDown extends Command {
 

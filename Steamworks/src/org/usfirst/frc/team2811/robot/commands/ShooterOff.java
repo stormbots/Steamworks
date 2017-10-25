@@ -5,7 +5,8 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Turn off the shooter. 
+ * **If it doesn't turn off, check the sensor and output direction-they might not match!**
  */
 public class ShooterOff extends Command {
 
@@ -19,7 +20,7 @@ public class ShooterOff extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Shooter Off is running" );
+    	//System.out.println("Shooter Off is running" );
     	Robot.shooter.shooterOff();
     }
 

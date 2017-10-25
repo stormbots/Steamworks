@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This turns on the climber at half the speed to climb
  */
 public class ClimbSlow extends Command {
 

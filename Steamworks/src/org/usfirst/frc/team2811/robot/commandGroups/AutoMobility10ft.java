@@ -26,6 +26,6 @@ public class AutoMobility10ft extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new ChassisAutoDrive(10.0),20);
+    	addSequential(new ChassisAutoDrive(10.0,0),20);
     }
 }

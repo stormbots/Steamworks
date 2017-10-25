@@ -6,7 +6,8 @@ import org.usfirst.frc.team2811.robot.Util;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This sets the shooter rpm using distance returned by the ultrasonic, can adjust within 1 feet with joystick 
+ * axis
  */
 public class ShooterUltrasonicSetRPM extends Command {
 	
@@ -19,7 +20,7 @@ public class ShooterUltrasonicSetRPM extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	distance = Robot.gear.getDistanceInches()+18+17;
+    	distance = Robot.gear.getDistanceInches()+10;
     }
 
     // Called repeatedly when this Command is scheduled to run

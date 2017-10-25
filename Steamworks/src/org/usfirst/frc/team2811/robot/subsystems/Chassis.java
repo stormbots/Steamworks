@@ -55,6 +55,7 @@ public class Chassis extends Subsystem {
 	private double driveSetPointRange;
 	private double driveMinimumOutputLimit;
 	private double chassisAutoDriveToleranceInches;
+	private double driveRampRate;
 		
 //ROTATION PID ---------------------------------------------------------------------------------------------------------------//
 	//Comp bot map turn values
@@ -70,6 +71,7 @@ public class Chassis extends Subsystem {
 	private double turnSetPointRange;
 	private double turnMinimumOutputLimit;
 	private double toleranceDegrees;
+	private double turnRampRate;
 //------------------------------------------------------------------------------------------------------------//    
 	public Chassis(){
     	frontLeft = new CANTalon(0);
@@ -160,6 +162,11 @@ public class Chassis extends Subsystem {
     private double voltageAdjustOutput(double input){
     	double outputMod = Util.map(Robot.PDP.getVoltage(), 6.5, 8.25, 0, 1);
     	outputMod = Util.constrain(outputMod,1,0);
+    	
+    	if(Robot.PDP.getVoltage()<8.25){
+    		DriverStation.getInstance().reportWarning("Software Brownout Protection Triggered",false);
+    	}
+    	
     	return input * outputMod;
     }
     
@@ -236,7 +243,9 @@ public class Chassis extends Subsystem {
 
     public double getRotation(){
     	double degreesRight = Util.map(frontRight.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
-    	return degreesRight;
+    	double degreesLeft = Util.map(frontLeft.getEncPosition(),0,ticksRotateRight,0,degreesForwardRight);
+    	return (degreesLeft+degreesRight)/2.0;
+//    	return degreesRight;
     }
     
     public void encoderReset(){
@@ -254,7 +263,7 @@ public class Chassis extends Subsystem {
     }
     
     public void setLow5sec(){
-    	if(DriverStation.getInstance().getMatchTime() <= 5 && gearState() == true){
+    	if(DriverStation.getInstance().getMatchTime() < 5 && DriverStation.getInstance().getMatchTime() > 1 && gearState() == true){
     		setGearLow();
     	}
     }
@@ -312,12 +321,14 @@ public class Chassis extends Subsystem {
 	    	driveSetPointRange = Util.getPreferencesDouble("DriveFeetSetpointRange", 0);
 	    	driveMinimumOutputLimit = Util.getPreferencesDouble("DriveMinimumOutputLimit", 0.2);
 	    	chassisAutoDriveToleranceInches = Util.getPreferencesDouble("TOLERANCE (inches)", 1.5);
-	    	
+	    	//from 0 to 1 in 0.25 sec
+	    	driveRampRate = Util.getPreferencesDouble("DriveRampRate", 0.0);
 	    	
 	    	minipidDrive.setOutputLimits(-1+driveMinimumOutputLimit,1-driveMinimumOutputLimit);
 	    	minipidDrive.setSetpointRange(driveSetPointRange);
 			minipidDrive.setMaxIOutput(driveMaxI);
 			minipidDrive.setPID(driveP, driveI, driveD);
+			minipidDrive.setOutputRampRate(driveRampRate);
 			
 	    }
 	
@@ -337,11 +348,14 @@ public class Chassis extends Subsystem {
     	turnMaxI=Util.getPreferencesDouble("TurnMaxI", 0);
     	turnSetPointRange = Util.getPreferencesDouble("TurnSetpointRange", 0);
     	turnMinimumOutputLimit = Util.getPreferencesDouble("TurnMinimumOutputLimit", 0.2);
+    	turnRampRate = Util.getPreferencesDouble("TurnRampRate", 0.0);
+    	
     	
     	minipidTurn.setOutputLimits(-1+turnMinimumOutputLimit,1-turnMinimumOutputLimit);
     	minipidTurn.setSetpointRange(turnSetPointRange);
 		minipidTurn.setMaxIOutput(turnMaxI);
 		minipidTurn.setPID(turnP, turnI, turnD);
+		minipidTurn.setOutputRampRate(turnRampRate);
 	}
 	
     public void updateValFromFlash(){

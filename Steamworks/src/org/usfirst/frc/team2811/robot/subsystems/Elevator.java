@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
     	elevatorMotor.enable();
     	elevatorMotor.set(0);
     	
-    	
+    	//Elevator F-f=0.0105
     	//elevatorMotor.setPID(1, 0, 0);
     	updateValFromFlash();
 	}
@@ -83,6 +83,9 @@ public class Elevator extends Subsystem {
     	elevatorMotor.set(0);
     }
     
+    public double getPIDError(){
+    	return elevatorMotor.getClosedLoopError();
+    }
 
 }
 

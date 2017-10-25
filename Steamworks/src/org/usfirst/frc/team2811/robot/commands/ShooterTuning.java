@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This is for manual control during teleop of a match, using the flapper on the joystick
  */
 public class ShooterTuning extends Command {
 
@@ -20,7 +20,7 @@ public class ShooterTuning extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.pidTuneSetRPM();
+    	Robot.shooter.manualSetRPM();
     	
     	//Robot.shooter.shooterFullPower();
     }

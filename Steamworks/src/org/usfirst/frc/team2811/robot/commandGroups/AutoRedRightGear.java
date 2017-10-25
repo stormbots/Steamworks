@@ -4,6 +4,7 @@ import org.usfirst.frc.team2811.robot.commands.ChassisAutoDrive;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurn;
 import org.usfirst.frc.team2811.robot.commands.ChassisAutoTurnVision;
 import org.usfirst.frc.team2811.robot.commands.ChassisDriveUltrasonic;
+import org.usfirst.frc.team2811.robot.commands.SketchyDriveAutoOnly;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -30,10 +31,9 @@ public class AutoRedRightGear extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new ChassisAutoTurn(-135),3);
-    	addSequential(new ChassisAutoDrive(0, 96-25),4);
-    	addSequential(new ChassisAutoTurn(-55+10),3.5);
+    	addSequential(new ChassisAutoDrive(0, (112 - 17 - 6 -5) ),4);
+    	addSequential(new ChassisAutoTurn(-55),3.5);
     	addSequential(new ChassisDriveUltrasonic(0,24,0.3),2);
-//    	addSequential(new ChassisAutoTurnVision(0.5),0.75);
     	addSequential(new GearDropOnPeg(),3.5);
     }
 }

@@ -1,11 +1,13 @@
 package org.usfirst.frc.team2811.robot.commandGroups;
 
+import org.usfirst.frc.team2811.robot.Robot;
 import org.usfirst.frc.team2811.robot.commands.BlenderOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorOn;
 import org.usfirst.frc.team2811.robot.commands.ElevatorPowerOn;
 import org.usfirst.frc.team2811.robot.commands.IntakeBallIn;
 import org.usfirst.frc.team2811.robot.commands.ShooterRateUpdate;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
+import org.usfirst.frc.team2811.robot.commands.ShooterSpeedUpWait;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
 import org.usfirst.frc.team2811.robot.commands.TurretSetTargetAngle;
 import org.usfirst.frc.team2811.robot.commands.Wait;
@@ -34,9 +36,10 @@ public class ShooterSequence extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm, 
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	
+//    	addSequential(new ShooterSpeedUpWait(Robot.oi.getJoystickAngle()),1);
     	addParallel(new ShooterTuning());
     	addParallel(new ElevatorOn());
+    	addParallel(new IntakeBallIn());
     	addSequential(new BlenderOn());
     }
 }

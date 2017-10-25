@@ -21,7 +21,7 @@ public class TurretSetTargetAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.turret.setTargetAngle(Robot.turret.joystickToAngle(Robot.oi.getJoystickAngle()));
+    	Robot.turret.setTargetAngle(Robot.turret.joystickToAngle(Robot.oi.getJoystickAngleTurret()));
     	Robot.turret.calculateTurretPIDOutput();
     }
 

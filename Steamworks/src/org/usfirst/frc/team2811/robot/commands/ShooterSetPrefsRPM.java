@@ -4,8 +4,8 @@ import org.usfirst.frc.team2811.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**THis is when the Auto set RPM needs testing
- *
+/**
+ * This is when the Auto set RPM needs testing, sets the target rpm in preference
  */
 public class ShooterSetPrefsRPM extends Command {
 

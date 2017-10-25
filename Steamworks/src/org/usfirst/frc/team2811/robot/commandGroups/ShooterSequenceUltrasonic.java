@@ -42,6 +42,7 @@ public class ShooterSequenceUltrasonic extends CommandGroup {
     	    	
     	//Shooter Sequence
     	addParallel(new ShooterUltrasonicSetRPM());
+    	addParallel(new IntakeBallIn());
     	addParallel(new ElevatorOn());
     	addSequential(new BlenderOn());
     }

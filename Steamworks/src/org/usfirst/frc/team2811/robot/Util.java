@@ -12,16 +12,31 @@ public class Util {
 	private static Preferences prefs = Preferences.getInstance();
 	
 	/**
-	 * Returns a difference between two numbers
+	 * Returns an absolute difference between two numbers
 	 */
 	public static double difference(double a,double b){
 		return Math.abs(a-b);
 	}
 	
-	public static double map(double inputTicks,double inMin, double inMax, double outputMin,double outputMax){
-        return (inputTicks/(inMax-inMin)-inMin/(inMax-inMin))*(outputMax-outputMin)+outputMin;
+	/**
+	 * 
+	 * @param input
+	 * @param inMin
+	 * @param inMax
+	 * @param outputMin
+	 * @param outputMax
+	 * @return linear map function for conversion from a unit to another
+	 */
+	public static double map(double input,double inMin, double inMax, double outputMin,double outputMax){
+        return (input/(inMax-inMin)-inMin/(inMax-inMin))*(outputMax-outputMin)+outputMin;
     }
 	
+	/**
+	 * Function to set up a preference variable double
+	 * @param key
+	 * @param backup
+	 * @return 
+	 */
 	public static double getPreferencesDouble(String key, double backup){
 		if(prefs.containsKey(key)){
 			return prefs.getDouble(key, backup);
@@ -31,6 +46,12 @@ public class Util {
 		}
 	}
 	
+	/**
+	 * Function to set up a preference variable boolean
+	 * @param key
+	 * @param backup
+	 * @return
+	 */
 	public static boolean getPreferencesBoolean(String key, boolean backup){
 		if(prefs.containsKey(key)){
 			return prefs.getBoolean(key, backup);
@@ -40,6 +61,13 @@ public class Util {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param input
+	 * @param outputMax
+	 * @param outputMin
+	 * @return number within a range given in the passed values 
+	 */
 	public static double constrain(double input, double outputMax, double outputMin){
 		if(input>outputMax){
 			return outputMax;
@@ -50,6 +78,9 @@ public class Util {
 		}
 	}
 	
+	/**
+	 * Update all subsystems in smartdashboard
+	 */
 	public static void updateFlash(){
 		Robot.blender.updateValFromFlash();
 		Robot.chassis.updateValFromFlash();
@@ -60,6 +91,7 @@ public class Util {
 		Robot.visionBoiler.updateValFromFlash();
 		Robot.visionGear.updateValFromFlash();
 	}
+
 	
 	/**
 	 * Maps an input range using multiple points split into 2 independent lists. 
@@ -113,7 +145,13 @@ public class Util {
     	return pairedlist[pairedlist.length-1][1];
 	}
 	
-	//TODO put in MINIPID
+	//TODO put in MINIPID\
+	/**
+	 * 
+	 * @param output
+	 * @param minimumOutputLimit
+	 * @return pid output that actually moves the robot
+	 */
 	public static double pidOutputLimitAdd(double output, double minimumOutputLimit){
 		if(output>-0.01  && output < 0.01){
 			output = 0.0;
@@ -150,6 +188,14 @@ public class Util {
     	list1 = newList1;
     	list2 = newList2;
     }
+    
+ // If the battery voltage is lower than it should, force a disable in teleop and autonomous
+ 	public static void checkBatteryVoltage(){
+ 		if(Robot.PDP.getVoltage() < 11.0){
+ 			System.out.println("LOW BATTERY VOLTAGE");
+ 			//throw new RuntimeException(Util.warningChangeBattery());
+ 		}
+ 	}
     
 	/**
 	 * Some weird programming stuff

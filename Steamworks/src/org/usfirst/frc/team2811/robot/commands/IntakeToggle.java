@@ -5,7 +5,7 @@ import org.usfirst.frc.team2811.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This toggles the state of the intake with a button
  */
 public class IntakeToggle extends Command {
 

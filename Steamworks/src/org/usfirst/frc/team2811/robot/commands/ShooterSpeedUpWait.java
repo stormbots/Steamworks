@@ -6,43 +6,38 @@ import org.usfirst.frc.team2811.robot.Util;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Use the distance returned from the vision to determine the rpm needed, can be adjusted using joystick axis
+ *
  */
-public class ShooterVisionSetRPM extends Command {
-	
-    public ShooterVisionSetRPM() {
+public class ShooterSpeedUpWait extends Command {
+
+	double rpm;
+    public ShooterSpeedUpWait(double rpm) {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.shooter);
+        this.rpm = rpm;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.shooter.setShootBias(Robot.oi.getShooterRPMBias());
-//    	Robot.shooter.setRPM(Robot.shooter.getRPM(distance));
-    	if(Robot.visionBoiler.isValidTarget()){
-    		double distance = Robot.visionBoiler.getDistanceTargetBoiler();
-    		Robot.shooter.setTargetDistance(distance+Robot.oi.getShooterRPMBias());		
-    	}
+    	Robot.shooter.setRPM(rpm);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Math.abs(Robot.shooter.getPIDError())<100;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.shooterOff();
-
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.shooter.shooterOff();
     }
 }

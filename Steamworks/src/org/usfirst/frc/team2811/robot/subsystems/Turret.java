@@ -92,9 +92,9 @@ public class Turret extends Subsystem {
 	public void updateValFromFlash(){
 		counterClockTicks = prefs.getInt("turretCounterClockTicks", 25029);
 		clockTicks = prefs.getInt("turretClockTicks", 13440);
-		P = prefs.getDouble("turretP", 0.05);
+		P = prefs.getDouble("turretP", 0.008);
 		I = prefs.getDouble("turretI", 0);
-		D = prefs.getDouble("turretD", 0);
+		D = prefs.getDouble("turretD", 0.0005);
 		homingSpeed = prefs.getDouble("turretHomingSpeed", -0.1);
 		motorOutputManual = prefs.getDouble("TurretManualOutputVal", 0.1);
 		
@@ -201,8 +201,8 @@ public class Turret extends Subsystem {
      * @param angle
      */
 	public void setTargetAngle(double angle){
-		if(targetAngle>counterClockAngle) targetAngle = counterClockAngle;
-		else if(targetAngle<clockAngle) targetAngle = clockAngle;
+		if(angle>counterClockAngle) targetAngle = counterClockAngle;
+		else if(angle<clockAngle) targetAngle = clockAngle;
 		else targetAngle = angle;
 	}
 	

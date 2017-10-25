@@ -16,17 +16,6 @@ public class ChassisAutoDrive extends Command {
 	private double targetFeet;
 	private double toleranceInches;
 	
-	
-	/** Drive forward or backwards for a number of feet
-	 * 
-	 * @param feet
-	 */
-    public ChassisAutoDrive(double feet) {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.chassis);
-        this.targetFeet = feet;
-        this.toleranceInches = Robot.chassis.getToleranceInches();
-    }
     
     /**
      * 
@@ -52,6 +41,9 @@ public class ChassisAutoDrive extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
+    /* pid output from the actual place of the robot to the target of feet we want to be at
+     * The feet are given by encoders mapped in chassis subsystem
+     */
     protected void execute() {
     	double output = Robot.chassis.minipidDriveGetOutput(Robot.chassis.getFeet(), targetFeet);    	
     	output = - output; // FIXME: THIS SHOULDN'T BE HERE AND WE NEED TO FIX WHY IT IS
@@ -61,11 +53,13 @@ public class ChassisAutoDrive extends Command {
     }
 
     // Make this return true when this Command no longer needs to run execute()
+    //This command can run until the difference between actual and target is less than the tolerance
     protected boolean isFinished() {
         return Util.difference(Robot.chassis.getFeet()*12.0, targetFeet*12.0) < toleranceInches;
     }
 
     // Called once after isFinished returns true
+    //IMPORTANT: in end and interrupted functions make sure you drive 0,0 to solve inertia problems
     protected void end() {
     	Robot.chassis.drive(0, 0);
     	SmartDashboard.putNumber("Inches Driven Autonomous Drive command", Robot.chassis.getFeet()*12.0);

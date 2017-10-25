@@ -21,6 +21,7 @@ import org.usfirst.frc.team2811.robot.commands.ShiftGears;
 import org.usfirst.frc.team2811.robot.commands.ShooterOff;
 import org.usfirst.frc.team2811.robot.commands.ShooterSetPrefsRPM;
 import org.usfirst.frc.team2811.robot.commands.ShooterTuning;
+import org.usfirst.frc.team2811.robot.commands.SketchyDriveAutoOnly;
 import org.usfirst.frc.team2811.robot.commands.ToggleAutoShift;
 import org.usfirst.frc.team2811.robot.commands.TurretManualTurn;
 import org.usfirst.frc.team2811.robot.commands.TurretOneWayHoming;
@@ -41,7 +42,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class OI {
 
-////////TWO STICK
+////////TWO STICK (don't use them, sensitivity is weird)
 	private Joystick leftStick;
     private JoystickButton leftTrigger;
     private JoystickButton left2;
@@ -51,7 +52,7 @@ public class OI {
     
     private boolean austinDefaultAutoShift = false;
 
-////////XBOX    
+////////XBOX (used for drive)   
     private XboxController xBox;
     private JoystickButton x1;
     private JoystickButton x2;
@@ -59,7 +60,7 @@ public class OI {
     
     private boolean connorDefaultAutoShift = false;
 	
-////////THREE AXIS    
+////////THREE AXIS (the one with flapper)   
     private Joystick threeAxis;
     private JoystickButton threeAxisButton1;
     private JoystickButton threeAxisButton2;
@@ -89,6 +90,7 @@ public class OI {
     	
     	rightTrigger = new JoystickButton(rightStick,1);
     	rightTrigger.whileHeld(new GearDropOnPegNoVision());
+    	
 ////////XBOX    	
     	xBox = new XboxController(2);
     	
@@ -106,10 +108,9 @@ public class OI {
 		threeAxis = new Joystick(3);
 		
 		threeAxisButton1 = new JoystickButton(threeAxis,1);
-//    	threeAxisButton1.whileHeld(new ShooterSequence(0));
-    	threeAxisButton1.whileHeld(new AutoShooterPrefSequence(0));
-		threeAxisButton1.whenReleased(new ShooterOff());
-    	
+    	//threeAxisButton1.whileHeld(new ShooterSequence(0));
+		threeAxisButton1.whileHeld(new AutoShooterPrefSequence(0));
+    
     	threeAxisButton2 = new JoystickButton(threeAxis,2);
         threeAxisButton2.whileHeld(new TurretManualTurn());
 
@@ -130,18 +131,18 @@ public class OI {
         threeAxisButton7.whileHeld(new Climb());
         
     	threeAxisButton8 = new JoystickButton(threeAxis, 8);
-    	//threeAxisButton8.whileHeld(new ElevatorOn());
-    	
     	threeAxisButton8.whileHeld(new ClimbSlow());        
-//      TODO Put back turretCalButton if not manual turn!
     
         
 		threeAxisButton9 = new JoystickButton(threeAxis,9);
 //		threeAxisButton9.whileHeld(new BlenderOn());
-		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
+//		threeAxisButton9.whileHeld(new ShooterSetPrefsRPM(0));
 
 //
 		threeAxisButton10 = new JoystickButton(threeAxis,10);
+//		threeAxisButton10.whileHeld(new TurretSetTargetAngle());		
+//		threeAxisButton10.whileHeld(new ShooterSequenceVision());
+
 //		threeAxisButton10.whenPressed(new ChassisAutoDrive(4.0));
 		
 		threeAxisButton11 = new JoystickButton(threeAxis,11);
@@ -153,9 +154,6 @@ public class OI {
         threeAxisButton12 = new JoystickButton(threeAxis,12);
         threeAxisButton12.whileHeld(new GearDropOnPegNoVision());
 //        threeAxisButton12.whileHeld(new ChassisDriveUltrasonic(0,24,0.2));	
-        
-        
-        
         
 	}
 	
@@ -199,10 +197,22 @@ public class OI {
     	return (threeAxis.getRawAxis(3)+1)/2;
     }
     
+    /**
+     * Gets the shooter rpm according to the joystick flapper
+     * @return target shooter rpm
+     */
     public double getJoystickAngle(){
     	//TODO change this back so that it works with the turret control
     	//return threeAxis.getRawAxis(3);
     	return ((5+threeAxis.getRawAxis(3))*800);
+    }
+    
+    /**
+     * Used for turret angle control
+     * @return
+     */
+    public double getJoystickAngleTurret(){
+    	return threeAxis.getRawAxis(3);
     }
     
     /**
@@ -212,9 +222,18 @@ public class OI {
     public double getShooterRPMBias(){
     	return threeAxis.getRawAxis(1)*100;
     }
+    /**
+     * Read threeAxis joystick y axis value, modify the shooter target distance +- 12 inches
+     * @return a decimal between -12 and 12
+     */
     public double getShooterDistanceBias(){
     	return threeAxis.getRawAxis(1)*12;
     }
+    
+    /**
+     * Used for turret manual control
+     * @return
+     */
     public boolean isTurningClock(){
         return threeAxisButton9.get();
     }

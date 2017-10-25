@@ -1,11 +1,13 @@
 package org.usfirst.frc.team2811.robot;
 
 import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGearWait;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnMobility;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoCenterGear;
 //import org.usfirst.frc.team2811.robot.commandGroups.AutoRedShootTurnDrive;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftShootMobility;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftShootGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftShootLongGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueRightShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueCenterShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoMobility10ft;
@@ -14,7 +16,11 @@ import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueLeftGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoBlueRightGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedLeftGear;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightGearBack;
 import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGear;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootGearBack;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightShootLongGearBack;
+import org.usfirst.frc.team2811.robot.commandGroups.AutoRedRightLongShootGear;
 import org.usfirst.frc.team2811.robot.commandGroups.GearDropOnPeg;
 import org.usfirst.frc.team2811.robot.commandGroups.GearVisionAlignment;
 import org.usfirst.frc.team2811.robot.commandGroups.ShooterSequenceVision;
@@ -118,29 +124,53 @@ public class Robot extends IterativeRobot {
 		chooser = new SendableChooser<Command>();
 //		chooser.addDefault("climb", new Climb());
 
+		//**************************
+	    // Autonomous chooser
+		// Naming scheme: Color(Blue/Red Side)/Starting position from the back of the driver station/Action
+		// Mobility = move past baseline
+	    //*************************
+		
 		//BLUE
 		chooser.addObject("Blue Right Gear", new AutoBlueRightGear());
+		chooser.addObject("Blue Left Gear", new AutoBlueLeftGear());
+		//Shoot for 7 seconds
 		chooser.addObject("Blue Left Shoot Mobility", new AutoBlueLeftShootMobility());
 		chooser.addObject("Blue Center Shoot Gear", new AutoBlueCenterShootGear());
+		//Shoot for 2.75 seconds
 		chooser.addObject("Blue Left Shoot Gear", new AutoBlueLeftShootGear());
+		//Shoot for 5 seconds
+		chooser.addObject("Blue Left SHOOT LONG gear", new AutoBlueLeftShootLongGear());
 		
 		//RED
+		//Shoot for 4 seconds
 		chooser.addObject("Red Right Shoot Turn Mobility", new AutoRedShootTurnMobility());
+		//Shoot for 2.75 seconds
 		chooser.addObject("Red Right Shoot Turn Gear", new AutoRedRightShootGear());
+		//Shoot for 6 seconds
+		chooser.addObject("Red Righ SHOOT LONG Turn Gear", new AutoRedRightLongShootGear());
 		chooser.addObject("Red Right Gear", new AutoRedRightGear());
 		chooser.addObject("Red Left Gear", new AutoRedLeftGear());
+		//Shoot for 2 seconds
+		chooser.addObject("Red Right Shoot Gear BACK", new AutoRedRightShootGearBack());
+		//Shoot for 5 seconds
+		chooser.addObject("Red Right SHOOT LONG Gear BACK", new AutoRedRightShootLongGearBack());
+		chooser.addObject("Red Right Gear BACK", new AutoRedRightGearBack());
 		
 		//NEUTRAL
-		chooser.addDefault("Blue/Red Center Gear", new AutoCenterGear());
+		chooser.addObject("Blue/Red Center Gear", new AutoCenterGear());
+		chooser.addDefault("Blue/Red Wait Center Gear", new AutoCenterGearWait());
+		//Useful for drive train calibration
 		chooser.addObject("Mobility 10 feet", new AutoMobility10ft());
 		chooser.addObject("Mobility 60 inches", new AutoMobility60inches());
+		chooser.addObject("Debugging 3feet", new ChassisAutoDrive(3.0,0));
+	//  chooser.addObject("Blue/Red Center Gear Slow Back", new AutoCenterGearWait());
 		
 //		//TESTING & DEBUGGING
 		chooser.addObject("Vision Alignment", new GearVisionAlignment());
 		chooser.addObject("Shoot W/Vision", new ShooterSequenceVision());
-//		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
-//		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
-//		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
+		chooser.addObject("Turn 8deg", new ChassisAutoTurn(8));
+		chooser.addObject("Turn 90deg", new ChassisAutoTurn(90));
+		chooser.addObject("Turn 135deg", new ChassisAutoTurn(135));
 //		
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -194,7 +224,7 @@ public class Robot extends IterativeRobot {
 		chassis.setAutoShiftEnabled(false);
 		autonomousCommand = chooser.getSelected();
 		if (autonomousCommand != null) autonomousCommand.start();
-		checkBatteryVoltage();
+		Util.checkBatteryVoltage();
 		chassis.encoderReset();
 		Robot.intake.intakeOut();
 
@@ -223,7 +253,7 @@ public class Robot extends IterativeRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (autonomousCommand != null)autonomousCommand.cancel();
-		checkBatteryVoltage();
+		Util.checkBatteryVoltage();
 		Util.updateFlash();
 		
 		oi.setAutoShiftDefault();
@@ -248,6 +278,8 @@ public class Robot extends IterativeRobot {
 		visionGear.updateDashboard();
 		shooter.updateDashboard();
 		chassis.setLow5sec();
+				
+		SmartDashboard.putNumber("Time Left", DriverStation.getInstance().getMatchTime());
 		
 		// Update the line graph on SmartDashboard *Still don't know how it updates
 		// SmartDashboard.putNumber("Shooter Error", Robot.shooter.getPIDError());
@@ -267,6 +299,7 @@ public class Robot extends IterativeRobot {
 	    SmartDashboard.putNumber("Distance from wall (right,inches): ", Robot.gear.getDistanceInches());
 	    
 	    SmartDashboard.putNumber("Shooter speed error", -Robot.shooter.getPIDError());
+	    SmartDashboard.putNumber("Elevator speed error", -Robot.elevator.getPIDError());
 
 		}
 
@@ -282,13 +315,6 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 
-	}
-	
-	// If the battery voltage is lower than it should, force a disable in teleop and autonomous
-	private void checkBatteryVoltage(){
-		if(PDP.getVoltage() < 11.0){
-			//throw new RuntimeException(Util.warningChangeBattery());
-		}
 	}
 	
 }
